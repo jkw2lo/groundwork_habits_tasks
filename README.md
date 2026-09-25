@@ -48,7 +48,11 @@ The artifact already syncs through your claude.ai account. The Firebase option i
 a copy you host yourself (e.g. GitHub Pages) — inside the Claude artifact the sandbox
 will most likely block the Firebase scripts and the GitHub sign-in popup.
 
-It stays off until `FIREBASE_CONFIG` in `groundwork.html` is filled in. To set it up:
+It's wired to the shared Firebase project **`github-projects-5d4e4`** (config in
+`FIREBASE_CONFIG` near the top of the script; set it to `null` to turn sync off).
+Live copy: https://jkw2lo.github.io/groundwork_habits_tasks/
+
+How that project was set up (or how to point this at a different one):
 
 1. **Create a project** at https://console.firebase.google.com.
 2. **Authentication → Get started → Sign-in method → GitHub → Enable.** Copy the
@@ -63,7 +67,7 @@ It stays off until `FIREBASE_CONFIG` in `groundwork.html` is filled in. To set i
    rules_version = '2';
    service cloud.firestore {
      match /databases/{database}/documents {
-       match /users/{uid} {
+       match /groundwork/{uid} {
          allow read, write: if request.auth != null && request.auth.uid == uid;
        }
      }
@@ -79,7 +83,7 @@ It stays off until `FIREBASE_CONFIG` in `groundwork.html` is filled in. To set i
    (it serves the generated `index.html`).
 
 Then Settings → **Sign in with GitHub**. Each account keeps one document,
-`users/{uid}`, holding the whole state; the most recently saved copy wins, and changes
+`groundwork/{uid}`, holding the whole state; the most recently saved copy wins, and changes
 from another device arrive live. Whatever a sync replaces is kept in that browser under
 `day-rings-v1:before-sync`.
 

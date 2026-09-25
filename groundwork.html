@@ -1022,10 +1022,18 @@ var MSHORT = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov",
 var LS_KEY = "day-rings-v1";   // unchanged across the rename so saved data still loads
 var DATA_PATH = "data/tracker.json";
 var MAX_COLS = 6, MAX_ROWS = 8;
-// Paste your Firebase web app config here to turn on GitHub sign-in and sync
-// across devices, e.g. { apiKey: "...", authDomain: "...", projectId: "...", appId: "..." }.
-// It is safe to publish: access is guarded by Firestore rules (see README).
-var FIREBASE_CONFIG = null;
+// Firebase web app config for GitHub sign-in and sync across devices (see README).
+// Safe to publish: access is guarded by the Firestore rules, not by this.
+// Set to null to turn sync off.
+var FIREBASE_CONFIG = {
+  apiKey: "AIzaSyBeIyBs3FtSx9T_wlJHsCqkfxZkhbX3Qhk",
+  authDomain: "github-projects-5d4e4.firebaseapp.com",
+  projectId: "github-projects-5d4e4",
+  storageBucket: "github-projects-5d4e4.firebasestorage.app",
+  messagingSenderId: "745706177240",
+  appId: "1:745706177240:web:8e3f1f92ceafb1fa444dad"
+};
+var SYNC_COLLECTION = "groundwork";   // the Firebase project is shared across apps
 
 /* ---------------- date helpers ---------------- */
 function pad(n){ return n < 10 ? "0" + n : "" + n; }
@@ -3443,8 +3451,8 @@ btnTheme.addEventListener("click", function(){
 })();
 
 /* ---------------- sync: GitHub sign-in through Firebase ----------------
-   Off until FIREBASE_CONFIG is filled in (see README). Each account keeps one
-   Firestore document, users/{uid}, holding the whole state as JSON. The newest
+   Off when FIREBASE_CONFIG is null (see README). Each account keeps one
+   Firestore document, groundwork/{uid}, holding the whole state as JSON. The newest
    savedAt wins; whatever it replaces is kept in this browser under :before-sync. */
 var FIREBASE_VERSION = "10.14.1";
 var fb = { loading: null, ready: false, user: null, unsub: null, timer: null, err: "", synced: null };
@@ -3486,7 +3494,7 @@ function authMsg(e){
   if (c === "auth/network-request-failed") return "Could not reach Firebase from here.";
   return "Sign-in did not work" + (c ? " (" + c + ")" : "") + ".";
 }
-function userDoc(){ return firebase.firestore().collection("users").doc(fb.user.uid); }
+function userDoc(){ return firebase.firestore().collection(SYNC_COLLECTION).doc(fb.user.uid); }
 
 function onAuth(user){
   fb.user = user || null;

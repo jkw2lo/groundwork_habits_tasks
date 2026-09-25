@@ -78,6 +78,13 @@ header.top{
   font-weight:700; font-stretch:112%; letter-spacing:-.015em; font-size:17px}
 .brand svg{display:block; flex:none}
 .spacer{flex:1}
+.navs{display:flex; align-items:center; gap:10px}
+.navs #main-tabs{margin-left:auto}
+.tools{display:flex; align-items:center; gap:4px}
+@media (max-width:760px){
+  .top-in{flex-wrap:wrap; height:auto; padding-top:10px; padding-bottom:10px; row-gap:10px}
+  .navs{order:5; width:100%}
+}
 
 .tabs{display:flex; gap:2px; background:var(--surface-2); padding:3px; border-radius:999px}
 .tabs button{
@@ -106,8 +113,6 @@ header.top{
 @media (max-width:680px){ .chip span.txt{display:none} }
 
 /* ---------- today ---------- */
-.sub-bar{display:flex; align-items:center; gap:12px; padding-top:26px; flex-wrap:wrap}
-.sub-bar .grow{flex:1}
 .view{display:none; padding-top:26px}
 .view.on{display:block}
 
@@ -138,7 +143,7 @@ header.top{
   display:grid; gap:14px;
   grid-template-columns:repeat(auto-fill, minmax(200px,1fr));
 }
-.tile{position:relative; aspect-ratio:1/1}
+.tile{position:relative; aspect-ratio:1/1; container-type:inline-size}
 .tile .ring{position:absolute; inset:0; width:100%; height:100%; pointer-events:none}
 .ring .day{fill:var(--dot-off)}
 .ring .day.past-off{fill:var(--dot-off)}
@@ -211,6 +216,88 @@ header.top{
 }
 .empty h2{font-size:22px; font-stretch:112%; margin-bottom:6px; color:var(--ink)}
 .empty p{margin:0 0 18px; font-size:14.5px}
+
+/* a custom board: fixed columns, and a gap is a real, deliberate spot */
+.tiles.board{grid-template-columns:repeat(var(--cols), minmax(0, 220px))}
+.tile-gap{aspect-ratio:1/1}
+@container (max-width:150px){
+  .hit .emo{font-size:21px} .hit .nm{font-size:12.5px} .hit .sub{font-size:10.5px}
+}
+@container (max-width:112px){
+  .hit{padding:4px} .hit .emo{font-size:17px} .hit .nm{font-size:10.5px} .hit .sub{display:none}
+  .tile-menu{width:22px; height:22px; top:0; right:0}
+}
+.unplaced-head{margin-top:26px}
+
+/* ---------- arrange ---------- */
+.arr-bar{display:flex; flex-wrap:wrap; align-items:center; gap:12px 22px; margin-bottom:12px}
+.arr-size{display:flex; align-items:center; gap:10px 20px; flex-wrap:wrap}
+.num-step{display:inline-flex; align-items:center; gap:7px}
+.num-step .lbl{font-size:11.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-3); font-weight:600; margin-right:2px}
+.num-step button{width:28px; height:28px; border-radius:8px; border:1px solid var(--hairline);
+  background:var(--surface); display:grid; place-items:center; color:var(--ink-2); font-size:16px; line-height:1}
+.num-step button:hover:not(:disabled){color:var(--ink); border-color:var(--hairline-2)}
+.num-step button:disabled{opacity:.35; cursor:default}
+.num-step b{min-width:14px; text-align:center; font-variant-numeric:tabular-nums; font-size:15px}
+.arr-presets{margin-bottom:4px}
+.arr-presets .lbl{font-size:12.5px; color:var(--ink-3); align-self:center; margin-right:2px}
+#arr-note{margin:10px 0 16px}
+.arr-main{display:flex; gap:24px; align-items:flex-start}
+.arr-board{flex:1; min-width:0; display:grid; gap:12px;
+  grid-template-columns:repeat(var(--cols), minmax(0, 132px)); align-content:start}
+.slot{position:relative; aspect-ratio:1/1; border-radius:50%; border:1.5px dashed var(--hairline-2);
+  transition:border-color .14s, background .14s, transform .14s}
+.slot.filled{border-color:transparent}
+.slot.over{border:1.5px solid var(--ink-3); background:var(--surface-2); transform:scale(1.04)}
+.slot-empty{position:absolute; inset:0; border-radius:50%; color:transparent; font-size:20px; font-weight:300}
+.slot-empty:hover{background:var(--surface-2)}
+.picking .slot-empty{color:var(--ink-3)}
+.piece{touch-action:none; cursor:grab; color:var(--ink); background:var(--surface);
+  border:1.5px solid var(--hairline); box-shadow:var(--shadow); transition:opacity .14s, transform .14s}
+.piece:active{cursor:grabbing}
+.piece[aria-pressed="true"]{outline:2.5px solid var(--ink); outline-offset:3px}
+.piece.lifting{opacity:.3}
+.piece .emo{line-height:1.1}
+.piece .nm{font-weight:600; max-width:100%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+.piece.on-board{position:absolute; inset:6%; border-radius:50%; border:2px solid var(--glaze);
+  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:1px;
+  padding:6px; text-align:center; container-type:inline-size}
+.piece.on-board .emo{font-size:clamp(15px, 22cqw, 25px)}
+.piece.on-board .nm{font-size:clamp(9.5px, 10.5cqw, 12.5px)}
+.piece.in-tray{display:flex; align-items:center; gap:9px; width:100%; padding:8px 13px 8px 11px;
+  border-radius:12px; font-size:14px; text-align:left}
+.piece.in-tray .dot{width:8px; height:8px; border-radius:50%; background:var(--glaze); flex:none}
+.piece.in-tray .nm{font-weight:500}
+.unplace{position:absolute; top:0; right:0; width:24px; height:24px; border-radius:50%; z-index:2;
+  background:var(--surface); border:1px solid var(--hairline); display:grid; place-items:center;
+  color:var(--ink-3); opacity:0; transition:opacity .14s}
+.slot:hover .unplace, .unplace:focus-visible{opacity:1}
+.unplace:hover{color:var(--ink)}
+@media (hover:none){ .unplace{opacity:1} }
+.ghost{position:fixed; z-index:100; pointer-events:none; margin:0;
+  transform:translate(-50%,-50%) scale(1.06); box-shadow:var(--shadow-lift); opacity:.95}
+.tray{width:250px; flex:none; background:var(--surface); border:1.5px dashed var(--hairline-2);
+  border-radius:var(--r); padding:14px; min-height:150px; transition:border-color .14s, background .14s}
+.tray.over{border-color:var(--ink-3); background:var(--surface-2)}
+.tray h3{font-size:12px; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-3); margin-bottom:10px}
+.tray-list{display:flex; flex-direction:column; gap:7px}
+.tray-hint{font-size:12.5px; color:var(--ink-3); margin:10px 0 0; line-height:1.45}
+.arr-actions{display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-top:24px}
+.arr-actions .spacer{flex:1}
+@media (max-width:680px){
+  .arr-main{flex-direction:column-reverse; align-items:stretch}
+  .tray{width:auto; min-height:0}
+  .tray-list{flex-direction:row; flex-wrap:wrap}
+  .piece.in-tray{width:auto}
+  .arr-board{gap:8px}
+}
+
+.data-row{display:flex; gap:8px; flex-wrap:wrap}
+.data-row .btn-soft{padding:9px 14px; font-size:13.5px}
+.sync-who{display:flex; align-items:center; gap:10px; margin-bottom:10px; font-size:14px}
+.sync-who img{width:28px; height:28px; border-radius:50%; flex:none; background:var(--surface-2)}
+.sync-who b{font-weight:600}
+.sync-who small{display:block; color:var(--ink-3); font-size:12.5px}
 
 /* ---------- month / year ---------- */
 .period-bar{display:flex; align-items:center; gap:14px; margin-bottom:26px; flex-wrap:wrap}
@@ -582,39 +669,41 @@ dialog h2{font-size:20px; font-stretch:112%; margin-bottom:18px}
       <span>Groundwork</span>
     </div>
     <div class="spacer"></div>
-    <nav class="tabs" id="main-tabs" role="tablist" aria-label="Sections">
-      <button role="tab" data-sec="habits" aria-selected="true">Habits</button>
-      <button role="tab" data-sec="tasks" aria-selected="false">Tasks</button>
-    </nav>
+    <div class="navs">
+      <nav class="tabs" id="habit-tabs" role="tablist" aria-label="Habit views">
+        <button role="tab" data-view="today" aria-selected="true">Today</button>
+        <button role="tab" data-view="month" aria-selected="false">Month</button>
+        <button role="tab" data-view="year" aria-selected="false">Year</button>
+      </nav>
+      <nav class="tabs" id="main-tabs" role="tablist" aria-label="Sections">
+        <button role="tab" data-sec="habits" aria-selected="true">Habits</button>
+        <button role="tab" data-sec="tasks" aria-selected="false">Tasks</button>
+      </nav>
+    </div>
     <div class="chip" id="chip" data-state="saved" title="Saving status">
       <i class="bead"></i><span class="txt">Saved</span>
     </div>
-    <button class="icon-btn" id="btn-settings" aria-label="Settings">
-      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round">
-        <circle cx="12" cy="12" r="3"></circle>
-        <path d="M12 2v3M12 19v3M22 12h-3M5 12H2M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1M18.4 18.4l-2.1-2.1M7.7 7.7L5.6 5.6"></path>
-      </svg>
-    </button>
+    <div class="tools">
+      <button class="icon-btn" id="btn-theme" aria-label="Switch to dark mode" title="Switch to dark mode"></button>
+      <button class="icon-btn" id="btn-group" aria-pressed="false" aria-label="Group by category" title="Group by category">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="3" width="7" height="7" rx="1.6"></rect>
+          <rect x="14" y="3" width="7" height="7" rx="1.6"></rect>
+          <rect x="3" y="14" width="7" height="7" rx="1.6"></rect>
+          <rect x="14" y="14" width="7" height="7" rx="1.6"></rect>
+        </svg>
+      </button>
+      <button class="icon-btn" id="btn-settings" aria-label="Settings" title="Settings">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path>
+          <circle cx="12" cy="12" r="3"></circle>
+        </svg>
+      </button>
+    </div>
   </div>
 </header>
 
 <main class="wrap">
-  <div class="sub-bar" id="habit-bar">
-    <div class="tabs" id="habit-tabs" role="tablist" aria-label="Habit views">
-      <button role="tab" data-view="today" aria-selected="true">Today</button>
-      <button role="tab" data-view="month" aria-selected="false">Month</button>
-      <button role="tab" data-view="year" aria-selected="false">Year</button>
-    </div>
-    <div class="grow"></div>
-    <button class="icon-btn" id="btn-group" aria-pressed="false" aria-label="Group by category" title="Group by category">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
-        <rect x="3" y="3" width="7" height="7" rx="1.6"></rect>
-        <rect x="14" y="3" width="7" height="7" rx="1.6"></rect>
-        <rect x="3" y="14" width="7" height="7" rx="1.6"></rect>
-        <rect x="14" y="14" width="7" height="7" rx="1.6"></rect>
-      </svg>
-    </button>
-  </div>
 
   <section class="view on" id="view-today">
     <div class="today-head">
@@ -624,6 +713,39 @@ dialog h2{font-size:20px; font-stretch:112%; margin-bottom:18px}
     </div>
     <div class="sections" id="tiles"></div>
     <div id="today-foot"></div>
+    <div class="arrange" id="arrange" hidden>
+      <div class="arr-bar">
+        <div class="tabs" id="arr-mode" role="tablist" aria-label="Layout">
+          <button role="tab" data-mode="auto" aria-selected="true">Auto</button>
+          <button role="tab" data-mode="grid" aria-selected="false">Custom grid</button>
+        </div>
+        <div class="arr-size" id="arr-size">
+          <span class="num-step"><span class="lbl">Columns</span>
+            <button type="button" data-step="cols" data-d="-1" aria-label="Fewer columns">&minus;</button><b id="arr-cols">3</b>
+            <button type="button" data-step="cols" data-d="1" aria-label="More columns">+</button></span>
+          <span class="num-step"><span class="lbl">Rows</span>
+            <button type="button" data-step="rows" data-d="-1" aria-label="Fewer rows">&minus;</button><b id="arr-rows">2</b>
+            <button type="button" data-step="rows" data-d="1" aria-label="More rows">+</button></span>
+        </div>
+      </div>
+      <div class="cat-picks arr-presets" id="arr-presets"></div>
+      <p class="note" id="arr-note"></p>
+      <div class="arr-main" id="arr-main">
+        <div class="arr-board" id="arr-board"></div>
+        <aside class="tray" id="arr-tray" aria-label="Habit tray">
+          <h3>Tray</h3>
+          <div class="tray-list" id="arr-tray-list"></div>
+          <p class="tray-hint" id="arr-tray-hint"></p>
+        </aside>
+      </div>
+      <div class="arr-actions">
+        <button type="button" class="add-tile" id="arr-fill">Fill in order</button>
+        <button type="button" class="add-tile" id="arr-clear">Clear board</button>
+        <div class="spacer"></div>
+        <button type="button" class="btn btn-ghost" id="arr-cancel">Cancel</button>
+        <button type="button" class="btn btn-primary" id="arr-save">Save layout</button>
+      </div>
+    </div>
   </section>
 
   <section class="view" id="view-month">
@@ -853,8 +975,31 @@ dialog h2{font-size:20px; font-stretch:112%; margin-bottom:18px}
     <button class="sw" id="s-notif" aria-pressed="false" aria-label="Enable notifications"></button>
   </div>
   <p class="note" id="s-note">Nudges arrive while this page is open in a tab — keep it pinned and it will find you.</p>
+  <div class="field dlg-extra">
+    <label>Sync across devices</label>
+    <div id="s-sync"></div>
+  </div>
+  <div class="field">
+    <label>Your data</label>
+    <div class="data-row">
+      <button type="button" class="btn btn-soft" id="s-export">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>
+        Download backup</button>
+      <button type="button" class="btn btn-soft" id="s-import">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21V9M7 14l5-5 5 5M5 3h14"/></svg>
+        Import backup</button>
+      <input type="file" id="s-import-file" accept=".json,application/json" hidden>
+    </div>
+    <p class="note" id="s-data-note">A backup is one .json file with every habit, check-in, task and setting. Import it here, or on another device, to pick up where you left off.</p>
+    <div class="confirm" id="s-import-confirm" hidden>
+      <p id="s-import-text"></p>
+      <div class="confirm-actions">
+        <button type="button" class="btn btn-ghost" id="s-import-no">Cancel</button>
+        <button type="button" class="btn btn-remove" id="s-import-yes">Replace my data</button>
+      </div>
+    </div>
+  </div>
   <div class="dlg-actions">
-    <button type="button" class="btn btn-ghost" id="s-export">Export data</button>
     <div style="flex:1"></div>
     <button type="button" class="btn btn-primary" id="s-close">Done</button>
   </div>
@@ -883,6 +1028,11 @@ var MONTHS = ["January","February","March","April","May","June","July","August",
 var MSHORT = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 var LS_KEY = "day-rings-v1";   // unchanged across the rename so saved data still loads
 var DATA_PATH = "data/tracker.json";
+var MAX_COLS = 6, MAX_ROWS = 8;
+// Paste your Firebase web app config here to turn on GitHub sign-in and sync
+// across devices, e.g. { apiKey: "...", authDomain: "...", projectId: "...", appId: "..." }.
+// It is safe to publish: access is guarded by Firestore rules (see README).
+var FIREBASE_CONFIG = null;
 
 /* ---------------- date helpers ---------------- */
 function pad(n){ return n < 10 ? "0" + n : "" + n; }
@@ -916,7 +1066,9 @@ function defaults(){
     log: {},
     reminder: { on: true, times: ["20:30"] },
     sound: true,
-    notify: false
+    notify: false,
+    layout: { mode: "auto", cols: 0, rows: 0, cells: [] },
+    savedAt: 0
   };
 }
 function uid(){ return "h" + Math.random().toString(36).slice(2, 9); }
@@ -947,7 +1099,9 @@ function normalize(raw){
     log: (raw.log && typeof raw.log === "object") ? raw.log : {},
     reminder: { on: !!(raw.reminder && raw.reminder.on), times: [] },
     sound: raw.sound !== false,
-    notify: !!raw.notify
+    notify: !!raw.notify,
+    layout: normalizeLayout(raw.layout),
+    savedAt: Math.max(0, +raw.savedAt || 0)
   };
   if (Array.isArray(raw.categories)) {
     raw.categories.forEach(function(c){
@@ -1018,6 +1172,21 @@ function normalize(raw){
     if (!/^\d{4}-\d{2}-\d{2}$/.test(k) || !Array.isArray(s.log[k])) delete s.log[k];
   });
   return s;
+}
+
+function normalizeLayout(lay){
+  lay = (lay && typeof lay === "object") ? lay : {};
+  var cols = Math.max(0, Math.min(MAX_COLS, Math.round(+lay.cols) || 0));
+  var rows = Math.max(0, Math.min(MAX_ROWS, Math.round(+lay.rows) || 0));
+  var out = { mode: (lay.mode === "grid" && cols && rows) ? "grid" : "auto", cols: cols, rows: rows, cells: [] };
+  var seen = {};
+  for (var i = 0; i < cols * rows; i++) {
+    var c = Array.isArray(lay.cells) ? lay.cells[i] : null;
+    c = (typeof c === "string" && c && !seen[c]) ? c : null;
+    if (c) seen[c] = true;
+    out.cells.push(c);
+  }
+  return out;
 }
 
 function isDone(id, k){ var a = state.log[k]; return !!a && a.indexOf(id) >= 0; }
@@ -1184,7 +1353,10 @@ function mirrorLocal(){
   catch (e) { return false; }
 }
 
-function scheduleSave(){
+// fromRemote: the change arrived from another device, so it keeps that device's
+// timestamp and is not sent back out.
+function scheduleSave(fromRemote){
+  if (!fromRemote) { state.savedAt = Date.now(); fbQueue(); }
   var localOK = mirrorLocal();
   dirty = true;
   if (cloudOff) { setStatus(localOK ? "local" : "error", localOK ? "On this device" : "Not saved"); return; }
@@ -1201,7 +1373,7 @@ function flush(){
   var files = {}; files[DATA_PATH] = payload;
   capArtifact.publish(files).then(function(){
     saving = false; retries = 0;
-    if (dirty) { scheduleSave(); } else { setStatus("saved", "Saved"); }
+    if (dirty) { scheduleSave(true); } else { setStatus("saved", "Saved"); }
   }, function(err){
     saving = false;
     var code = (err && err.code) || "upstream_error";
@@ -1232,7 +1404,6 @@ function boot(){
     return (window.claude && window.claude.use) ? window.claude.use("downloads") : null;
   }).catch(function(){ return null; }).then(function(dl){
     capDownloads = dl || null;
-    document.getElementById("s-export").hidden = !capDownloads;
   });
 }
 
@@ -1301,6 +1472,52 @@ function ringSVG(h){
   return '<svg class="ring" viewBox="0 0 100 100" aria-hidden="true">' + parts + "</svg>";
 }
 
+function tileHTML(h, i, count){
+  var done = isDone(h.id, TODAY), st = streakOf(h);
+  var away = spanOn(h.id, TODAY, "away");
+  var sub = st > 0 ? st + (st === 1 ? " day" : " days") : "day one";
+  if (away && !done) sub = away.reason || "away";
+  var arrows = reorder
+    ? '<button class="move-btn l" data-act="left" ' + (i === 0 ? "disabled " : "") +
+        'aria-label="Move ' + esc(h.name) + ' earlier">' +
+        '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>' +
+      '<button class="move-btn r" data-act="right" ' + (i === count - 1 ? "disabled " : "") +
+        'aria-label="Move ' + esc(h.name) + ' later">' +
+        '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></button>'
+    : '<button class="tile-menu" data-act="edit" aria-label="Edit ' + esc(h.name) + '">' +
+        '<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="1.9"/><circle cx="12" cy="12" r="1.9"/><circle cx="19" cy="12" r="1.9"/></svg></button>';
+  return '<div class="tile' + (done ? " done" : "") + (away ? " away" : "") + (reorder ? " moving" : "") +
+    '" style="--glaze:var(--g-' + h.glaze + ')" data-id="' + h.id + '">' +
+    ringSVG(h) +
+    '<button class="hit" data-act="toggle" aria-pressed="' + done + '" ' +
+      'aria-label="' + esc(h.name) + (done ? ", done today. Undo" : ", mark done for today") + '">' +
+      '<span class="emo">' + h.emoji + "</span>" +
+      '<span class="nm">' + esc(h.name) + "</span>" +
+      '<span class="sub">' + sub + "</span>" +
+    "</button>" + arrows + "</div>";
+}
+
+// The custom board only replaces the single list; grouped view keeps its sections.
+function boardOn(){
+  return state.layout.mode === "grid" && state.layout.cols > 0 && !(state.grouped && state.categories.length);
+}
+function boardHTML(live){
+  var L = state.layout, byId = {}, placed = {};
+  live.forEach(function(h){ byId[h.id] = h; });
+  var cells = L.cells.map(function(id){
+    var h = id && byId[id];
+    if (!h) return '<div class="tile-gap" aria-hidden="true"></div>';
+    placed[id] = true;
+    return tileHTML(h, 0, 1);
+  }).join("");
+  var loose = live.filter(function(h){ return !placed[h.id]; });
+  return '<section><div class="tiles board" style="--cols:' + L.cols + '">' + cells + "</div></section>" +
+    (loose.length
+      ? '<section><div class="sec-head"><h2>Not on your board</h2><span class="sec-rule"></span></div>' +
+        '<div class="tiles">' + loose.map(function(h, i){ return tileHTML(h, i, loose.length); }).join("") + "</div></section>"
+      : "");
+}
+
 function renderToday(){
   var now = parseKey(TODAY);
   document.getElementById("today-date").textContent =
@@ -1322,7 +1539,14 @@ function renderToday(){
     meter.querySelector("i").style.width = (total ? (done / total * 100) : 0) + "%";
   }
 
+  var arrangeEl = document.getElementById("arrange");
+  tilesEl.hidden = arranging;
+  footEl.hidden = arranging;
+  arrangeEl.hidden = !arranging;
+  if (arranging) { renderArrange(); return; }
+
   tilesEl.innerHTML = sections().map(function(sec){
+    if (!sec.cat && boardOn()) return boardHTML(sec.habits);
     var head = "";
     if (sec.cat) {
       var t = tally(sec.habits.filter(function(h){ return !isAway(h.id, TODAY) || isDone(h.id, TODAY); }));
@@ -1332,30 +1556,7 @@ function renderToday(){
         '<span class="sec-stat">' + (t.total ? t.done + " of " + t.total : "away") + "</span>" +
         '<span class="sec-rule"></span></div>';
     }
-    var tiles = sec.habits.map(function(h, i){
-      var done = isDone(h.id, TODAY), st = streakOf(h);
-      var away = spanOn(h.id, TODAY, "away");
-      var sub = st > 0 ? st + (st === 1 ? " day" : " days") : "day one";
-      if (away && !done) sub = away.reason || "away";
-      var arrows = reorder
-        ? '<button class="move-btn l" data-act="left" ' + (i === 0 ? "disabled " : "") +
-            'aria-label="Move ' + esc(h.name) + ' earlier">' +
-            '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>' +
-          '<button class="move-btn r" data-act="right" ' + (i === sec.habits.length - 1 ? "disabled " : "") +
-            'aria-label="Move ' + esc(h.name) + ' later">' +
-            '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></button>'
-        : '<button class="tile-menu" data-act="edit" aria-label="Edit ' + esc(h.name) + '">' +
-            '<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="1.9"/><circle cx="12" cy="12" r="1.9"/><circle cx="19" cy="12" r="1.9"/></svg></button>';
-      return '<div class="tile' + (done ? " done" : "") + (away ? " away" : "") + (reorder ? " moving" : "") +
-        '" style="--glaze:var(--g-' + h.glaze + ')" data-id="' + h.id + '">' +
-        ringSVG(h) +
-        '<button class="hit" data-act="toggle" aria-pressed="' + done + '" ' +
-          'aria-label="' + esc(h.name) + (done ? ", done today. Undo" : ", mark done for today") + '">' +
-          '<span class="emo">' + h.emoji + "</span>" +
-          '<span class="nm">' + esc(h.name) + "</span>" +
-          '<span class="sub">' + sub + "</span>" +
-        "</button>" + arrows + "</div>";
-    }).join("");
+    var tiles = sec.habits.map(function(h, i){ return tileHTML(h, i, sec.habits.length); }).join("");
     return "<section>" + head + '<div class="tiles">' + tiles + "</div></section>";
   }).join("");
 
@@ -1371,9 +1572,11 @@ function renderToday(){
     ? '<div class="today-actions">' +
       '<button class="add-tile" id="add-habit"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Add habit</button>' +
       '<button class="add-tile js-mark">Mark days…</button>' +
-      (liveHabits().length > 1
+      (liveHabits().length > 1 && !boardOn()
         ? '<button class="add-tile" id="btn-reorder">' + (reorder ? "Done reordering" : "Reorder") + "</button>"
-        : "") + "</div>"
+        : "") +
+      '<button class="add-tile" id="btn-arrange"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5" stroke-dasharray="3 3"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>Layout</button>' +
+      "</div>"
     : '<div class="empty"><h2>' + (shelf.length ? "All established" : "Nothing to track yet") + "</h2><p>" +
       (shelf.length
         ? "Every habit you were tracking has stuck. Add another when you are ready for one."
@@ -2094,7 +2297,8 @@ function applyNav(){
   document.querySelectorAll("#habit-tabs button").forEach(function(b){
     b.setAttribute("aria-selected", String(b.dataset.view === view));
   });
-  document.getElementById("habit-bar").hidden = section !== "habits";
+  document.getElementById("habit-tabs").hidden = section !== "habits";
+  btnGroup.style.visibility = section === "habits" ? "" : "hidden";
   var active = section === "tasks" ? "view-tasks" : "view-" + view;
   document.querySelectorAll(".view").forEach(function(v){ v.classList.toggle("on", v.id === active); });
   render();
@@ -2157,6 +2361,7 @@ document.getElementById("today-foot").addEventListener("click", function(e){
   if (pill) { openHabit(habitById(pill.dataset.id)); return; }
   if (e.target.closest("#add-habit")) { openHabit(null); return; }
   if (e.target.closest("#btn-reorder")) { reorder = !reorder; renderToday(); return; }
+  if (e.target.closest("#btn-arrange")) { openArrange(); return; }
   if (e.target.closest(".js-mark")) openSpan();
 });
 
@@ -2199,6 +2404,242 @@ document.getElementById("m-body").addEventListener("click", function(e){
   scheduleSave();
   if (isDone(id, k)) sndCheck(); else sndUndo();
   renderMonth();
+});
+
+/* ---------------- arrange: a custom board ----------------
+   Works on a draft; nothing touches state until Save. Pieces move by drag
+   (pointer events, so touch works too) or by tap-then-tap, which also gives
+   keyboard users a way in. */
+var arranging = false, arr = null, arrSel = null, arrDrag = null, arrNoClick = false;
+var arrMain = document.getElementById("arr-main");
+
+function fitCells(cells, oc, orows, nc, nr){
+  var out = [];
+  for (var r = 0; r < nr; r++) for (var c = 0; c < nc; c++)
+    out.push(r < orows && c < oc ? (cells[r * oc + c] || null) : null);
+  return out;
+}
+function openArrange(){
+  var L = state.layout, n = liveHabits().length;
+  var cols = L.cols, rows = L.rows;
+  if (!cols || !rows) { cols = Math.max(1, Math.min(4, n)); rows = Math.max(1, Math.ceil(n / cols)); }
+  var live = {};
+  liveHabits().forEach(function(h){ live[h.id] = true; });
+  arr = { mode: L.mode, cols: cols, rows: rows,
+          cells: fitCells(L.cells, L.cols, L.rows, cols, rows).map(function(id){ return id && live[id] ? id : null; }) };
+  arrSel = null;
+  reorder = false;
+  arranging = true;
+  renderToday();
+}
+function closeArrange(){ arranging = false; arr = null; arrSel = null; renderToday(); }
+function setArrSize(nc, nr){
+  nc = Math.max(1, Math.min(MAX_COLS, nc));
+  nr = Math.max(1, Math.min(MAX_ROWS, nr));
+  arr.cells = fitCells(arr.cells, arr.cols, arr.rows, nc, nr);
+  arr.cols = nc; arr.rows = nr; arrSel = null;
+  renderArrange();
+}
+function placeOnBoard(id){
+  var L = state.layout;
+  if (L.mode !== "grid") return;
+  for (var i = 0; i < L.cells.length; i++) {
+    if (!L.cells[i] || !habitById(L.cells[i])) { L.cells[i] = id; return; }
+  }
+}
+function presets(n){
+  var out = [];
+  for (var c = 2; c <= 5; c++) {
+    var r = Math.ceil(n / c);
+    if (c <= n && r <= MAX_ROWS) out.push([c, r]);
+  }
+  return out;
+}
+
+function pieceHTML(h, from){
+  var sel = !!arrSel && arrSel.id === h.id;
+  return '<button type="button" class="piece ' + (from >= 0 ? "on-board" : "in-tray") + '" data-hid="' + h.id +
+    '" data-from="' + from + '" style="--glaze:var(--g-' + h.glaze + ')" aria-pressed="' + sel + '" aria-label="' +
+    esc(h.name) + (from >= 0 ? ", on the board" : ", in the tray") + '">' +
+    (from >= 0 ? "" : '<span class="dot"></span>') +
+    '<span class="emo">' + h.emoji + '</span><span class="nm">' + esc(h.name) + "</span></button>";
+}
+
+function renderArrange(){
+  var grid = arr.mode === "grid", live = liveHabits();
+  document.querySelectorAll("#arr-mode button").forEach(function(b){
+    b.setAttribute("aria-selected", String(b.dataset.mode === arr.mode));
+  });
+  ["arr-size", "arr-presets", "arr-main", "arr-fill", "arr-clear"].forEach(function(id){
+    document.getElementById(id).hidden = !grid;
+  });
+  document.getElementById("arr-cols").textContent = arr.cols;
+  document.getElementById("arr-rows").textContent = arr.rows;
+  document.querySelectorAll("#arr-size button").forEach(function(b){
+    var v = arr[b.dataset.step], d = +b.dataset.d, max = b.dataset.step === "cols" ? MAX_COLS : MAX_ROWS;
+    b.disabled = (d < 0 && v <= 1) || (d > 0 && v >= max);
+  });
+  var ps = presets(live.length);
+  document.getElementById("arr-presets").innerHTML = ps.length
+    ? '<span class="lbl">Quick sizes</span>' + ps.map(function(p){
+        return '<button type="button" data-c="' + p[0] + '" data-r="' + p[1] + '" aria-pressed="' +
+          (arr.cols === p[0] && arr.rows === p[1]) + '" title="' + p[0] + " columns, " + p[1] + ' rows">' +
+          p[0] + " × " + p[1] + "</button>";
+      }).join("")
+    : "";
+
+  var grouped = state.grouped && state.categories.length;
+  document.getElementById("arr-note").textContent = grouped
+    ? "Grouping by category is on, so Today shows category sections. Your custom board shows whenever grouping is off."
+    : grid
+      ? "Drag habits from the tray onto the board — or tap one, then tap a spot. Drag between spots to swap. Empty spots stay empty on Today."
+      : "The default: habits fill each row left to right, as many as fit the screen. Pick Custom grid to set your own rows and columns.";
+  if (!grid) return;
+
+  var byId = {}, placed = {};
+  live.forEach(function(h){ byId[h.id] = h; });
+  var board = document.getElementById("arr-board");
+  board.style.setProperty("--cols", arr.cols);
+  board.classList.toggle("picking", !!arrSel);
+  board.innerHTML = arr.cells.map(function(id, i){
+    var h = id && byId[id];
+    if (h) placed[id] = true;
+    return '<div class="slot' + (h ? " filled" : "") + '" data-slot="' + i + '">' + (h
+      ? pieceHTML(h, i) + '<button type="button" class="unplace" data-unplace="' + i + '" aria-label="Put ' + esc(h.name) + ' back in the tray">' +
+        '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>'
+      : '<button type="button" class="slot-empty" aria-label="Empty spot, row ' + (Math.floor(i / arr.cols) + 1) +
+        ", column " + (i % arr.cols + 1) + '">+</button>') + "</div>";
+  }).join("");
+  var loose = live.filter(function(h){ return !placed[h.id]; });
+  document.getElementById("arr-tray-list").innerHTML = loose.map(function(h){ return pieceHTML(h, -1); }).join("");
+  document.getElementById("arr-tray-hint").textContent = loose.length
+    ? "Anything left in the tray still shows on Today, under the board."
+    : "Everything is on the board. Drag one back here to take it off.";
+  if (arrSel) {
+    var again = arrMain.querySelector('.piece[data-hid="' + arrSel.id + '"]');
+    if (again) again.focus({ preventScroll: true });
+  }
+}
+
+// to: a slot index, or -1 for the tray. Landing on a taken spot swaps.
+function arrDrop(id, from, to){
+  if (to !== from) {
+    if (to < 0) { if (from >= 0) arr.cells[from] = null; }
+    else {
+      var there = arr.cells[to];
+      arr.cells[to] = id;
+      if (from >= 0) arr.cells[from] = there || null;
+    }
+  }
+  arrSel = null;
+  renderArrange();
+}
+function arrTarget(x, y){
+  var el = document.elementFromPoint(x, y);
+  return el ? el.closest("#arr-board .slot, #arr-tray") : null;
+}
+function endArrDrag(){
+  if (!arrDrag) return null;
+  var d = arrDrag;
+  arrDrag = null;
+  if (d.ghost) { d.ghost.remove(); d.el.classList.remove("lifting"); }
+  if (d.over) d.over.classList.remove("over");
+  return d;
+}
+
+arrMain.addEventListener("pointerdown", function(e){
+  if (e.button !== 0) return;
+  var p = e.target.closest(".piece");
+  if (!p) return;
+  arrDrag = { id: p.dataset.hid, from: +p.dataset.from, el: p, x0: e.clientX, y0: e.clientY, ghost: null, over: null };
+});
+document.addEventListener("pointermove", function(e){
+  if (!arrDrag) return;
+  if (!arrDrag.ghost) {
+    if (Math.abs(e.clientX - arrDrag.x0) + Math.abs(e.clientY - arrDrag.y0) < 6) return;
+    var r = arrDrag.el.getBoundingClientRect(), g = arrDrag.el.cloneNode(true);
+    g.classList.add("ghost");
+    g.removeAttribute("aria-pressed");
+    g.setAttribute("aria-hidden", "true");
+    g.style.inset = "auto";
+    g.style.position = "fixed";
+    g.style.width = r.width + "px";
+    g.style.height = r.height + "px";
+    document.body.appendChild(g);
+    arrDrag.ghost = g;
+    arrDrag.el.classList.add("lifting");
+  }
+  e.preventDefault();
+  arrDrag.ghost.style.left = e.clientX + "px";
+  arrDrag.ghost.style.top = e.clientY + "px";
+  var t = arrTarget(e.clientX, e.clientY);
+  if (t !== arrDrag.over) {
+    if (arrDrag.over) arrDrag.over.classList.remove("over");
+    arrDrag.over = t;
+    if (t) t.classList.add("over");
+  }
+});
+document.addEventListener("pointerup", function(e){
+  var d = endArrDrag();
+  if (!d || !d.ghost) return;   // no movement: the click handler takes it
+  arrNoClick = true;
+  setTimeout(function(){ arrNoClick = false; }, 0);
+  var t = arrTarget(e.clientX, e.clientY);
+  if (t) arrDrop(d.id, d.from, t.id === "arr-tray" ? -1 : +t.dataset.slot);
+});
+document.addEventListener("pointercancel", endArrDrag);
+
+arrMain.addEventListener("click", function(e){
+  if (arrNoClick) return;
+  var un = e.target.closest("[data-unplace]");
+  if (un) { arrDrop(arr.cells[+un.dataset.unplace], +un.dataset.unplace, -1); return; }
+  var p = e.target.closest(".piece"), slot = e.target.closest(".slot");
+  if (p) {
+    var from = +p.dataset.from;
+    if (arrSel && arrSel.id !== p.dataset.hid && from >= 0) { arrDrop(arrSel.id, arrSel.from, from); return; }
+    arrSel = (arrSel && arrSel.id === p.dataset.hid) ? null : { id: p.dataset.hid, from: from };
+    renderArrange();
+    return;
+  }
+  if (slot && arrSel) { arrDrop(arrSel.id, arrSel.from, +slot.dataset.slot); return; }
+  if (e.target.closest("#arr-tray") && arrSel && arrSel.from >= 0) arrDrop(arrSel.id, arrSel.from, -1);
+});
+
+document.getElementById("arr-mode").addEventListener("click", function(e){
+  var b = e.target.closest("button"); if (!b) return;
+  arr.mode = b.dataset.mode;
+  arrSel = null;
+  renderArrange();
+});
+document.getElementById("arr-size").addEventListener("click", function(e){
+  var b = e.target.closest("button[data-step]"); if (!b) return;
+  var d = +b.dataset.d;
+  if (b.dataset.step === "cols") setArrSize(arr.cols + d, arr.rows);
+  else setArrSize(arr.cols, arr.rows + d);
+});
+document.getElementById("arr-presets").addEventListener("click", function(e){
+  var b = e.target.closest("button[data-c]"); if (!b) return;
+  setArrSize(+b.dataset.c, +b.dataset.r);
+});
+document.getElementById("arr-fill").addEventListener("click", function(){
+  var placed = {};
+  arr.cells.forEach(function(id){ if (id) placed[id] = true; });
+  var loose = liveHabits().filter(function(h){ return !placed[h.id]; });
+  for (var i = 0; i < arr.cells.length && loose.length; i++) if (!arr.cells[i]) arr.cells[i] = loose.shift().id;
+  arrSel = null;
+  renderArrange();
+});
+document.getElementById("arr-clear").addEventListener("click", function(){
+  arr.cells = arr.cells.map(function(){ return null; });
+  arrSel = null;
+  renderArrange();
+});
+document.getElementById("arr-cancel").addEventListener("click", closeArrange);
+document.getElementById("arr-save").addEventListener("click", function(){
+  state.layout = { mode: arr.mode, cols: arr.cols, rows: arr.rows, cells: arr.cells.slice() };
+  scheduleSave();
+  closeArrange();
+  flashNote(state.layout.mode === "grid" ? "Board saved." : "Back to the default layout.");
 });
 
 /* ---------------- habit dialog ---------------- */
@@ -2301,7 +2742,11 @@ document.getElementById("habit-form").addEventListener("submit", function(e){
   var name = document.getElementById("h-name").value.trim();
   if (!name) { e.preventDefault(); return; }
   if (editing) { editing.name = name; editing.emoji = pickEmoji; editing.glaze = pickGlaze; editing.cat = pickCat; }
-  else { state.habits.push({ id: uid(), name: name, emoji: pickEmoji, glaze: pickGlaze, created: TODAY, cat: pickCat, retired: null }); }
+  else {
+    var fresh = { id: uid(), name: name, emoji: pickEmoji, glaze: pickGlaze, created: TODAY, cat: pickCat, retired: null };
+    state.habits.push(fresh);
+    placeOnBoard(fresh.id);
+  }
   scheduleSave();
   setTimeout(render, 0);
 });
@@ -2342,6 +2787,7 @@ document.getElementById("h-confirm-yes").addEventListener("click", function(){
   if (!editing) return;
   var id = editing.id;
   state.habits = state.habits.filter(function(x){ return x.id !== id; });
+  state.layout.cells = state.layout.cells.map(function(c){ return c === id ? null : c; });
   Object.keys(state.log).forEach(function(k){
     state.log[k] = state.log[k].filter(function(x){ return x !== id; });
     if (!state.log[k].length) delete state.log[k];
@@ -2845,13 +3291,20 @@ function toggleGrouped(){
 btnGroup.addEventListener("click", toggleGrouped);
 swGrouped.addEventListener("click", toggleGrouped);
 
-document.getElementById("btn-settings").addEventListener("click", function(){
+function syncSettings(){
   renderCatRows();
   updateGroupBtn();
   swRemind.setAttribute("aria-pressed", String(!!state.reminder.on));
   swSound.setAttribute("aria-pressed", String(!!state.sound));
   renderTimes();
   refreshNotifState();
+  renderSync();
+}
+document.getElementById("btn-settings").addEventListener("click", function(){
+  syncSettings();
+  pendingImport = null;
+  document.getElementById("s-import-confirm").hidden = true;
+  dataNote("");
   dlgSet.showModal();
 });
 document.getElementById("s-close").addEventListener("click", function(){ dlgSet.close(); });
@@ -2890,10 +3343,242 @@ swNotif.addEventListener("click", function(){
     });
   } catch (e) { refreshNotifState(); }
 });
-document.getElementById("s-export").addEventListener("click", function(){
-  if (!capDownloads) return;
-  capDownloads.save({ filename: "groundwork-" + TODAY + ".json", data: JSON.stringify(state, null, 2) })
-    .catch(function(){});
+/* ---------------- backup: download and import ---------------- */
+var importFile = document.getElementById("s-import-file"), pendingImport = null;
+var DATA_NOTE = document.getElementById("s-data-note").textContent;
+
+function dataNote(msg, err){
+  var el = document.getElementById("s-data-note");
+  el.textContent = msg || DATA_NOTE;
+  el.className = err ? "note err" : "note";
+}
+function exportData(){
+  var out = { app: "groundwork", exportedAt: new Date().toISOString() };
+  Object.keys(state).forEach(function(k){ out[k] = state[k]; });
+  var text = JSON.stringify(out, null, 2), name = "groundwork-backup-" + TODAY + ".json";
+  if (capDownloads) {
+    capDownloads.save({ filename: name, data: text }).catch(function(){ dataNote("The download did not go through.", true); });
+    return;
+  }
+  try {
+    var url = URL.createObjectURL(new Blob([text], { type: "application/json" }));
+    var a = document.createElement("a");
+    a.href = url; a.download = name;
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function(){ URL.revokeObjectURL(url); }, 4000);
+  } catch (e) { dataNote("Downloads are blocked here.", true); }
+}
+document.getElementById("s-export").addEventListener("click", exportData);
+document.getElementById("s-import").addEventListener("click", function(){
+  importFile.value = "";
+  importFile.click();
+});
+importFile.addEventListener("change", function(){
+  var f = importFile.files && importFile.files[0];
+  if (!f) return;
+  if (f.size > 5e6) { dataNote("That file is too big to be a Groundwork backup.", true); return; }
+  var rd = new FileReader();
+  rd.onload = function(){
+    var next = null;
+    try { next = normalize(JSON.parse(rd.result)); } catch (e) {}
+    if (!next) { dataNote("That file is not a Groundwork backup — nothing was changed.", true); return; }
+    pendingImport = next;
+    var nh = next.habits.length, nd = Object.keys(next.log).length, nt = next.tasks.length;
+    document.getElementById("s-import-text").innerHTML =
+      "Replace everything here with <b>" + esc(f.name) + "</b>? It holds " +
+      nh + " habit" + (nh === 1 ? "" : "s") + ", check-ins on " + nd + " day" + (nd === 1 ? "" : "s") +
+      " and " + nt + " task" + (nt === 1 ? "" : "s") + ". What is here now goes — download a backup first if you might want it back.";
+    document.getElementById("s-import-confirm").hidden = false;
+    dataNote("");
+  };
+  rd.onerror = function(){ dataNote("Could not read that file.", true); };
+  rd.readAsText(f);
+});
+document.getElementById("s-import-no").addEventListener("click", function(){
+  pendingImport = null;
+  document.getElementById("s-import-confirm").hidden = true;
+});
+document.getElementById("s-import-yes").addEventListener("click", function(){
+  if (!pendingImport) return;
+  replaceState(pendingImport, ":before-import");
+  pendingImport = null;
+  scheduleSave();   // stamped now, so this copy wins on every synced device
+  document.getElementById("s-import-confirm").hidden = true;
+  syncSettings();
+  dataNote("Imported — " + state.habits.length + " habits are back.");
+});
+
+// Swap in a whole new state; the old one is kept in this browser just in case.
+function replaceState(next, stash){
+  try { localStorage.setItem(LS_KEY + stash, JSON.stringify(state)); } catch (e) {}
+  state = next;
+  reorder = false; arranging = false; arr = null; arrSel = null;
+  updateGroupBtn();
+  render();
+}
+
+/* ---------------- theme ---------------- */
+var THEME_KEY = LS_KEY + ":theme";
+var btnTheme = document.getElementById("btn-theme");
+var ICON_MOON = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 14.2A8.5 8.5 0 1 1 9.8 3.5a6.8 6.8 0 0 0 10.7 10.7z"/></svg>';
+var ICON_SUN = '<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2.2M12 19.8V22M22 12h-2.2M4.2 12H2M19.1 4.9l-1.6 1.6M6.5 17.5l-1.6 1.6M19.1 19.1l-1.6-1.6M6.5 6.5L4.9 4.9"/></svg>';
+
+function currentTheme(){
+  var t = document.documentElement.getAttribute("data-theme");
+  if (t) return t;
+  return window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+}
+function paintThemeBtn(){
+  var dark = currentTheme() === "dark", label = dark ? "Switch to light mode" : "Switch to dark mode";
+  btnTheme.innerHTML = dark ? ICON_SUN : ICON_MOON;
+  btnTheme.setAttribute("aria-label", label);
+  btnTheme.title = label;
+}
+btnTheme.addEventListener("click", function(){
+  var t = currentTheme() === "dark" ? "light" : "dark";
+  document.documentElement.setAttribute("data-theme", t);
+  try { localStorage.setItem(THEME_KEY, t); } catch (e) {}
+  paintThemeBtn();
+  refreshPalette();
+  if (section === "tasks") startDayLoop();
+});
+(function(){
+  var t = null;
+  try { t = localStorage.getItem(THEME_KEY); } catch (e) {}
+  if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t);
+  paintThemeBtn();
+})();
+
+/* ---------------- sync: GitHub sign-in through Firebase ----------------
+   Off until FIREBASE_CONFIG is filled in (see README). Each account keeps one
+   Firestore document, users/{uid}, holding the whole state as JSON. The newest
+   savedAt wins; whatever it replaces is kept in this browser under :before-sync. */
+var FIREBASE_VERSION = "10.14.1";
+var fb = { loading: null, ready: false, user: null, unsub: null, timer: null, err: "", synced: null };
+
+function loadScript(src){
+  return new Promise(function(ok, fail){
+    var el = document.createElement("script");
+    el.src = src; el.onload = ok;
+    el.onerror = function(){ fail(new Error("load " + src)); };
+    document.head.appendChild(el);
+  });
+}
+function fbInit(){
+  if (!FIREBASE_CONFIG) return Promise.resolve(false);
+  if (fb.loading) return fb.loading;
+  var base = "https://cdn.jsdelivr.net/npm/firebase@" + FIREBASE_VERSION + "/firebase-";
+  fb.loading = loadScript(base + "app-compat.js").then(function(){
+    return Promise.all([loadScript(base + "auth-compat.js"), loadScript(base + "firestore-compat.js")]);
+  }).then(function(){
+    firebase.initializeApp(FIREBASE_CONFIG);
+    fb.ready = true;
+    firebase.auth().onAuthStateChanged(onAuth);
+    firebase.auth().getRedirectResult().catch(function(e){ fb.err = authMsg(e); renderSync(); });
+    renderSync();
+    return true;
+  }).catch(function(){
+    fb.err = "Sign-in could not load on this page. Open your own hosted copy to sign in.";
+    renderSync();
+    return false;
+  });
+  return fb.loading;
+}
+function authMsg(e){
+  var c = (e && e.code) || "";
+  if (c === "auth/popup-closed-by-user" || c === "auth/cancelled-popup-request") return "";
+  if (c === "auth/unauthorized-domain") return "This address is not on the Firebase project's authorized domains yet.";
+  if (c === "auth/operation-not-allowed") return "GitHub sign-in is not switched on in the Firebase project.";
+  if (c === "auth/account-exists-with-different-credential") return "That email already signs in with another provider.";
+  if (c === "auth/network-request-failed") return "Could not reach Firebase from here.";
+  return "Sign-in did not work" + (c ? " (" + c + ")" : "") + ".";
+}
+function userDoc(){ return firebase.firestore().collection("users").doc(fb.user.uid); }
+
+function onAuth(user){
+  fb.user = user || null;
+  if (fb.unsub) { fb.unsub(); fb.unsub = null; }
+  if (fb.user) {
+    var first = true;
+    fb.unsub = userDoc().onSnapshot(function(snap){
+      if (snap.metadata.hasPendingWrites) return;
+      var d = snap.exists ? snap.data() : null, remote = null;
+      try { remote = d && typeof d.state === "string" ? normalize(JSON.parse(d.state)) : null; } catch (e) {}
+      var theirs = remote ? remote.savedAt : 0, mine = state.savedAt || 0;
+      if (remote && theirs > mine) {
+        replaceState(remote, ":before-sync");
+        scheduleSave(true);
+        syncSettings();
+        flashNote(first ? "Loaded your synced habits." : "Updated from another device.");
+      } else if (first && (!remote || mine > theirs)) {
+        fbPush();
+      }
+      first = false;
+      fb.synced = new Date();
+      renderSync();
+    }, function(err){ fb.err = "Sync stopped: " + ((err && err.code) || "error") + "."; renderSync(); });
+  }
+  renderSync();
+}
+function fbQueue(){
+  if (!fb.user) return;
+  clearTimeout(fb.timer);
+  fb.timer = setTimeout(fbPush, 1500);
+}
+function fbPush(){
+  if (!fb.user) return;
+  clearTimeout(fb.timer);
+  userDoc().set({
+    state: JSON.stringify(state),
+    savedAt: state.savedAt || 0,
+    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+  }).then(function(){
+    fb.err = ""; fb.synced = new Date(); renderSync();
+    if (cloudOff) setStatus("saved", "Synced");
+  },
+          function(err){ fb.err = "Could not sync: " + ((err && err.code) || "error") + "."; renderSync(); });
+}
+function fbSignIn(){
+  if (!fb.ready) { fbInit(); return; }
+  fb.err = "";
+  var provider = new firebase.auth.GithubAuthProvider();
+  firebase.auth().signInWithPopup(provider).catch(function(e){
+    var c = e && e.code;
+    if (c === "auth/popup-blocked" || c === "auth/operation-not-supported-in-this-environment") {
+      return firebase.auth().signInWithRedirect(provider);
+    }
+    throw e;
+  }).catch(function(e){ fb.err = authMsg(e); renderSync(); });
+}
+
+var GITHUB_MARK = '<svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>';
+
+function renderSync(){
+  var el = document.getElementById("s-sync");
+  var err = fb.err ? '<p class="note err">' + esc(fb.err) + "</p>" : "";
+  if (!FIREBASE_CONFIG) {
+    el.innerHTML = '<p class="times-empty" style="margin:0">Not set up on this copy. Add a Firebase project (steps in the README) and you can sign in with GitHub to keep every device in step.</p>';
+    return;
+  }
+  if (!fb.user) {
+    el.innerHTML = '<button type="button" class="btn btn-soft" id="s-signin"' + (fb.loading && !fb.ready && !fb.err ? " disabled" : "") + ">" +
+      GITHUB_MARK + "Sign in with GitHub</button>" +
+      '<p class="note">Your habits follow you to any device you sign in on.</p>' + err;
+    return;
+  }
+  var u = fb.user, name = u.displayName || u.email || "GitHub account";
+  el.innerHTML = '<div class="sync-who">' + (u.photoURL ? '<img src="' + esc(u.photoURL) + '" alt="">' : "") +
+    "<div><b>" + esc(name) + "</b><small>" +
+    (fb.synced ? "Synced " + fb.synced.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" }) : "Syncing…") +
+    '</small></div></div><button type="button" class="btn btn-ghost" id="s-signout" style="padding-left:0">Sign out</button>' + err;
+}
+document.getElementById("s-sync").addEventListener("click", function(e){
+  if (e.target.closest("#s-signin")) fbSignIn();
+  if (e.target.closest("#s-signout") && fb.ready) {
+    firebase.auth().signOut();
+    fb.synced = null;
+    renderSync();
+  }
 });
 
 /* ---------------- nudge ---------------- */
@@ -2950,9 +3635,10 @@ function start(){
   applyNav();
   if (window.matchMedia) {
     var mq = window.matchMedia("(prefers-color-scheme: dark)");
-    if (mq.addEventListener) mq.addEventListener("change", refreshPalette);
+    if (mq.addEventListener) mq.addEventListener("change", function(){ refreshPalette(); paintThemeBtn(); });
   }
   window.addEventListener("resize", function(){ if (section === "tasks" && !dayRaf) startDayLoop(); });
+  if (FIREBASE_CONFIG) fbInit();
   setInterval(tick, 20000);
   setTimeout(tick, 1500);
   document.addEventListener("pointerdown", unlockAudio, { once: true });

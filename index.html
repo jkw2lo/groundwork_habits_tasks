@@ -65,7 +65,7 @@ h1,h2,h3{margin:0; font-family:var(--display); font-weight:700; text-wrap:balanc
 .tnum{font-variant-numeric:tabular-nums}
 
 /* ---------- shell ---------- */
-.wrap{max-width:960px; margin:0 auto; padding:0 20px}
+.wrap{max-width:1440px; margin:0 auto; padding:0 clamp(20px, 3.5vw, 56px)}
 
 header.top{
   position:sticky; top:0; z-index:20;
@@ -141,7 +141,7 @@ header.top{
 
 .tiles{
   display:grid; gap:14px;
-  grid-template-columns:repeat(auto-fill, minmax(200px,1fr));
+  grid-template-columns:repeat(auto-fill, minmax(calc(200px * var(--tile, 1)), 1fr));
 }
 .tile{position:relative; aspect-ratio:1/1; container-type:inline-size}
 .tile .ring{position:absolute; inset:0; width:100%; height:100%; pointer-events:none}
@@ -218,8 +218,11 @@ header.top{
 .empty p{margin:0 0 18px; font-size:14.5px}
 
 /* a custom board: fixed columns, and a gap is a real, deliberate spot */
-.tiles.board{grid-template-columns:repeat(var(--cols), minmax(0, 220px))}
+.tiles.board{grid-template-columns:repeat(var(--cols), minmax(0, calc(240px * var(--tile, 1))))}
 .tile-gap{aspect-ratio:1/1}
+@container (min-width:280px){
+  .hit .emo{font-size:36px} .hit .nm{font-size:17px} .hit .sub{font-size:13px}
+}
 @container (max-width:150px){
   .hit .emo{font-size:21px} .hit .nm{font-size:12.5px} .hit .sub{font-size:10.5px}
 }
@@ -227,7 +230,14 @@ header.top{
   .hit{padding:4px} .hit .emo{font-size:17px} .hit .nm{font-size:10.5px} .hit .sub{display:none}
   .tile-menu{width:22px; height:22px; top:0; right:0}
 }
-.unplaced-head{margin-top:26px}
+.size-ctl{display:inline-flex; align-items:center; gap:8px; margin-left:auto; color:var(--ink-3)}
+.size-ctl svg{display:block; flex:none}
+.size-ctl input{width:120px; accent-color:var(--ink); cursor:pointer}
+
+/* month and year cards sit side by side once there is room */
+.card-grid{display:grid; gap:14px; margin-bottom:14px;
+  grid-template-columns:repeat(auto-fill, minmax(min(100%, 600px), 1fr))}
+.card-grid .card{margin-bottom:0}
 
 /* ---------- arrange ---------- */
 .arr-bar{display:flex; flex-wrap:wrap; align-items:center; gap:12px 22px; margin-bottom:12px}
@@ -643,7 +653,7 @@ dialog h2{font-size:20px; font-stretch:112%; margin-bottom:18px}
   .tabs button{padding:6px 10px; font-size:13px}
 }
 @media (max-width:520px){
-  .tiles{grid-template-columns:repeat(2,1fr); gap:10px}
+  .tiles{grid-template-columns:repeat(auto-fill, minmax(calc(150px * var(--tile, 1)), 1fr)); gap:10px}
   .nudge{left:12px; right:12px; max-width:none; border-radius:18px; padding:13px 13px 13px 18px;
     transform:translateX(0) translateY(160%)}
   .nudge.up{transform:translateX(0) translateY(0)}
@@ -1480,6 +1490,13 @@ function ringSVG(h){
   return '<svg class="ring" viewBox="0 0 100 100" aria-hidden="true">' + parts + "</svg>";
 }
 
+// Circle size is per device (a phone and a desktop want different sizes),
+// so it lives in this browser rather than in the synced state.
+var SIZE_KEY = LS_KEY + ":tile-size", tileSize = 1;
+try { tileSize = Math.max(0.6, Math.min(1.6, +localStorage.getItem(SIZE_KEY) || 1)); } catch (e) {}
+function applyTileSize(){ document.documentElement.style.setProperty("--tile", tileSize); }
+applyTileSize();
+
 function tileHTML(h, i, count){
   var done = isDone(h.id, TODAY), st = streakOf(h);
   var away = spanOn(h.id, TODAY, "away");
@@ -1584,6 +1601,11 @@ function renderToday(){
         ? '<button class="add-tile" id="btn-reorder">' + (reorder ? "Done reordering" : "Reorder") + "</button>"
         : "") +
       '<button class="add-tile" id="btn-arrange"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5" stroke-dasharray="3 3"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>Layout</button>' +
+      '<label class="size-ctl" title="Circle size">' +
+        '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><circle cx="12" cy="12" r="7"/></svg>' +
+        '<input type="range" id="tile-size" min="0.6" max="1.6" step="0.05" value="' + tileSize + '" aria-label="Circle size">' +
+        '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9.5"/></svg>' +
+      "</label>" +
       "</div>"
     : '<div class="empty"><h2>' + (shelf.length ? "All established" : "Nothing to track yet") + "</h2><p>" +
       (shelf.length
@@ -1683,13 +1705,13 @@ function renderMonth(){
         '<span class="sec-stat"><b>' + p.now + "</b> check-in" + (p.now === 1 ? "" : "s") + deltaHTML(p) + "</span>" +
         shareBar(parts, p.now) + '<span class="sec-rule"></span></div></div>';
     }
-    return band + sec.habits.map(monthCard).join("");
+    return band + '<div class="card-grid">' + sec.habits.map(monthCard).join("") + "</div>";
   }).join("");
 
   var est = establishedHabits();
   if (est.length) {
     body.innerHTML += '<div class="mile-head"><h2>Established</h2><span class="sec-rule"></span></div>' +
-      est.map(monthCard).join("");
+      '<div class="card-grid">' + est.map(monthCard).join("") + "</div>";
   }
 
   var last = key(y, m, n), firstK = key(y, m, 1);
@@ -1806,13 +1828,13 @@ function renderYear(){
         " &middot; best run <b>" + run + "</b></span>" +
         shareBar(parts, tot) + '<span class="sec-rule"></span></div></div>';
     }
-    return band + sec.habits.map(yearCard).join("");
+    return band + '<div class="card-grid">' + sec.habits.map(yearCard).join("") + "</div>";
   }).join("");
 
   var est = establishedHabits();
   if (est.length) {
     body.innerHTML += '<div class="mile-head"><h2>Established</h2><span class="sec-rule"></span></div>' +
-      est.map(yearCard).join("");
+      '<div class="card-grid">' + est.map(yearCard).join("") + "</div>";
   }
 }
 
@@ -2371,6 +2393,12 @@ document.getElementById("today-foot").addEventListener("click", function(e){
   if (e.target.closest("#btn-reorder")) { reorder = !reorder; renderToday(); return; }
   if (e.target.closest("#btn-arrange")) { openArrange(); return; }
   if (e.target.closest(".js-mark")) openSpan();
+});
+document.getElementById("today-foot").addEventListener("input", function(e){
+  if (e.target.id !== "tile-size") return;
+  tileSize = +e.target.value;
+  applyTileSize();
+  try { localStorage.setItem(SIZE_KEY, String(tileSize)); } catch (err) {}
 });
 
 function moveHabit(id, dir){

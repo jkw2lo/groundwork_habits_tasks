@@ -3450,12 +3450,12 @@ btnTheme.addEventListener("click", function(){
   paintThemeBtn();
 })();
 
-/* ---------------- sync: GitHub sign-in through Firebase ----------------
+/* ---------------- sync: GitHub or Google sign-in through Firebase ----------------
    Off when FIREBASE_CONFIG is null (see README). Each account keeps one
    Firestore document, groundwork/{uid}, holding the whole state as JSON. The newest
    savedAt wins; whatever it replaces is kept in this browser under :before-sync. */
 var FIREBASE_VERSION = "10.14.1";
-var fb = { loading: null, ready: false, user: null, unsub: null, timer: null, err: "", synced: null };
+var fb = { loading: null, ready: false, user: null, unsub: null, timer: null, err: "", synced: null, pending: null };
 
 function loadScript(src){
   return new Promise(function(ok, fail){
@@ -3485,11 +3485,11 @@ function fbInit(){
   });
   return fb.loading;
 }
-function authMsg(e){
+function authMsg(e, which){
   var c = (e && e.code) || "";
   if (c === "auth/popup-closed-by-user" || c === "auth/cancelled-popup-request") return "";
   if (c === "auth/unauthorized-domain") return "This address is not on the Firebase project's authorized domains yet.";
-  if (c === "auth/operation-not-allowed") return "GitHub sign-in is not switched on in the Firebase project.";
+  if (c === "auth/operation-not-allowed") return (which ? PROVIDERS[which].label : "That") + " sign-in is not switched on in the Firebase project.";
   if (c === "auth/account-exists-with-different-credential") return "That email already signs in with another provider.";
   if (c === "auth/network-request-failed") return "Could not reach Firebase from here.";
   return "Sign-in did not work" + (c ? " (" + c + ")" : "") + ".";
@@ -3499,6 +3499,15 @@ function userDoc(){ return firebase.firestore().collection(SYNC_COLLECTION).doc(
 function onAuth(user){
   fb.user = user || null;
   if (fb.unsub) { fb.unsub(); fb.unsub = null; }
+  // finish a link started when the other provider was refused for this email
+  if (fb.user && fb.pending) {
+    var cred = fb.pending;
+    fb.pending = null;
+    fb.user.linkWithCredential(cred).then(function(){
+      renderSync();
+      flashNote("Google and GitHub now open the same habits.");
+    }, function(e){ fb.err = authMsg(e); renderSync(); });
+  }
   if (fb.user) {
     var first = true;
     fb.unsub = userDoc().onSnapshot(function(snap){
@@ -3539,42 +3548,95 @@ function fbPush(){
   },
           function(err){ fb.err = "Could not sync: " + ((err && err.code) || "error") + "."; renderSync(); });
 }
-function fbSignIn(){
+// Each provider is its own Firebase account (and its own data) unless linked,
+// so a refused sign-in keeps its credential and links it after the other one.
+function fbSignIn(which){
   if (!fb.ready) { fbInit(); return; }
   fb.err = "";
-  var provider = new firebase.auth.GithubAuthProvider();
+  var provider = PROVIDERS[which].make();
   firebase.auth().signInWithPopup(provider).catch(function(e){
     var c = e && e.code;
     if (c === "auth/popup-blocked" || c === "auth/operation-not-supported-in-this-environment") {
       return firebase.auth().signInWithRedirect(provider);
     }
     throw e;
-  }).catch(function(e){ fb.err = authMsg(e); renderSync(); });
+  }).catch(function(e){
+    if (e && e.code === "auth/account-exists-with-different-credential" && e.credential) {
+      var other = which === "github" ? "Google" : "GitHub";
+      fb.pending = e.credential;
+      fb.err = "This email already signs in with " + other + ". Sign in with " + other + " once and " +
+        PROVIDERS[which].label + " will be linked to the same habits.";
+    } else {
+      fb.err = authMsg(e, which);
+    }
+    renderSync();
+  });
+}
+function fbLink(which){
+  if (!fb.user) return;
+  fb.err = "";
+  fb.user.linkWithPopup(PROVIDERS[which].make()).then(function(){
+    renderSync();
+    flashNote(PROVIDERS[which].label + " is linked — either sign-in opens these habits.");
+  }, function(e){
+    fb.err = e && e.code === "auth/credential-already-in-use"
+      ? "That " + PROVIDERS[which].label + " account already has its own separate sign-in, so it can't be linked here."
+      : authMsg(e, which);
+    renderSync();
+  });
+}
+function linkedIds(){
+  return fb.user ? fb.user.providerData.map(function(p){ return p.providerId; }) : [];
 }
 
+var GOOGLE_MARK = '<svg width="16" height="16" viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>';
 var GITHUB_MARK = '<svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>';
+
+var PROVIDERS = {
+  github: { label: "GitHub", id: "github.com", icon: GITHUB_MARK,
+            make: function(){ return new firebase.auth.GithubAuthProvider(); } },
+  google: { label: "Google", id: "google.com", icon: GOOGLE_MARK,
+            make: function(){
+              var p = new firebase.auth.GoogleAuthProvider();
+              p.setCustomParameters({ prompt: "select_account" });
+              return p;
+            } }
+};
 
 function renderSync(){
   var el = document.getElementById("s-sync");
   var err = fb.err ? '<p class="note err">' + esc(fb.err) + "</p>" : "";
   if (!FIREBASE_CONFIG) {
-    el.innerHTML = '<p class="times-empty" style="margin:0">Not set up on this copy. Add a Firebase project (steps in the README) and you can sign in with GitHub to keep every device in step.</p>';
+    el.innerHTML = '<p class="times-empty" style="margin:0">Not set up on this copy. Add a Firebase project (steps in the README) and you can sign in with GitHub or Google to keep every device in step.</p>';
     return;
   }
   if (!fb.user) {
-    el.innerHTML = '<button type="button" class="btn btn-soft" id="s-signin"' + (fb.loading && !fb.ready && !fb.err ? " disabled" : "") + ">" +
-      GITHUB_MARK + "Sign in with GitHub</button>" +
+    var wait = fb.loading && !fb.ready && !fb.err ? " disabled" : "";
+    el.innerHTML = '<div class="data-row">' + ["github", "google"].map(function(k){
+        return '<button type="button" class="btn btn-soft" data-signin="' + k + '"' + wait + ">" +
+          PROVIDERS[k].icon + "Sign in with " + PROVIDERS[k].label + "</button>";
+      }).join("") + "</div>" +
       '<p class="note">Your habits follow you to any device you sign in on.</p>' + err;
     return;
   }
-  var u = fb.user, name = u.displayName || u.email || "GitHub account";
+  var u = fb.user, name = u.displayName || u.email || "Your account", have = linkedIds();
+  var via = ["github", "google"].filter(function(k){ return have.indexOf(PROVIDERS[k].id) >= 0; })
+    .map(function(k){ return PROVIDERS[k].label; }).join(" + ");
+  var missing = ["github", "google"].filter(function(k){ return have.indexOf(PROVIDERS[k].id) < 0; });
   el.innerHTML = '<div class="sync-who">' + (u.photoURL ? '<img src="' + esc(u.photoURL) + '" alt="">' : "") +
-    "<div><b>" + esc(name) + "</b><small>" +
+    "<div><b>" + esc(name) + "</b><small>" + (via ? esc(via) + " · " : "") +
     (fb.synced ? "Synced " + fb.synced.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" }) : "Syncing…") +
-    '</small></div></div><button type="button" class="btn btn-ghost" id="s-signout" style="padding-left:0">Sign out</button>' + err;
+    '</small></div></div><div class="data-row">' +
+    missing.map(function(k){
+      return '<button type="button" class="btn btn-soft" data-link="' + k + '">' + PROVIDERS[k].icon +
+        "Also use " + PROVIDERS[k].label + "</button>";
+    }).join("") +
+    '<button type="button" class="btn btn-ghost" id="s-signout">Sign out</button></div>' + err;
 }
 document.getElementById("s-sync").addEventListener("click", function(e){
-  if (e.target.closest("#s-signin")) fbSignIn();
+  var si = e.target.closest("[data-signin]"), ln = e.target.closest("[data-link]");
+  if (si) fbSignIn(si.dataset.signin);
+  if (ln) fbLink(ln.dataset.link);
   if (e.target.closest("#s-signout") && fb.ready) {
     firebase.auth().signOut();
     fb.synced = null;

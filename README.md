@@ -42,11 +42,11 @@ tray onto spots — or tap a habit, then tap a spot. Empty spots stay empty on T
 Habits left in the tray show under the board, and new habits drop into the first free
 spot. Grouping by category takes precedence over the custom board while it is on.
 
-## Sync across devices (Firebase + GitHub sign-in)
+## Sync across devices (Firebase + GitHub or Google sign-in)
 
 The artifact already syncs through your claude.ai account. The Firebase option is for
 a copy you host yourself (e.g. GitHub Pages) — inside the Claude artifact the sandbox
-will most likely block the Firebase scripts and the GitHub sign-in popup.
+will most likely block the Firebase scripts and the sign-in popups.
 
 It's wired to the shared Firebase project **`github-projects-5d4e4`** (config in
 `FIREBASE_CONFIG` near the top of the script; set it to `null` to turn sync off).
@@ -60,6 +60,8 @@ How that project was set up (or how to point this at a different one):
 3. **GitHub → Settings → Developer settings → OAuth Apps → New OAuth App.** Homepage URL:
    where you'll host it. Authorization callback URL: the one from step 2. Paste the
    app's Client ID and a new Client secret back into Firebase's GitHub provider → Save.
+   **Google:** Sign-in method → Add new provider → Google → Enable, pick a support
+   email → Save. Nothing else to create.
 4. **Firestore Database → Create database** (production mode), then set these rules
    so each account can only touch its own document:
 
@@ -82,10 +84,15 @@ How that project was set up (or how to point this at a different one):
 7. **Host it**, e.g. GitHub Pages: repo Settings → Pages → deploy from `main` / root
    (it serves the generated `index.html`).
 
-Then Settings → **Sign in with GitHub**. Each account keeps one document,
-`groundwork/{uid}`, holding the whole state; the most recently saved copy wins, and changes
-from another device arrive live. Whatever a sync replaces is kept in that browser under
-`day-rings-v1:before-sync`.
+Then Settings → **Sign in with GitHub** or **Sign in with Google**. Each account keeps
+one document, `groundwork/{uid}`, holding the whole state; the most recently saved copy
+wins, and changes from another device arrive live. Whatever a sync replaces is kept in
+that browser under `day-rings-v1:before-sync`.
+
+GitHub and Google are separate Firebase accounts (separate habits) unless linked. Once
+signed in, **Also use Google / GitHub** links the other one to the same data. If a
+sign-in is refused because the email already uses the other provider, sign in with that
+one and the refused provider is linked automatically.
 
 ## Local preview
 

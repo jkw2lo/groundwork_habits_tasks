@@ -12,6 +12,7 @@
 
 <style>
 :root{
+  color-scheme:light;
   --ground:#F3F5F0; --surface:#FBFCF9; --surface-2:#EAEEE6; --sunk:#E3E8DE;
   --ink:#182018; --ink-2:#5B675E; --ink-3:#8C978D;
   --hairline:#DCE2D8; --hairline-2:#C9D1C4;
@@ -27,6 +28,7 @@
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
+    color-scheme:dark;
     --ground:#101412; --surface:#181E1B; --surface-2:#212823; --sunk:#0C100E;
     --ink:#E9EEE8; --ink-2:#9DA99F; --ink-3:#6F7B73;
     --hairline:#2A322D; --hairline-2:#3A443D;
@@ -39,6 +41,7 @@
   }
 }
 :root[data-theme="dark"]{
+  color-scheme:dark;
   --ground:#101412; --surface:#181E1B; --surface-2:#212823; --sunk:#0C100E;
   --ink:#E9EEE8; --ink-2:#9DA99F; --ink-3:#6F7B73;
   --hairline:#2A322D; --hairline-2:#3A443D;
@@ -58,6 +61,7 @@ body{
   -webkit-font-smoothing:antialiased;
   padding:0 0 96px;
 }
+@media (min-width:900px){ body{padding-bottom:28px} }
 button{font:inherit;color:inherit;background:none;border:none;cursor:pointer;
   -webkit-user-select:none; user-select:none; -webkit-tap-highlight-color:transparent}
 :focus-visible{outline:2.5px solid var(--ink); outline-offset:2px; border-radius:4px}
@@ -242,11 +246,22 @@ header.top{
 .card-grid .card{margin-bottom:0}
 
 /* ---------- arrange ---------- */
-.arr-top{display:flex; flex-wrap:wrap; align-items:center; gap:12px 16px; margin-bottom:16px;
+.arr-top{display:flex; flex-wrap:wrap; align-items:center; gap:10px 14px; margin-bottom:12px}
+.arr-slots{flex-wrap:wrap; border-radius:18px}
+.arr-top .add-tile, .arr-meta .add-tile{padding:7px 14px; font-size:13.5px}
+.arr-top .add-tile:disabled{opacity:.4; cursor:default}
+.arr-meta{display:flex; flex-wrap:wrap; align-items:center; gap:10px 16px; margin-bottom:16px;
   padding-bottom:16px; border-bottom:1px solid var(--hairline)}
-.arr-top .add-tile{padding:7px 14px; font-size:13.5px}
-.arr-top .add-tile:disabled{border-style:solid; color:var(--g-moss); border-color:color-mix(in srgb, var(--g-moss) 45%, transparent); cursor:default; background:none}
-.arr-top .size-ctl{margin-left:auto}
+.arr-meta input[type=text]{width:190px; padding:7px 11px; border-radius:10px; border:1.5px solid var(--hairline);
+  background:var(--ground); color:var(--ink); font:inherit; font-size:14.5px; font-weight:600}
+.arr-meta input[type=text]:focus{outline:none; border-color:var(--ink-3)}
+.arr-meta .add-tile:disabled{border-style:solid; color:var(--g-moss); border-color:color-mix(in srgb, var(--g-moss) 45%, transparent); cursor:default; background:none}
+.arr-meta .btn-danger{margin:0 0 0 auto; padding-right:0}
+.arr-meta .btn-danger:disabled{opacity:.35; cursor:default; text-decoration:none}
+.layout-pick{padding-top:6px; padding-bottom:6px; cursor:pointer}
+.layout-pick select{font:inherit; color:inherit; background:none; border:none; cursor:pointer; padding:4px 2px; max-width:180px}
+.layout-pick select:focus{outline:none}
+.layout-pick:focus-within{border-color:var(--ink-3)}
 #arr-slots .here{display:inline-block; width:7px; height:7px; border-radius:50%; background:var(--g-moss); margin-left:4px; vertical-align:1px}
 .arr-bar{display:flex; flex-wrap:wrap; align-items:center; gap:12px 22px; margin-bottom:12px}
 .arr-size{display:flex; align-items:center; gap:10px 20px; flex-wrap:wrap}
@@ -733,10 +748,11 @@ dialog h2{font-size:20px; font-stretch:112%; margin-bottom:18px}
     <div id="today-foot"></div>
     <div class="arrange" id="arrange" hidden>
       <div class="arr-top">
-        <div class="tabs" id="arr-slots" role="tablist" aria-label="Which layout to edit">
-          <button role="tab" data-slot="0" aria-selected="true">Layout 1</button>
-          <button role="tab" data-slot="1" aria-selected="false">Layout 2</button>
-        </div>
+        <div class="tabs arr-slots" id="arr-slots" role="tablist" aria-label="Which layout to edit"></div>
+        <button type="button" class="add-tile" id="arr-new">+ New layout</button>
+      </div>
+      <div class="arr-meta">
+        <input type="text" id="arr-name" maxlength="24" aria-label="Layout name" placeholder="Layout name">
         <button type="button" class="add-tile" id="arr-use">Use on this device</button>
         <label class="size-ctl" title="Circle size">
           <span class="lbl">Circle size</span>
@@ -745,6 +761,7 @@ dialog h2{font-size:20px; font-stretch:112%; margin-bottom:18px}
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9.5"/></svg>
           <b id="arr-size-val">100%</b>
         </label>
+        <button type="button" class="btn btn-danger" id="arr-del">Delete layout</button>
       </div>
       <div class="arr-bar">
         <div class="tabs" id="arr-mode" role="tablist" aria-label="Layout">
@@ -1060,7 +1077,7 @@ var MONTHS = ["January","February","March","April","May","June","July","August",
 var MSHORT = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 var LS_KEY = "day-rings-v1";   // unchanged across the rename so saved data still loads
 var DATA_PATH = "data/tracker.json";
-var MAX_COLS = 6, MAX_ROWS = 8;
+var MAX_COLS = 6, MAX_ROWS = 8, MAX_LAYOUTS = 8;
 // Firebase web app config for GitHub sign-in and sync across devices (see README).
 // Safe to publish: access is guarded by the Firestore rules, not by this.
 // Set to null to turn sync off.
@@ -1107,7 +1124,7 @@ function defaults(){
     reminder: { on: true, times: ["20:30"] },
     sound: true,
     notify: false,
-    layouts: [normalizeLayout(null), normalizeLayout(null)],
+    layouts: normalizeLayouts({}),
     savedAt: 0
   };
 }
@@ -1140,10 +1157,7 @@ function normalize(raw){
     reminder: { on: !!(raw.reminder && raw.reminder.on), times: [] },
     sound: raw.sound !== false,
     notify: !!raw.notify,
-    // two saved layouts; older data had a single `layout`, which becomes Layout 1
-    layouts: [0, 1].map(function(i){
-      return normalizeLayout(Array.isArray(raw.layouts) ? raw.layouts[i] : (i === 0 ? raw.layout : null));
-    }),
+    layouts: normalizeLayouts(raw),
     savedAt: Math.max(0, +raw.savedAt || 0)
   };
   if (Array.isArray(raw.categories)) {
@@ -1232,6 +1246,23 @@ function normalizeLayout(lay){
   }
   return out;
 }
+
+// Named layouts shared by every device. Older data had one `layout`, or two
+// unnamed ones; those become "Layout 1" (and "Layout 2") with ids l1, l2.
+function normalizeLayouts(raw){
+  var src = Array.isArray(raw.layouts) && raw.layouts.length ? raw.layouts : [raw.layout || null];
+  var seen = {};
+  return src.slice(0, MAX_LAYOUTS).map(function(L, i){
+    var out = normalizeLayout(L);
+    var id = L && typeof L.id === "string" && L.id ? L.id : "l" + (i + 1);
+    while (seen[id]) id = lid();
+    seen[id] = true;
+    out.id = id;
+    out.name = L && typeof L.name === "string" && L.name.trim() ? L.name.trim().slice(0, 24) : "Layout " + (i + 1);
+    return out;
+  });
+}
+function lid(){ return "l" + Math.random().toString(36).slice(2, 9); }
 
 function isDone(id, k){ var a = state.log[k]; return !!a && a.indexOf(id) >= 0; }
 function setDone(id, k, on){
@@ -1516,16 +1547,42 @@ function ringSVG(h){
   return '<svg class="ring" viewBox="0 0 100 100" aria-hidden="true">' + parts + "</svg>";
 }
 
-// Both layouts sync with the data; which one to show is a per-device choice,
-// so a phone and a desktop can each keep their own.
-var SLOT_KEY = LS_KEY + ":layout-slot", deviceSlot = 0;
-try { deviceSlot = localStorage.getItem(SLOT_KEY) === "1" ? 1 : 0; } catch (e) {}
-function curLayout(){ return state.layouts[deviceSlot]; }
-function setDeviceSlot(i){
-  deviceSlot = i === 1 ? 1 : 0;
-  try { localStorage.setItem(SLOT_KEY, String(deviceSlot)); } catch (e) {}
+// Every layout syncs with the data; which one to show is a per-device choice,
+// so a phone and a desktop can each keep their own. A device whose layout was
+// deleted elsewhere falls back to the first one.
+var LAYOUT_KEY = LS_KEY + ":layout-id", deviceLayout = null;
+try {
+  deviceLayout = localStorage.getItem(LAYOUT_KEY) ||
+    (localStorage.getItem(LS_KEY + ":layout-slot") === "1" ? "l2" : null);
+} catch (e) {}
+function curLayout(){
+  for (var i = 0; i < state.layouts.length; i++) if (state.layouts[i].id === deviceLayout) return state.layouts[i];
+  return state.layouts[0];
+}
+function setDeviceLayout(id){
+  deviceLayout = id;
+  try { localStorage.setItem(LAYOUT_KEY, id); } catch (e) {}
 }
 function applyTileSize(){ document.documentElement.style.setProperty("--tile", curLayout().size); }
+
+// On desktop, Today should fit the window without scrolling: shrink the circles
+// (never grow them past the layout's size) until the page height fits. Measuring
+// the real page covers every case at once: auto rows, boards, grouped sections.
+var FIT_MQ = window.matchMedia ? window.matchMedia("(min-width: 900px)") : null;
+function fitToScreen(){
+  tilesEl.style.removeProperty("--tile");
+  if (arranging || section !== "habits" || view !== "today" || !FIT_MQ || !FIT_MQ.matches) return;
+  var root = document.documentElement;
+  function fits(){ return root.scrollHeight <= window.innerHeight + 1; }
+  if (fits()) return;
+  var lo = 0.3, hi = curLayout().size, best = lo;
+  for (var i = 0; i < 9; i++) {
+    var mid = (lo + hi) / 2;
+    tilesEl.style.setProperty("--tile", mid);
+    if (fits()) { best = mid; lo = mid; } else hi = mid;
+  }
+  tilesEl.style.setProperty("--tile", best);
+}
 
 function tileHTML(h, i, count){
   var done = isDone(h.id, TODAY), st = streakOf(h);
@@ -1632,13 +1689,20 @@ function renderToday(){
       (liveHabits().length > 1 && !boardOn()
         ? '<button class="add-tile" id="btn-reorder">' + (reorder ? "Done reordering" : "Reorder") + "</button>"
         : "") +
-      '<button class="add-tile" id="btn-arrange"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5" stroke-dasharray="3 3"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>Layout ' + (deviceSlot + 1) + "</button>" +
+      (state.layouts.length > 1
+        ? '<label class="add-tile layout-pick" title="Layout on this device"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5" stroke-dasharray="3 3"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>' +
+          '<select id="layout-pick" aria-label="Layout on this device">' + state.layouts.map(function(L){
+            return '<option value="' + esc(L.id) + '"' + (L === curLayout() ? " selected" : "") + ">" + esc(L.name) + "</option>";
+          }).join("") + "</select></label>" +
+          '<button class="add-tile" id="btn-arrange">Edit layouts</button>'
+        : '<button class="add-tile" id="btn-arrange"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5" stroke-dasharray="3 3"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>Layout</button>') +
       "</div>"
     : '<div class="empty"><h2>' + (shelf.length ? "All established" : "Nothing to track yet") + "</h2><p>" +
       (shelf.length
         ? "Every habit you were tracking has stuck. Add another when you are ready for one."
         : "Add the first thing you want to come back to every day. Two or three is plenty to start.") +
       '</p><button class="btn btn-primary" id="add-habit">Add a habit</button></div>') + shelfHTML;
+  fitToScreen();
 }
 
 function esc(s){ return String(s).replace(/[&<>"]/g, function(c){ return ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]; }); }
@@ -2413,6 +2477,12 @@ tilesEl.addEventListener("click", function(e){
   hideNudge();
 });
 
+document.getElementById("today-foot").addEventListener("change", function(e){
+  if (e.target.id !== "layout-pick") return;
+  setDeviceLayout(e.target.value);
+  reorder = false;
+  renderToday();
+});
 document.getElementById("today-foot").addEventListener("click", function(e){
   var pill = e.target.closest(".shelf-pill");
   if (pill) { openHabit(habitById(pill.dataset.id)); return; }
@@ -2468,8 +2538,8 @@ document.getElementById("m-body").addEventListener("click", function(e){
    Works on a draft; nothing touches state until Save. Pieces move by drag
    (pointer events, so touch works too) or by tap-then-tap, which also gives
    keyboard users a way in. */
-// arr is the draft being edited; arrDrafts holds both, arrUse the layout this device will use
-var arranging = false, arr = null, arrDrafts = null, arrSlot = 0, arrUse = 0;
+// arr is the draft being edited, arrDrafts all of them, arrUse the id this device will show
+var arranging = false, arr = null, arrDrafts = null, arrSlot = 0, arrUse = null;
 var arrSel = null, arrDrag = null, arrNoClick = false;
 var arrMain = document.getElementById("arr-main");
 
@@ -2483,12 +2553,13 @@ function draftOf(L){
   var n = liveHabits().length, cols = L.cols, rows = L.rows, live = {};
   if (!cols || !rows) { cols = Math.max(1, Math.min(4, n)); rows = Math.max(1, Math.ceil(n / cols)); }
   liveHabits().forEach(function(h){ live[h.id] = true; });
-  return { mode: L.mode, cols: cols, rows: rows, size: L.size,
+  return { id: L.id, name: L.name, mode: L.mode, cols: cols, rows: rows, size: L.size,
            cells: fitCells(L.cells, L.cols, L.rows, cols, rows).map(function(id){ return id && live[id] ? id : null; }) };
 }
 function openArrange(){
   arrDrafts = state.layouts.map(draftOf);
-  arrSlot = arrUse = deviceSlot;
+  arrUse = curLayout().id;
+  arrSlot = Math.max(0, state.layouts.indexOf(curLayout()));
   arr = arrDrafts[arrSlot];
   arrSel = null;
   reorder = false;
@@ -2532,14 +2603,14 @@ function pieceHTML(h, from){
 
 function renderArrange(){
   var grid = arr.mode === "grid", live = liveHabits();
-  document.querySelectorAll("#arr-slots button").forEach(function(b){
-    var i = +b.dataset.slot;
-    b.setAttribute("aria-selected", String(i === arrSlot));
-    b.innerHTML = "Layout " + (i + 1) + (i === arrUse ? ' <i class="here" title="Used on this device"></i>' : "");
-  });
+  paintSlots();
+  var name = document.getElementById("arr-name");
+  if (document.activeElement !== name) name.value = arr.name;
   var use = document.getElementById("arr-use");
-  use.disabled = arrSlot === arrUse;
-  use.textContent = arrSlot === arrUse ? "Used on this device" : "Use on this device";
+  use.disabled = arr.id === arrUse;
+  use.textContent = arr.id === arrUse ? "Used on this device" : "Use on this device";
+  document.getElementById("arr-del").disabled = arrDrafts.length < 2;
+  document.getElementById("arr-new").disabled = arrDrafts.length >= MAX_LAYOUTS;
   paintArrSize();
   document.querySelectorAll("#arr-mode button").forEach(function(b){
     b.setAttribute("aria-selected", String(b.dataset.mode === arr.mode));
@@ -2680,6 +2751,13 @@ arrMain.addEventListener("click", function(e){
   if (e.target.closest("#arr-tray") && arrSel && arrSel.from >= 0) arrDrop(arrSel.id, arrSel.from, -1);
 });
 
+function paintSlots(){
+  document.getElementById("arr-slots").innerHTML = arrDrafts.map(function(d, i){
+    return '<button role="tab" data-slot="' + i + '" aria-selected="' + (i === arrSlot) + '">' +
+      esc(d.name.trim() || "Untitled") +
+      (d.id === arrUse ? ' <i class="here" title="Used on this device"></i>' : "") + "</button>";
+  }).join("");
+}
 function paintArrSize(){
   document.getElementById("arr-size-range").value = arr.size;
   document.getElementById("arr-size-val").textContent = Math.round(arr.size * 100) + "%";
@@ -2697,7 +2775,35 @@ document.getElementById("arr-slots").addEventListener("click", function(e){
   renderArrange();
 });
 document.getElementById("arr-use").addEventListener("click", function(){
-  arrUse = arrSlot;
+  arrUse = arr.id;
+  renderArrange();
+});
+document.getElementById("arr-name").addEventListener("input", function(){
+  arr.name = this.value.slice(0, 24);
+  paintSlots();
+});
+// a new layout starts as a copy of the one on screen, which is usually the quickest start
+document.getElementById("arr-new").addEventListener("click", function(){
+  if (arrDrafts.length >= MAX_LAYOUTS) return;
+  var copy = JSON.parse(JSON.stringify(arr));
+  copy.id = lid();
+  copy.name = "Layout " + (arrDrafts.length + 1);
+  arrDrafts.push(copy);
+  arrSlot = arrDrafts.length - 1;
+  arr = copy;
+  arrSel = null;
+  renderArrange();
+  var name = document.getElementById("arr-name");
+  name.focus();
+  name.select();
+});
+document.getElementById("arr-del").addEventListener("click", function(){
+  if (arrDrafts.length < 2) return;
+  var gone = arrDrafts.splice(arrSlot, 1)[0];
+  if (arrUse === gone.id) arrUse = arrDrafts[0].id;
+  arrSlot = Math.max(0, arrSlot - 1);
+  arr = arrDrafts[arrSlot];
+  arrSel = null;
   renderArrange();
 });
 document.getElementById("arr-mode").addEventListener("click", function(e){
@@ -2731,13 +2837,14 @@ document.getElementById("arr-clear").addEventListener("click", function(){
 });
 document.getElementById("arr-cancel").addEventListener("click", closeArrange);
 document.getElementById("arr-save").addEventListener("click", function(){
-  state.layouts = arrDrafts.map(function(d){
-    return { mode: d.mode, cols: d.cols, rows: d.rows, cells: d.cells.slice(), size: d.size };
+  state.layouts = arrDrafts.map(function(d, i){
+    return { id: d.id, name: d.name.trim() || "Layout " + (i + 1), mode: d.mode, cols: d.cols, rows: d.rows,
+             cells: d.cells.slice(), size: d.size };
   });
-  setDeviceSlot(arrUse);
+  setDeviceLayout(arrUse);
   scheduleSave();
   closeArrange();
-  flashNote("Layouts saved — this device uses Layout " + (deviceSlot + 1) + ".");
+  flashNote("Layouts saved — this device shows " + curLayout().name + ".");
 });
 
 /* ---------------- habit dialog ---------------- */
@@ -3799,7 +3906,12 @@ function start(){
     var mq = window.matchMedia("(prefers-color-scheme: dark)");
     if (mq.addEventListener) mq.addEventListener("change", function(){ refreshPalette(); paintThemeBtn(); });
   }
-  window.addEventListener("resize", function(){ if (section === "tasks" && !dayRaf) startDayLoop(); });
+  var fitQueued = false;
+  window.addEventListener("resize", function(){
+    if (section === "tasks" && !dayRaf) startDayLoop();
+    if (!fitQueued) { fitQueued = true; requestAnimationFrame(function(){ fitQueued = false; fitToScreen(); }); }
+  });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(function(){ fitToScreen(); });
   if (FIREBASE_CONFIG) fbInit();
   setInterval(tick, 20000);
   setTimeout(tick, 1500);

@@ -36,11 +36,15 @@ Settings → **Your data**:
 
 ## Layout
 
-There are two saved layouts, **Layout 1** and **Layout 2**, each with its own mode, board
-and circle size; both sync with the data. Each device picks which one it shows (kept in
-that browser), so a phone and a desktop can differ. Today → **Layout 1/2** opens the
-arranger: tabs switch which layout you're editing, **Use on this device** picks the one
-this device shows, and the circle size slider lives there too. *Auto* is the default (rows fill left to right,
+Layouts are named and shared by every device (up to 8, synced with the data). Each device
+picks which one it shows from the dropdown on Today (kept in that browser), so a phone and
+a desktop can differ. **Edit layouts** opens the arranger: tabs switch which layout you're
+editing, **+ New layout** copies the one on screen, and each layout has its own name,
+mode, board and circle size. **Use on this device** and **Delete layout** apply on Save.
+
+On screens 900px and wider, Today shrinks the circles as needed so the whole page fits
+the window without scrolling; the layout's circle size is the most they will grow to.
+Phones scroll as usual. *Auto* is the default (rows fill left to right,
 as many as fit). *Custom grid* lets you pick columns × rows, then drag habits from the
 tray onto spots — or tap a habit, then tap a spot. Empty spots stay empty on Today.
 Habits left in the tray show under the board, and new habits drop into the first free

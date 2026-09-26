@@ -36,7 +36,11 @@ Settings → **Your data**:
 
 ## Layout
 
-Today → **Layout** opens the arranger. *Auto* is the default (rows fill left to right,
+There are two saved layouts, **Layout 1** and **Layout 2**, each with its own mode, board
+and circle size; both sync with the data. Each device picks which one it shows (kept in
+that browser), so a phone and a desktop can differ. Today → **Layout 1/2** opens the
+arranger: tabs switch which layout you're editing, **Use on this device** picks the one
+this device shows, and the circle size slider lives there too. *Auto* is the default (rows fill left to right,
 as many as fit). *Custom grid* lets you pick columns × rows, then drag habits from the
 tray onto spots — or tap a habit, then tap a spot. Empty spots stay empty on Today.
 Habits left in the tray show under the board, and new habits drop into the first free

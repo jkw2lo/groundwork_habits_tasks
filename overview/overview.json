@@ -1,0 +1,39 @@
+{
+  "version": 3,
+  "name": "Groundwork",
+  "tagline": "Habits & focus timer",
+  "pitch": "Tap a ring when you do a habit, then work through today's tasks one at a time on a focus timer.",
+  "accent": "#527f35",
+  "status": "Live",
+
+  "problem": "Most habit trackers reset your streak the day you go on a trip.",
+  "stats": [
+    { "value": "3", "label": "views of every habit: today, month, year" },
+    { "value": "4", "label": "scenes that grow while you focus" },
+    { "value": "8", "label": "layouts, and each device picks its own" }
+  ],
+
+  "features": [
+    { "title": "Your year at a glance", "text": "Month and Year views show every check-in, your best runs and how you compare.",
+      "details": ["Check-ins, days you showed up and your longest run", "Each habit's year as a grid, month by month", "This month so far vs. the same days last month"],
+      "screen": { "src": "year.png", "alt": "Groundwork's Year view: 417 check-ins, 107 days showed up, longest run 32, and a grid of check-ins per habit by month" } },
+    { "title": "Tasks on a focus timer", "text": "Give each task a time, then start focus and take them one by one.",
+      "details": ["Do later, +5 min, pause or done, without leaving focus", "A seedling, tower or gumball scene grows as you work", "Unfinished tasks wait under Outstanding"],
+      "screen": { "src": "tasks.png", "alt": "Groundwork's Tasks view: 1 of 4 cleared, 10 min focused today, three tasks with times and a Start focus button" } },
+    { "title": "Streaks survive a trip", "text": "Mark days away and your streak carries straight over them.",
+      "details": ["Or log days you did it but forgot to tap", "Away days count neither for nor against you"] },
+    { "title": "Yours on every device", "text": "Sign in with Google or GitHub and changes arrive live everywhere.",
+      "details": ["A phone and a desktop can each show a different layout", "Back up everything to one file, and import it anywhere"] }
+  ],
+
+  "screens": [
+    { "src": "desktop.png", "alt": "Groundwork's Today view: 2 of 5 done, with rings for Move, Read, Water, Stretch and Journal showing their streaks", "caption": "Today: tap a ring when it's done" }
+  ],
+
+  "facts": {
+    "worksOn": "Phone and desktop",
+    "data": "Synced when you sign in",
+    "builtWith": "One HTML file, no framework",
+    "started": "Sep 2026"
+  }
+}

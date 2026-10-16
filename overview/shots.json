@@ -1,0 +1,42 @@
+{
+  "url": "https://jkw2lo.github.io/groundwork_habits_tasks/",
+  "shots": [
+    {
+      "file": "desktop.png",
+      "size": [
+        1440,
+        540
+      ],
+      "steps": [
+        "eval:const pad = n => String(n).padStart(2, '0'); const key = d => d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()); const ago = n => { const d = new Date(); d.setHours(12); d.setDate(d.getDate() - n); return key(d); }; let r = 7; const rnd = () => (r = (r * 16807) % 2147483647) / 2147483647; const habits = [ { id: 'h1', name: 'Move', emoji: '🏃', glaze: 'moss', cat: 'c-body', rate: 0.86 }, { id: 'h2', name: 'Read', emoji: '📖', glaze: 'indigo', cat: 'c-mind', rate: 0.78 }, { id: 'h3', name: 'Water', emoji: '💧', glaze: 'sea', cat: 'c-body', rate: 0.93 }, { id: 'h4', name: 'Stretch', emoji: '🧘', glaze: 'teal', cat: 'c-body', rate: 0.7 }, { id: 'h5', name: 'Journal', emoji: '✍️', glaze: 'plum', cat: 'c-mind', rate: 0.64 } ]; const log = {}; for (let n = 110; n >= 1; n--) { if (n >= 24 && n <= 27) continue; const day = ago(n), done = habits.filter(h => n < 9 ? (h.id !== 'h5' || n % 3) : rnd() < h.rate).map(h => h.id); if (done.length) log[day] = done; } log[ago(0)] = ['h1', 'h3']; const tasks = [ { id: 't1', text: 'Reply to the landlord', mins: 10, day: ago(0), done: true, doneAt: ago(0) + 'T09:40' }, { id: 't2', text: 'Draft the trip budget', mins: 25, day: ago(0), done: false, doneAt: null }, { id: 't3', text: 'Book the dentist', mins: 5, day: ago(0), done: false, doneAt: null }, { id: 't4', text: 'Sort the photo backlog', mins: 45, day: ago(0), done: false, doneAt: null } ]; const sessions = [{ id: 's1', taskId: 't1', text: 'Reply to the landlord', day: ago(0), at: '09:30', spent: 610, done: true }]; const state = { v: 4, categories: [{ id: 'c-body', name: 'Body' }, { id: 'c-mind', name: 'Mind' }], habits: habits.map(h => ({ id: h.id, name: h.name, emoji: h.emoji, glaze: h.glaze, created: ago(110), cat: h.cat, retired: null })), grouped: false, spans: [{ id: 'sp1', kind: 'away', from: ago(27), to: ago(24), reason: 'Lisbon', habits: null }], tasks, sessions, scene: 'plant', log, reminder: { on: false, times: [] }, sound: false, notify: false, layouts: [{ mode: 'auto', cols: 0, rows: 0, cells: [], size: 1, id: 'l1', name: 'Layout 1' }], savedAt: Date.now() }; localStorage.setItem('day-rings-v1', JSON.stringify(state)); localStorage.setItem('day-rings-v1:nudged', '1');",
+        "reload"
+      ]
+    },
+    {
+      "file": "year.png",
+      "size": [
+        1440,
+        600
+      ],
+      "scale": 2,
+      "steps": [
+        "eval:const pad = n => String(n).padStart(2, '0'); const key = d => d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()); const ago = n => { const d = new Date(); d.setHours(12); d.setDate(d.getDate() - n); return key(d); }; let r = 7; const rnd = () => (r = (r * 16807) % 2147483647) / 2147483647; const habits = [ { id: 'h1', name: 'Move', emoji: '🏃', glaze: 'moss', cat: 'c-body', rate: 0.86 }, { id: 'h2', name: 'Read', emoji: '📖', glaze: 'indigo', cat: 'c-mind', rate: 0.78 }, { id: 'h3', name: 'Water', emoji: '💧', glaze: 'sea', cat: 'c-body', rate: 0.93 }, { id: 'h4', name: 'Stretch', emoji: '🧘', glaze: 'teal', cat: 'c-body', rate: 0.7 }, { id: 'h5', name: 'Journal', emoji: '✍️', glaze: 'plum', cat: 'c-mind', rate: 0.64 } ]; const log = {}; for (let n = 110; n >= 1; n--) { if (n >= 24 && n <= 27) continue; const day = ago(n), done = habits.filter(h => n < 9 ? (h.id !== 'h5' || n % 3) : rnd() < h.rate).map(h => h.id); if (done.length) log[day] = done; } log[ago(0)] = ['h1', 'h3']; const tasks = [ { id: 't1', text: 'Reply to the landlord', mins: 10, day: ago(0), done: true, doneAt: ago(0) + 'T09:40' }, { id: 't2', text: 'Draft the trip budget', mins: 25, day: ago(0), done: false, doneAt: null }, { id: 't3', text: 'Book the dentist', mins: 5, day: ago(0), done: false, doneAt: null }, { id: 't4', text: 'Sort the photo backlog', mins: 45, day: ago(0), done: false, doneAt: null } ]; const sessions = [{ id: 's1', taskId: 't1', text: 'Reply to the landlord', day: ago(0), at: '09:30', spent: 610, done: true }]; const state = { v: 4, categories: [{ id: 'c-body', name: 'Body' }, { id: 'c-mind', name: 'Mind' }], habits: habits.map(h => ({ id: h.id, name: h.name, emoji: h.emoji, glaze: h.glaze, created: ago(110), cat: h.cat, retired: null })), grouped: false, spans: [{ id: 'sp1', kind: 'away', from: ago(27), to: ago(24), reason: 'Lisbon', habits: null }], tasks, sessions, scene: 'plant', log, reminder: { on: false, times: [] }, sound: false, notify: false, layouts: [{ mode: 'auto', cols: 0, rows: 0, cells: [], size: 1, id: 'l1', name: 'Layout 1' }], savedAt: Date.now() }; localStorage.setItem('day-rings-v1', JSON.stringify(state)); localStorage.setItem('day-rings-v1:nudged', '1');",
+        "reload",
+        "click:[data-view=year]"
+      ]
+    },
+    {
+      "file": "tasks.png",
+      "size": [
+        1440,
+        680
+      ],
+      "scale": 2,
+      "steps": [
+        "eval:const pad = n => String(n).padStart(2, '0'); const key = d => d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()); const ago = n => { const d = new Date(); d.setHours(12); d.setDate(d.getDate() - n); return key(d); }; let r = 7; const rnd = () => (r = (r * 16807) % 2147483647) / 2147483647; const habits = [ { id: 'h1', name: 'Move', emoji: '🏃', glaze: 'moss', cat: 'c-body', rate: 0.86 }, { id: 'h2', name: 'Read', emoji: '📖', glaze: 'indigo', cat: 'c-mind', rate: 0.78 }, { id: 'h3', name: 'Water', emoji: '💧', glaze: 'sea', cat: 'c-body', rate: 0.93 }, { id: 'h4', name: 'Stretch', emoji: '🧘', glaze: 'teal', cat: 'c-body', rate: 0.7 }, { id: 'h5', name: 'Journal', emoji: '✍️', glaze: 'plum', cat: 'c-mind', rate: 0.64 } ]; const log = {}; for (let n = 110; n >= 1; n--) { if (n >= 24 && n <= 27) continue; const day = ago(n), done = habits.filter(h => n < 9 ? (h.id !== 'h5' || n % 3) : rnd() < h.rate).map(h => h.id); if (done.length) log[day] = done; } log[ago(0)] = ['h1', 'h3']; const tasks = [ { id: 't1', text: 'Reply to the landlord', mins: 10, day: ago(0), done: true, doneAt: ago(0) + 'T09:40' }, { id: 't2', text: 'Draft the trip budget', mins: 25, day: ago(0), done: false, doneAt: null }, { id: 't3', text: 'Book the dentist', mins: 5, day: ago(0), done: false, doneAt: null }, { id: 't4', text: 'Sort the photo backlog', mins: 45, day: ago(0), done: false, doneAt: null } ]; const sessions = [{ id: 's1', taskId: 't1', text: 'Reply to the landlord', day: ago(0), at: '09:30', spent: 610, done: true }]; const state = { v: 4, categories: [{ id: 'c-body', name: 'Body' }, { id: 'c-mind', name: 'Mind' }], habits: habits.map(h => ({ id: h.id, name: h.name, emoji: h.emoji, glaze: h.glaze, created: ago(110), cat: h.cat, retired: null })), grouped: false, spans: [{ id: 'sp1', kind: 'away', from: ago(27), to: ago(24), reason: 'Lisbon', habits: null }], tasks, sessions, scene: 'plant', log, reminder: { on: false, times: [] }, sound: false, notify: false, layouts: [{ mode: 'auto', cols: 0, rows: 0, cells: [], size: 1, id: 'l1', name: 'Layout 1' }], savedAt: Date.now() }; localStorage.setItem('day-rings-v1', JSON.stringify(state)); localStorage.setItem('day-rings-v1:nudged', '1');",
+        "reload",
+        "click:[data-sec=tasks]"
+      ]
+    }
+  ]
+}

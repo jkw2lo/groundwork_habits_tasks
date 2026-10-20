@@ -111,9 +111,12 @@ It lives in its own slice of the data, `workout`, and never touches habits or ta
   what's highlighted today.
   Both are asked in the setup guide and live in Workout settings, as does the number of
   highlights per muscle group (1–10).
-- **Start workout** (beside Deal me a workout) is a focus mode: the header, plan text,
-  notes and buttons go away and only the exercises stay, until **Done workout**, which
-  shows the sets, exercises and minutes. It survives a reload for the rest of the day.
+- **On a phone, Today starts with two choices:** **Deal me a workout** (or Resume your
+  deal) and **Pick my own**. Pick my own opens the Groups · Due · Swipe views in a focus
+  mode (no header, plan text, notes or buttons) until **Done workout**, which reports the
+  sets logged in that workout and returns to the two choices. On a computer, **Start
+  workout** beside Deal me a workout opens the same focus mode. It survives a reload for
+  the rest of the day. Logging an earlier day skips the choice and shows the exercises.
 - **How did that feel.** After a set is logged, a small Easy · OK · Hard bar appears at
   the bottom and goes away by itself if ignored. Each set keeps its rating and the
   exercise's effort for the day is their average. The setup guide and Workout settings

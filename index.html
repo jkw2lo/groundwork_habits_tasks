@@ -2166,7 +2166,7 @@ section.band{padding-block:56px; border-bottom:1px solid var(--hairline); displa
 .demo small{font-size:12.5px; color:var(--ink-3)}
 footer{padding-top:36px; display:flex; flex-wrap:wrap; gap:10px 24px; color:var(--ink-3); font-size:13px}
 
-@media (max-width:860px){
+@media screen and (max-width:860px){
   .hero{grid-template-columns:1fr; padding-top:36px}
   .steps, .grid4{grid-template-columns:repeat(2, minmax(0, 1fr)); row-gap:24px}
   .phones{grid-template-columns:1fr; gap:36px}
@@ -2176,10 +2176,11 @@ footer{padding-top:36px; display:flex; flex-wrap:wrap; gap:10px 24px; color:var(
   .grid2, .grid3, .rules, .feat{grid-template-columns:1fr}
   .week{grid-template-columns:repeat(4, minmax(0, 1fr))}
 }
-@media (max-width:420px){
+@media screen and (max-width:420px){
   .steps, .grid4{grid-template-columns:1fr}
   .anatomy .big{width:230px}
 }
+@media print{ .phone, .pill{box-shadow:none} }
 @media (prefers-reduced-motion: no-preference){
   .demo .face{transition:background .25s}
   .pop{animation:pop .35s cubic-bezier(.3,1.4,.4,1)}

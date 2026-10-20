@@ -813,6 +813,14 @@ dialog h2{font-size:20px; font-stretch:112%; margin-bottom:18px}
 }
 @container (max-width:112px){ .wo-tile .wo-why{display:none} }
 .wo-tip{font-size:12.5px; color:var(--ink-3); margin:12px 0 0}
+.wo-daynav{display:inline-flex; align-items:center; gap:8px; flex-wrap:wrap}
+.wo-daynav button{width:26px; height:26px; border-radius:8px; border:1px solid var(--hairline); background:var(--surface);
+  display:inline-grid; place-items:center; color:var(--ink-2); vertical-align:middle}
+.wo-daynav button:hover:not(:disabled){color:var(--ink); border-color:var(--hairline-2)}
+.wo-daynav button:disabled{opacity:.3; cursor:default}
+.wo-daynav .wo-today-btn{width:auto; padding:0 10px; font-size:11.5px; letter-spacing:.06em; color:var(--ink)}
+.wo-pastday .today-head .headline{color:var(--ink-2)}
+.wo-pastday #wo-tiles .tile .ring .today-mark{display:none}
 .wo-tile .wo-pr{font-size:11px; font-weight:700; color:var(--g-ochre); letter-spacing:.02em; white-space:nowrap}
 .tile.done .wo-pr{color:var(--on-glaze)}
 .wo-star{color:var(--g-ochre); font-weight:700}
@@ -4643,7 +4651,11 @@ function woEx(id){
   return null;
 }
 function woExOf(el){ var h = el && el.closest("[data-ex]"); return h ? woEx(h.dataset.ex) : null; }
-function woEntry(id, k){ var d = state.workout.log[k || TODAY]; return (d && d[id]) || null; }
+// The day Today is logging: normally today, or an earlier day stepped back to.
+var woDay = null;
+function woK(){ return woDay && woDay < TODAY ? woDay : TODAY; }
+function woPast(){ return woK() !== TODAY; }
+function woEntry(id, k){ var d = state.workout.log[k || woK()]; return (d && d[id]) || null; }
 function woFull(id, k){ var e = woEntry(id, k); return !!e && e.n >= e.sets; }
 function woHasHistory(id){
   var log = state.workout.log;
@@ -4681,8 +4693,19 @@ function woSetsSummary(o, ex){
 // Today's entry (or day k's) is a snapshot of the exercise's numbers; sets that
 // were logged one by one keep their own numbers when the count changes.
 function woSetN(ex, n, k){
-  k = k || TODAY;
+  k = k || woK();
   var log = state.workout.log, day = log[k] || (log[k] = {}), old = day[ex.id];
+  // an earlier day keeps what was logged then; only the set count changes
+  if (k !== TODAY && old) {
+    n = Math.max(0, Math.min(old.sets, n));
+    if (!n) delete day[ex.id];
+    else {
+      old.n = n;
+      if (old.ps) { old.ps = old.ps.slice(0, n); while (old.ps.length < n) old.ps.push({ reps: old.reps, weight: old.weight, dur: old.dur }); }
+    }
+    if (!Object.keys(day).length) delete log[k];
+    return;
+  }
   n = Math.max(0, Math.min(ex.sets, n));
   if (n) {
     var e = { n: n, sets: ex.sets, reps: ex.reps, weight: ex.weight, dur: ex.dur, u: state.workout.unit };
@@ -4699,23 +4722,28 @@ function woSetN(ex, n, k){
 // One-set taps add a set and stop at full, so a stray extra tap never wipes
 // sets already logged; changing them is a long press away.
 function woNextTap(ex){
-  var e = woEntry(ex.id), n = e ? e.n : 0, mode = ex.tap || state.workout.tap;
-  return mode === "set" ? Math.min(ex.sets, n + 1) : (n >= ex.sets ? 0 : ex.sets);
+  var e = woEntry(ex.id), n = e ? e.n : 0, S = e ? e.sets : ex.sets, mode = ex.tap || state.workout.tap;
+  return mode === "set" ? Math.min(S, n + 1) : (n >= S ? 0 : S);
 }
 // Log a new set count for today, with the sound, rest timer and record check.
 function woLog(ex, was, next, perSet){
-  var recs = woRecs(), before = woRecsDone(recs);
+  var recs = woPast() ? {} : woRecs(), before = woRecsDone(recs);
   woSetN(ex, next);
   scheduleSave();
   if (next < was) sndUndo();
   else if (!before && woRecsDone(recs)) sndWin();
   else sndCheck();
-  if (next > was && next < ex.sets && (perSet || (ex.tap || state.workout.tap) === "set")) woStartRest(ex, next);
+  if (!woPast() && next > was && next < ex.sets && (perSet || (ex.tap || state.workout.tap) === "set")) woStartRest(ex, next);
   else if (woRestT && woRestT.id === ex.id) woStopRest();
   if (next) woCheckPR(ex);
 }
+var WO_ENTRY_F = { sets: 1, reps: 1, weight: 1, dur: 1 };
 function woGet(ex, f){
   if (f === "n") { var e = woEntry(ex.id); return e ? e.n : 0; }
+  if (woPast() && WO_ENTRY_F[f]) {
+    var pe = woEntry(ex.id);
+    if (pe) return f === "weight" ? +woConv(pe.weight, pe.u).toFixed(2) : pe[f];
+  }
   if (f === "by" || f === "weeks") return ex.prog[f];
   return ex[f];
 }
@@ -4736,6 +4764,16 @@ function woSet(ex, f, v){
   v = woClamp(f, v);
   if (f === "n") { woSetN(ex, v); return; }
   if (f === "by" || f === "weeks") { ex.prog[f] = v; return; }
+  if (woPast() && WO_ENTRY_F[f]) {
+    // telling it what you did that day: no entry yet means every set was done
+    var pe = woEntry(ex.id);
+    if (!pe) { woSetN(ex, ex.sets); pe = woEntry(ex.id); }
+    pe[f] = v;
+    if (f === "weight") pe.u = state.workout.unit;
+    if (f === "sets") pe.n = Math.min(pe.n, v);
+    delete pe.ps;
+    return;
+  }
   var old = ex[f];
   ex[f] = v;
   // going up by hand counts as the step up, so the clock restarts
@@ -4911,7 +4949,7 @@ function woMetric(ex, e){
 }
 // A record beats the best of every earlier day; a first log is not one.
 function woPR(ex, k){
-  k = k || TODAY;
+  k = k || woK();
   var e = woEntry(ex.id, k);
   if (!e) return false;
   var before = woEntries(ex.id, function(d){ return d < k; });
@@ -4921,8 +4959,8 @@ function woPR(ex, k){
 }
 var woPRSeen = {};
 function woCheckPR(ex){
-  if (!woPR(ex) || woPRSeen[ex.id + TODAY]) return;
-  woPRSeen[ex.id + TODAY] = true;
+  if (!woPR(ex) || woPRSeen[ex.id + woK()]) return;
+  woPRSeen[ex.id + woK()] = true;
   sndWin();
   flashNote("New best: " + ex.name + ", " + woFmtNum(+woMetric(ex, woEntry(ex.id)).toFixed(1)) + " " + woMetricUnit(ex) + ".");
 }
@@ -5011,7 +5049,7 @@ function woNumHTML(ex, f, label){
     '<span class="wo-num" data-f="' + f + '">' +
     '<button type="button" data-d="-1" aria-label="Less ' + esc(name.toLowerCase()) + '">' + CHEV_D + "</button>" +
     (f === "n"
-      ? "<b>" + v + " of " + ex.sets + "</b>"
+      ? "<b>" + v + " of " + woGet(ex, "sets") + "</b>"
       : '<input type="number" inputmode="decimal" step="any" min="' + WO_LIMITS[f][0] + '" max="' + WO_LIMITS[f][1] +
         '" value="' + woFmtNum(v) + '" aria-label="' + esc(name) + '">') +
     (u ? '<span class="u">' + u + "</span>" : "") +
@@ -5038,7 +5076,7 @@ function woRefreshNums(root){
     if (!ex) return;
     var f = box.dataset.f, v = woGet(ex, f), inp = box.querySelector("input"), b = box.querySelector("b");
     if (inp && inp !== document.activeElement) inp.value = woFmtNum(v);
-    if (b) b.textContent = v + " of " + ex.sets;
+    if (b) b.textContent = v + " of " + woGet(ex, "sets");
     var u = box.querySelector(".u");
     if (u) u.textContent = woUnit(ex, f);
   });
@@ -5107,22 +5145,22 @@ function woRingSVG(ex){
   return '<svg class="ring" viewBox="0 0 100 100" aria-hidden="true">' + parts + "</svg>";
 }
 function woTileHTML(ex, recs){
-  var e = woEntry(ex.id), n = e ? e.n : 0, full = n > 0 && n >= ex.sets, pos = woPos(ex);
-  var rec = !full && recs.hasOwnProperty(ex.id), due = woDue(ex), mode = ex.tap || state.workout.tap, pr = n && woPR(ex);
+  var e = woEntry(ex.id), n = e ? e.n : 0, src = e && woPast() ? e : ex, S = src.sets, full = n > 0 && n >= S, pos = woPos(ex);
+  var rec = !full && recs.hasOwnProperty(ex.id), due = !woPast() && woDue(ex), mode = ex.tap || state.workout.tap, pr = n && woPR(ex);
   var why = rec && !n ? woWhy(ex, recs) : "";
   var color = state.workout.groupColors ? "--glaze:var(--g-" + MUSCLE_GLAZE[ex.groups[0]] + ");" : "";
   var dots = "";
-  if (ex.sets > 1 && ex.sets <= 10 && (mode === "set" || (n && !full))) {
-    for (var i = 0; i < ex.sets; i++) dots += "<i" + (i < n ? ' class="on"' : "") + "></i>";
+  if (S > 1 && S <= 10 && (mode === "set" || (n && !full))) {
+    for (var i = 0; i < S; i++) dots += "<i" + (i < n ? ' class="on"' : "") + "></i>";
   }
   return '<div class="tile wo-tile' + (full ? " done" : "") + (n && !full ? " part" : "") + (rec ? " rec" : "") +
-    '" style="' + color + '--pct:' + (full ? 100 : n / ex.sets * 100).toFixed(1) + '%" data-id="' + ex.id + '">' +
+    '" style="' + color + '--pct:' + (full ? 100 : n / S * 100).toFixed(1) + '%" data-id="' + ex.id + '">' +
     woRingSVG(ex) +
-    '<button class="hit" data-act="tap" aria-label="' + esc(ex.name) + ", " + n + " of " + ex.sets + " sets done" +
+    '<button class="hit" data-act="tap" aria-label="' + esc(ex.name) + ", " + n + " of " + S + " sets done" +
       (rec ? ", recommended today" : "") + '. Press and hold to adjust">' +
       '<span class="emo">' + ex.emoji + "</span>" +
       '<span class="nm">' + esc(ex.name) + "</span>" +
-      '<span class="sub">' + (due ? '<b class="wo-up" title="Time to go up">↑</b> ' : "") + esc(woSummary(ex, ex)) + "</span>" +
+      '<span class="sub">' + (due ? '<b class="wo-up" title="Time to go up">↑</b> ' : "") + esc(woSummary(src, ex)) + "</span>" +
       (dots ? '<span class="wo-dots">' + dots + "</span>" : "") +
       (pr ? '<span class="wo-pr">\u2605 New best</span>' : why ? '<span class="wo-why">' + why + "</span>" : "") +
     "</button>" +
@@ -5147,22 +5185,22 @@ function woWhy(ex, recs){
 }
 // A full-width row for phones: name, numbers, set dots to tap, and a big check.
 function woLogRowHTML(ex, recs){
-  var e = woEntry(ex.id), n = e ? e.n : 0, full = n > 0 && n >= ex.sets, pos = woPos(ex);
-  var rec = !full && recs.hasOwnProperty(ex.id), due = woDue(ex), pr = n && woPR(ex);
+  var e = woEntry(ex.id), n = e ? e.n : 0, src = e && woPast() ? e : ex, S = src.sets, full = n > 0 && n >= S, pos = woPos(ex);
+  var rec = !full && recs.hasOwnProperty(ex.id), due = !woPast() && woDue(ex), pr = n && woPR(ex);
   var color = state.workout.groupColors ? "--glaze:var(--g-" + MUSCLE_GLAZE[ex.groups[0]] + ");" : "";
   var dots = "";
-  if (ex.sets > 1 && ex.sets <= 10) {
-    for (var i = 0; i < ex.sets; i++) {
+  if (S > 1 && S <= 10) {
+    for (var i = 0; i < S; i++) {
       dots += '<button type="button" data-act="dot" data-i="' + i + '"' + (i < n ? ' class="on"' : "") +
         ' aria-label="Set ' + (i + 1) + (i < n ? ", done" : "") + '"></button>';
     }
   }
   return '<div class="wo-row' + (full ? " done" : "") + (n && !full ? " part" : "") + (rec ? " rec" : "") + '" data-id="' + ex.id +
-    '" style="' + color + "--pct:" + (full ? 100 : n / ex.sets * 100).toFixed(1) + '%">' +
+    '" style="' + color + "--pct:" + (full ? 100 : n / S * 100).toFixed(1) + '%">' +
     '<span class="rm-emo" aria-hidden="true">' + ex.emoji + "</span>" +
     '<div class="rm-main"><div class="rm-nm">' + esc(ex.name) + "</div>" +
-      '<div class="rm-sub">' + (due ? '<b class="wo-up" title="Time to go up">\u2191</b> ' : "") + esc(woSummary(ex, ex)) +
-        (n && !full ? " \u00b7 " + n + " of " + ex.sets + " sets" : "") + "</div>" +
+      '<div class="rm-sub">' + (due ? '<b class="wo-up" title="Time to go up">\u2191</b> ' : "") + esc(woSummary(src, ex)) +
+        (n && !full ? " \u00b7 " + n + " of " + S + " sets" : "") + "</div>" +
       (pr ? '<div class="rm-pr">\u2605 New best</div>' : rec && !n ? '<div class="rm-why">Due \u00b7 ' + woWhy(ex, recs) + "</div>" : "") +
       (dots && !woReorder ? '<div class="rm-dots">' + dots + "</div>" : "") +
     "</div>" +
@@ -5174,7 +5212,7 @@ function woLogRowHTML(ex, recs){
         '<span class="rm-handle" aria-hidden="true">\u2807</span>'
       : '<button type="button" class="rm-more" data-act="more" aria-label="Adjust ' + esc(ex.name) + '">' + WO_DOTS + "</button>" +
         '<button type="button" class="rm-check" data-act="tap" aria-pressed="' + full + '" aria-label="' + esc(ex.name) + ", " + n + " of " +
-          ex.sets + ' sets done. Log">' + WO_CHECK + "</button>") +
+          S + ' sets done. Log">' + WO_CHECK + "</button>") +
     "</div>";
 }
 // A muscle group's progress as a small ring for the phone cards.
@@ -5192,24 +5230,36 @@ function woGroupOrder(plan){
 }
 function woRecsDone(recs){
   var ids = Object.keys(recs);
-  return ids.length > 0 && ids.every(function(id){ return woFull(id, TODAY); });
+  return ids.length > 0 && ids.every(function(id){ return woFull(id, woK()); });
 }
 function woRenderToday(){
-  var w = state.workout, now = parseKey(TODAY), live = woLive(), recs = woRecs(), plan = woPlanToday(), tpl = woTemplateToday();
+  var w = state.workout, past = woPast(), K = woK(), now = parseKey(K), live = woLive();
+  var recs = past ? {} : woRecs(), plan = past ? [] : woPlanToday(), tpl = past ? null : woTemplateToday();
   var learned = !woHasPlan() && plan.length > 0;
-  woLogRecs(recs);
-  document.getElementById("wo-date").textContent = WDFULL[now.getDay()] + ", " + MONTHS[now.getMonth()] + " " + now.getDate();
+  if (!past) woLogRecs(recs);
+  var dayName = K === TODAY ? "Today" : K === shiftKey(TODAY, -1) ? "Yesterday" : WDFULL[now.getDay()];
+  document.getElementById("wo-date").innerHTML =
+    '<span class="wo-daynav"><button type="button" data-dnav="-1" aria-label="Log an earlier day">' + WO_CHEV_L + "</button>" +
+    "<span>" + dayName + ", " + MONTHS[now.getMonth()] + " " + now.getDate() + "</span>" +
+    '<button type="button" data-dnav="1" aria-label="Next day"' + (past ? "" : " disabled") + ">" + WO_CHEV_R + "</button>" +
+    (past ? '<button type="button" class="wo-today-btn" data-dnav="0">Back to today</button>' : "") + "</span>";
   woTilesEl.style.setProperty("--glaze", "var(--g-" + w.doneGlaze + ")");
   woTilesEl.style.setProperty("--rec", "var(--g-" + w.recGlaze + ")");
   var meter = document.getElementById("wo-meter"), meterI = meter.querySelector("i");
   meterI.style.background = "var(--g-" + w.doneGlaze + ")";
 
-  var day = w.log[TODAY] || {}, exIn = Object.keys(day).length, setsIn = 0;
+  var day = w.log[K] || {}, exIn = Object.keys(day).length, setsIn = 0;
   Object.keys(day).forEach(function(id){ setsIn += day[id].n; });
-  var recIds = Object.keys(recs), recDone = recIds.filter(function(id){ return woFull(id, TODAY); }).length;
+  var recIds = Object.keys(recs), recDone = recIds.filter(function(id){ return woFull(id, K); }).length;
   var line = document.getElementById("wo-line"), html;
   meter.hidden = true;
-  if (!live.length) html = "Nothing to lift yet. <em>Pick a few.</em>";
+  if (past) {
+    var pk = w.log[K] || {}, pn = Object.keys(pk).length, ps = 0;
+    Object.keys(pk).forEach(function(id){ ps += pk[id].n; });
+    html = "Logging " + (K === shiftKey(TODAY, -1) ? "yesterday" : WD[now.getDay()] + " " + MSHORT[now.getMonth()] + " " + now.getDate()) + ". <em>" +
+      (pn ? pn + " exercise" + (pn === 1 ? "" : "s") + ", " + ps + " sets." : "Tap what you did.") + "</em>";
+  }
+  else if (!live.length) html = "Nothing to lift yet. <em>Pick a few.</em>";
   else if (plan.length || tpl) {
     html = esc(tpl ? tpl.name + (plan.length ? " \u00b7 " + plan.join(" + ") : "") : plan.join(" + ") + " day") + ". ";
     if (recIds.length) {
@@ -5227,6 +5277,7 @@ function woRenderToday(){
   var order = woGroupOrder(plan).filter(function(g){ return live.some(function(ex){ return ex.groups[0] === g; }); });
   var mobile = woMobile();
   if (woGroup && order.indexOf(woGroup) < 0) woGroup = null;
+  document.getElementById("wo-today").classList.toggle("wo-pastday", past);
   var inGroup = mobile && !!woGroup;
   document.querySelector("#wo-today .today-head").hidden = inGroup;
   document.getElementById("wo-hint").hidden = inGroup;
@@ -5244,14 +5295,14 @@ function woRenderToday(){
   function inG(g){ return live.filter(function(ex){ return ex.groups[0] === g; }); }
   if (!live.length) woTilesEl.innerHTML = "";
   else if (inGroup) {
-    var hs = inG(woGroup), dn = hs.filter(function(ex){ return woFull(ex.id, TODAY); }).length;
+    var hs = inG(woGroup), dn = hs.filter(function(ex){ return woFull(ex.id, K); }).length;
     woTilesEl.innerHTML = '<div class="wo-gh"><button type="button" class="wo-back" data-act="back">' + WO_CHEV_L + " All groups</button>" +
       "<h2>" + woGroup + "</h2>" + badge(woGroup) + '<span class="sec-stat">' + dn + " of " + hs.length + " done</span></div>" +
       '<div class="wo-rows">' + hs.map(function(ex){ return woLogRowHTML(ex, recs); }).join("") + "</div>";
   } else if (mobile) {
     woTilesEl.innerHTML = '<div class="wo-cats">' + order.map(function(g){
-      var hs = inG(g), dn = hs.filter(function(ex){ return woFull(ex.id, TODAY); }).length;
-      var due = hs.filter(function(ex){ return recs.hasOwnProperty(ex.id) && !woFull(ex.id, TODAY); }).length;
+      var hs = inG(g), dn = hs.filter(function(ex){ return woFull(ex.id, K); }).length;
+      var due = hs.filter(function(ex){ return recs.hasOwnProperty(ex.id) && !woFull(ex.id, K); }).length;
       // the ring counts sets, so a half-done exercise already shows
       var setsIn = 0, setsAll = 0;
       hs.forEach(function(ex){ var en = woEntry(ex.id); setsIn += en ? Math.min(en.n, ex.sets) : 0; setsAll += ex.sets; });
@@ -5264,14 +5315,14 @@ function woRenderToday(){
     }).join("") + "</div>";
   } else {
     woTilesEl.innerHTML = order.map(function(g){
-      var hs = inG(g), dn = hs.filter(function(ex){ return woFull(ex.id, TODAY); }).length;
+      var hs = inG(g), dn = hs.filter(function(ex){ return woFull(ex.id, K); }).length;
       return '<section data-g="' + g + '"><div class="sec-head"><h2>' + g + "</h2>" + badge(g) +
         '<span class="sec-stat">' + dn + " of " + hs.length + "</span>" + gmove(g) + '<span class="sec-rule"></span></div>' +
         '<div class="tiles">' + hs.map(function(ex){ return woTileHTML(ex, recs); }).join("") + "</div></section>";
     }).join("");
   }
 
-  var hint = live.length ? woPlanHint() : null;
+  var hint = live.length && !past ? woPlanHint() : null;
   document.getElementById("wo-hint").innerHTML = hint
     ? '<div class="wo-hint"><p>Your logs don\u2019t match your plan: ' + hint.days.map(function(d){
         return "<b>" + WD[d] + "</b> is usually " + esc(hint.learned[d].join(" + ")) +
@@ -5473,8 +5524,22 @@ document.getElementById("view-workout").addEventListener("click", function(e){
   if (rg) { woRange = rg.dataset.range; woRenderProgress(); return; }
   var mt = e.target.closest("[data-metric]");
   if (mt) { woMetricSel = mt.dataset.metric; woRenderProgress(); return; }
+  var dn = e.target.closest("[data-dnav]");
+  if (dn) {
+    var step = +dn.dataset.dnav, to = step ? shiftKey(woK(), step) : TODAY;
+    woDay = to >= TODAY ? null : to;
+    woRenderToday();
+    return;
+  }
   var ed = e.target.closest("[data-eday]");
-  if (ed) { woOpenDay(ed.dataset.eday); return; }
+  if (ed) {
+    woDay = ed.dataset.eday >= TODAY ? null : ed.dataset.eday;
+    woView = "today";
+    renderWorkout();
+    window.scrollTo(0, 0);
+    return;
+  }
+  if (e.target.closest("[data-wtable]")) { woOpenDay(e.target.closest("[data-wtable]").dataset.wtable); return; }
   var hb = e.target.closest("[data-hint]");
   if (hb) {
     var h = woPlanHint();
@@ -5523,7 +5588,7 @@ function woRenderQuick(){
   document.getElementById("wq-emo").textContent = ex.emoji;
   var rows = document.getElementById("wq-rows");
   rows.dataset.ex = ex.id;
-  rows.innerHTML = woNumHTML(ex, "n", "Sets done today") + woNumsHTML(ex);
+  rows.innerHTML = woNumHTML(ex, "n", woPast() ? "Sets done that day" : "Sets done today") + woNumsHTML(ex);
   document.getElementById("wq-each").open = !!(woEntry(ex.id) && woEntry(ex.id).ps);
   var more = document.getElementById("wq-more-body"), dflt = state.workout.tap === "set" ? "one set" : "every set";
   more.dataset.ex = ex.id;
@@ -5548,11 +5613,11 @@ function woRefreshQuick(){
   if (!ex) return;
   document.getElementById("wq-name").textContent = ex.name;
   woRefreshNums(dlgQuick);
-  var last = woLastBefore(ex.id, TODAY), e = last ? woEntry(ex.id, last) : null;
+  var last = woLastBefore(ex.id, woK()), e = last ? woEntry(ex.id, last) : null;
   document.getElementById("wq-last").textContent = e
     ? "Last time, " + fmtRange(last, last) + ": " + (e.n < e.sets ? e.n + " of " : "") + woSummary(e, ex)
     : "First time logging this one.";
-  var due = woDue(ex), back = !due && woStruggle(ex), run = woFullRun(ex);
+  var due = !woPast() && woDue(ex), back = !woPast() && !due && woStruggle(ex), run = woFullRun(ex);
   document.getElementById("wq-due").hidden = !due;
   if (due) {
     document.getElementById("wq-due-text").innerHTML = "Every set done " + run + " sessions running. Ready to go up? <b>" +
@@ -6531,7 +6596,8 @@ function woRenderDetail(ex){
 function woRenderHistory(){
   var log = state.workout.log, el = document.getElementById("wo-history");
   var days = Object.keys(log).sort().reverse().slice(0, 90);
-  var add = '<div class="today-actions wo-hist-top"><button class="add-tile" data-wo="day">+ Log or fix another day</button></div>';
+  var add = '<div class="today-actions wo-hist-top"><button class="add-tile" data-eday="' + shiftKey(TODAY, -1) + '">+ Log an earlier day</button>' +
+    '<button class="add-tile" data-wtable="' + shiftKey(TODAY, -1) + '">Type it in a table</button></div>';
   if (!days.length) {
     el.innerHTML = add + '<div class="empty"><h2>No sessions yet</h2><p>Each day you log a set shows up here with what you did.</p></div>' + woExportHTML();
     return;

@@ -103,8 +103,12 @@ It lives in its own slice of the data, `workout`, and never touches habits or ta
   its detail page: best set, estimated 1-rep max (Epley), volume, total reps or time over
   4 weeks to all time, with records and every session. Charts use their own validated
   color set (one color per muscle group), separate from the circle colors.
-  **History** lists each day's sessions; **Log or fix another day** (or a day's **Edit**)
-  opens a typed table for any past date. Bodyweight work counts reps alongside volume.
+  **History** lists each day's sessions.
+- **Earlier days.** The ‹ › beside the date on Today step back to an earlier day and log it
+  exactly like today: taps, set dots and the long-press sheet all apply to that day, and
+  the sheet's numbers edit only that day's entry (your working numbers stay put).
+  Highlights, the rest timer and step-up prompts are for today only. History's **Edit**
+  opens that day the same way; **Type it in a table** is still there for bulk entry. Bodyweight work counts reps alongside volume.
 - **Export:** Download CSV (one row per exercise per day) or JSON from Progress, History
   or Workout settings. The regular backup includes workouts as well.
 

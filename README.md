@@ -107,7 +107,7 @@ It lives in its own slice of the data, `workout`, and never touches habits or ta
   **End** shows a summary with a one-tap effort rating. The deck is kept for the day, so it
   can be resumed.
 - **Layouts.** Exercises show as circles (the default), Auto (circles on a computer,
-  a list on a phone) or a compact list. The ⋯ on each circle always shows, in light grey.
+  a list on a phone) or a compact list. The ⋯ on each circle always shows, as light grey dots.
   On a phone, Today can show muscle-group cards, only what's due today,
   or one group at a time with left/right swipes in a fixed-height box (switch with the
   Groups · Recommended · Swipe tabs). Beside them, **All · Recommended** filters any view down to

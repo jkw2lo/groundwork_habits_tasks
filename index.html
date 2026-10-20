@@ -87,7 +87,7 @@ header.top{
 .tools{display:flex; align-items:center; gap:4px}
 @media (max-width:760px){
   .top-in{flex-wrap:wrap; height:auto; padding-top:10px; padding-bottom:10px; row-gap:10px}
-  .navs{order:5; width:100%}
+  .navs{order:5; width:100%; flex-wrap:wrap; row-gap:8px}
 }
 
 .tabs{display:flex; gap:2px; background:var(--surface-2); padding:3px; border-radius:999px}
@@ -669,6 +669,127 @@ dialog h2{font-size:20px; font-stretch:112%; margin-bottom:18px}
   color:var(--ground); padding:6px 14px; border-radius:99px; font-size:13.5px; font-weight:600}
 .nudge button:hover{background:color-mix(in srgb, var(--ground) 34%, transparent)}
 
+/* ---------- workout ---------- */
+/* muscle groups flow side by side, so a few circles each don't take a row apiece */
+#wo-tiles{flex-direction:row; flex-wrap:wrap; gap:26px 44px; align-items:flex-start}
+#wo-tiles > section{flex:0 1 auto; min-width:0; max-width:100%}
+#wo-tiles .tiles{display:flex; flex-wrap:wrap; gap:14px}
+#wo-tiles .tile{width:calc(190px * var(--tile, 1)); flex:none}
+@media (max-width:520px){
+  #wo-tiles .tiles{gap:10px}
+  #wo-tiles .tile{width:calc(150px * var(--tile, 1))}
+}
+.wo-tile .hit{-webkit-touch-callout:none; touch-action:manipulation;
+  background:conic-gradient(color-mix(in srgb, var(--glaze) 42%, var(--surface)) 0 var(--pct), var(--surface) 0)}
+.wo-tile.part .hit{border-color:color-mix(in srgb, var(--glaze) 60%, var(--hairline))}
+.wo-tile.rec .hit{border:2.5px solid var(--rec);
+  background:conic-gradient(color-mix(in srgb, var(--glaze) 42%, var(--surface)) 0 var(--pct), color-mix(in srgb, var(--rec) 18%, var(--surface)) 0)}
+.wo-tile .wo-why{font-size:11px; font-weight:700; color:var(--rec); letter-spacing:.02em; white-space:nowrap}
+.wo-dots{display:flex; gap:3px; margin-top:3px}
+.wo-dots i{width:6px; height:6px; border-radius:50%; background:var(--dot-off)}
+.wo-dots i.on{background:var(--glaze)}
+.tile.done .wo-dots i{background:var(--on-glaze); opacity:.85}
+.wo-up{color:var(--g-moss); font-weight:800}
+.tile.done .wo-up{color:var(--on-glaze)}
+@container (max-width:150px){ .wo-dots{display:none} .wo-tile .wo-why{font-size:10px} }
+@container (max-width:112px){ .wo-tile .wo-why{display:none} }
+.wo-tip{font-size:12.5px; color:var(--ink-3); margin:12px 0 0}
+
+dialog.wide{width:min(640px, calc(100vw - 32px))}
+.wg-step{font-size:11.5px; letter-spacing:.1em; text-transform:uppercase; font-weight:600; color:var(--ink-3); margin:0 0 4px}
+.wg-lead{margin:-8px 0 18px; color:var(--ink-2); font-size:14.5px; line-height:1.5}
+.wo-choice{display:grid; grid-template-columns:1fr 1fr; gap:10px}
+.wo-choice button{display:flex; flex-direction:column; align-items:center; gap:6px; text-align:center;
+  padding:16px 12px; border-radius:14px; border:1.5px solid var(--hairline); background:var(--ground);
+  transition:border-color .14s, background .14s}
+.wo-choice button:hover{border-color:var(--hairline-2)}
+.wo-choice button[aria-pressed="true"]{border-color:var(--ink); background:var(--surface)}
+.wo-choice b{font-size:14.5px}
+.wo-choice small{font-size:12.5px; color:var(--ink-3); line-height:1.35}
+.wo-choice svg{display:block}
+.wg-group{margin-bottom:16px}
+.wg-group h3{font-size:12px; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-2);
+  margin-bottom:8px; display:flex; gap:8px; align-items:baseline}
+.wg-group h3 span{font-family:var(--body); font-weight:500; letter-spacing:0; text-transform:none; color:var(--ink-3)}
+.wg-own{display:flex; gap:8px; flex-wrap:wrap; margin-top:10px}
+.wg-own input[type=text]{flex:1 1 160px; min-width:0; padding:8px 11px; border-radius:10px;
+  border:1.5px solid var(--hairline); background:var(--ground); color:var(--ink); font:inherit; font-size:14.5px}
+.wg-own input[type=text]:focus{outline:none; border-color:var(--ink-3)}
+.wo-sel{padding:7px 9px; border-radius:10px; border:1.5px solid var(--hairline); background:var(--ground);
+  color:var(--ink); font:inherit; font-size:14px; cursor:pointer}
+.wo-sel:focus{outline:none; border-color:var(--ink-3)}
+.wb-row{padding:14px 0; border-top:1px solid var(--hairline); display:flex; flex-direction:column; gap:10px}
+.wb-name{display:flex; align-items:center; gap:9px; font-size:15px}
+.wb-name small{color:var(--ink-3); font-size:12.5px}
+.wb-nums{display:flex; flex-wrap:wrap; gap:10px 14px; align-items:flex-end}
+.wb-nums .wo-field{display:inline-flex; flex-direction:column; gap:4px}
+.wo-field .lbl{font-size:11px; letter-spacing:.1em; text-transform:uppercase; font-weight:600; color:var(--ink-3)}
+.wp-row{display:flex; align-items:center; gap:12px; padding:9px 0; border-top:1px solid var(--hairline)}
+.wp-day{width:40px; flex:none; font-weight:600; font-size:14px}
+.wp-row .cat-picks button{padding:5px 11px; font-size:13px}
+.wp-row.today .wp-day{color:var(--g-moss)}
+
+.wo-num{display:inline-flex; align-items:center; gap:3px; background:var(--ground);
+  border:1.5px solid var(--hairline); border-radius:12px; padding:3px}
+.wo-num:focus-within{border-color:var(--ink-3)}
+.wo-num button{width:32px; height:32px; border-radius:9px; display:grid; place-items:center;
+  color:var(--ink-2); background:var(--surface); transition:background .14s, color .14s}
+.wo-num button:hover{color:var(--ink); background:var(--surface-2)}
+.wo-num button svg{display:block}
+.wo-num input{width:52px; text-align:center; border:none; background:none; color:var(--ink); font:inherit;
+  font-size:16px; font-weight:600; font-variant-numeric:tabular-nums; padding:4px 0; -moz-appearance:textfield; appearance:textfield}
+.wo-num input::-webkit-outer-spin-button, .wo-num input::-webkit-inner-spin-button{-webkit-appearance:none; margin:0}
+.wo-num input:focus{outline:none}
+.wo-num .u{font-size:12px; color:var(--ink-3); margin-right:2px}
+.wo-num b{min-width:66px; text-align:center; font-variant-numeric:tabular-nums; font-size:15px; font-weight:600}
+.wo-prog{display:flex; flex-wrap:wrap; align-items:center; gap:8px 10px; font-size:14px; color:var(--ink-2)}
+.wo-prog .wo-num input{width:44px}
+.wo-prog .wo-num button{width:28px; height:28px}
+
+.wq-head{display:flex; gap:14px; align-items:center}
+.wq-emo{font-size:28px; width:54px; height:54px; border-radius:50%; display:grid; place-items:center;
+  background:var(--surface-2); flex:none}
+.wq-head h2{margin-bottom:2px}
+.wq-head .note{margin:0}
+.wq-rows{display:flex; flex-direction:column; gap:10px; margin:18px 0 4px}
+.wq-rows .wo-field{display:flex; align-items:center; justify-content:space-between; gap:12px}
+.wq-due{background:color-mix(in srgb, var(--g-moss) 12%, var(--surface));
+  border:1px solid color-mix(in srgb, var(--g-moss) 40%, transparent); border-radius:12px; padding:13px 14px; margin-top:16px}
+.wq-due p{margin:0 0 10px; font-size:14px; line-height:1.4}
+.wq-more{margin-top:16px; border-top:1px solid var(--hairline); padding-top:12px}
+.wq-more summary{cursor:pointer; font-size:13.5px; font-weight:600; color:var(--ink-2)}
+.wq-more summary:hover{color:var(--ink)}
+.wq-more .field{margin:16px 0 0}
+
+.wo-cards{display:grid; gap:14px; margin-bottom:14px;
+  grid-template-columns:repeat(auto-fill, minmax(min(100%, 300px), 1fr))}
+.wo-cards .card{margin:0}
+.wo-card-emo{font-size:18px; align-self:center}
+.wo-spark{display:block; width:100%; height:auto; overflow:visible}
+.wo-spark polyline{fill:none; stroke:var(--glaze); stroke-width:2.2; stroke-linejoin:round; stroke-linecap:round}
+.wo-spark circle{fill:var(--glaze)}
+.wo-spark line{stroke:var(--hairline); stroke-width:1}
+.wo-change{font-size:13px; color:var(--ink-3); margin-top:8px; font-variant-numeric:tabular-nums}
+.wo-change b{color:var(--g-moss); font-weight:600}
+.wo-heat{display:grid; grid-auto-flow:column; grid-template-rows:repeat(7, 1fr); gap:3px; max-width:480px}
+.wo-heat i{display:block; aspect-ratio:1/1; border-radius:3px; background:var(--sunk)}
+.wo-heat i.future{background:none}
+.wo-heat i[data-n="1"]{background:color-mix(in srgb, var(--glaze) 35%, var(--sunk))}
+.wo-heat i[data-n="2"]{background:color-mix(in srgb, var(--glaze) 65%, var(--sunk))}
+.wo-heat i[data-n="3"]{background:var(--glaze)}
+.wo-bars .bar-row .wk{width:76px}
+.wo-bars .ago{width:68px; text-align:right; flex:none; font-variant-numeric:tabular-nums}
+.wo-bars .ago.late{color:var(--g-clay); font-weight:600}
+.wo-export{display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin-top:26px;
+  padding-top:20px; border-top:1px solid var(--hairline)}
+.wo-export .btn-soft{padding:9px 14px; font-size:13.5px}
+.wo-not-yet{font-size:13px; color:var(--ink-3); margin:0 0 14px}
+@media (max-width:520px){
+  .wo-choice{grid-template-columns:1fr}
+  .wp-row{align-items:flex-start}
+  .wp-day{padding-top:4px}
+}
+
 @media (prefers-reduced-motion: reduce){
   *{animation-duration:.001ms !important; transition-duration:.001ms !important}
 }
@@ -708,9 +829,15 @@ dialog h2{font-size:20px; font-stretch:112%; margin-bottom:18px}
         <button role="tab" data-view="month" aria-selected="false">Month</button>
         <button role="tab" data-view="year" aria-selected="false">Year</button>
       </nav>
+      <nav class="tabs" id="wo-tabs" role="tablist" aria-label="Workout views" hidden>
+        <button role="tab" data-wv="today" aria-selected="true">Today</button>
+        <button role="tab" data-wv="progress" aria-selected="false">Progress</button>
+        <button role="tab" data-wv="history" aria-selected="false">History</button>
+      </nav>
       <nav class="tabs" id="main-tabs" role="tablist" aria-label="Sections">
         <button role="tab" data-sec="habits" aria-selected="true">Habits</button>
         <button role="tab" data-sec="tasks" aria-selected="false">Tasks</button>
+        <button role="tab" data-sec="workout" aria-selected="false" hidden>Workout</button>
       </nav>
     </div>
     <div class="chip" id="chip" data-state="saved" title="Saving status">
@@ -840,6 +967,19 @@ dialog h2{font-size:20px; font-stretch:112%; margin-bottom:18px}
       <h1 id="y-title">—</h1>
     </div>
     <div id="y-body"></div>
+  </section>
+  <section class="view" id="view-workout">
+    <div id="wo-today">
+      <div class="today-head">
+        <p class="eyebrow" id="wo-date">—</p>
+        <h1 class="headline" id="wo-line">—</h1>
+        <div class="meter" id="wo-meter"><i style="width:0%"></i></div>
+      </div>
+      <div class="sections" id="wo-tiles"></div>
+      <div id="wo-foot"></div>
+    </div>
+    <div id="wo-progress" hidden></div>
+    <div id="wo-history" hidden></div>
   </section>
 </main>
 
@@ -987,6 +1127,95 @@ dialog h2{font-size:20px; font-stretch:112%; margin-bottom:18px}
   </div>
 </dialog>
 
+<dialog id="dlg-wo-guide" class="wide">
+  <p class="wg-step" id="wg-count"></p>
+  <h2 id="wg-title">Set up workout mode</h2>
+  <div id="wg-body"></div>
+  <div class="dlg-actions">
+    <button type="button" class="btn btn-ghost" id="wg-back">Back</button>
+    <div style="flex:1"></div>
+    <button type="button" class="btn btn-primary" id="wg-next">Next</button>
+  </div>
+</dialog>
+
+<dialog id="dlg-wo-quick">
+  <div class="wq-head">
+    <span class="wq-emo" id="wq-emo"></span>
+    <div><h2 id="wq-name">—</h2><p class="note" id="wq-last"></p></div>
+  </div>
+  <div class="wq-due" id="wq-due" hidden>
+    <p id="wq-due-text"></p>
+    <div class="confirm-actions">
+      <button type="button" class="btn btn-ghost" id="wq-snooze">Not yet</button>
+      <button type="button" class="btn btn-primary" id="wq-bump">Go up</button>
+    </div>
+  </div>
+  <div class="wq-rows" id="wq-rows"></div>
+  <details class="wq-more" id="wq-more">
+    <summary>Exercise settings</summary>
+    <div id="wq-more-body"></div>
+  </details>
+  <div class="dlg-actions">
+    <button type="button" class="btn btn-danger" id="wq-remove">Remove</button>
+    <button type="button" class="btn btn-primary" id="wq-done">Done</button>
+  </div>
+  <div class="confirm" id="wq-confirm" hidden>
+    <p id="wq-confirm-text"></p>
+    <div class="confirm-actions">
+      <button type="button" class="btn btn-ghost" id="wq-confirm-no">Keep it</button>
+      <button type="button" class="btn btn-remove" id="wq-confirm-yes">Remove</button>
+    </div>
+  </div>
+</dialog>
+
+<dialog id="dlg-wo-set">
+  <h2>Workout settings</h2>
+  <div class="field">
+    <label>A tap on a circle logs</label>
+    <div class="cat-picks" id="ws-tap">
+      <button type="button" data-tap="all">Every set</button>
+      <button type="button" data-tap="set">One set</button>
+    </div>
+  </div>
+  <div class="field">
+    <label>Weights in</label>
+    <div class="cat-picks" id="ws-unit">
+      <button type="button" data-unit="lb">lb</button>
+      <button type="button" data-unit="kg">kg</button>
+    </div>
+  </div>
+  <div class="field">
+    <label>Highlight for what's due</label>
+    <div class="swatches" id="ws-rec"></div>
+  </div>
+  <div class="field">
+    <label>Done</label>
+    <div class="swatches" id="ws-done"></div>
+  </div>
+  <div class="field">
+    <label for="ws-size">Circle size</label>
+    <span class="size-ctl">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><circle cx="12" cy="12" r="7"/></svg>
+      <input type="range" id="ws-size" min="0.6" max="1.6" step="0.05" value="1">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9.5"/></svg>
+      <b id="ws-size-val">100%</b>
+    </span>
+  </div>
+  <div class="field dlg-extra">
+    <label>Your workout data</label>
+    <div class="data-row">
+      <button type="button" class="btn btn-soft" data-export="csv">Download CSV</button>
+      <button type="button" class="btn btn-soft" data-export="json">Download JSON</button>
+    </div>
+    <p class="note">The CSV has one row per exercise per day, ready for a spreadsheet.</p>
+  </div>
+  <div class="dlg-actions">
+    <button type="button" class="btn btn-ghost" id="ws-guide">Replay setup guide</button>
+    <div style="flex:1"></div>
+    <button type="button" class="btn btn-primary" id="ws-close">Done</button>
+  </div>
+</dialog>
+
 <dialog id="dlg-settings">
   <h2>Settings</h2>
   <div class="field">
@@ -1024,6 +1253,10 @@ dialog h2{font-size:20px; font-stretch:112%; margin-bottom:18px}
     <button class="sw" id="s-notif" aria-pressed="false" aria-label="Enable notifications"></button>
   </div>
   <p class="note" id="s-note">Nudges arrive while this page is open in a tab — keep it pinned and it will find you.</p>
+  <div class="toggle-row" style="margin-top:14px">
+    <p>Workout mode<small>A Workout tab for logging sets, kept apart from habits and tasks</small></p>
+    <button class="sw" id="s-workout" aria-pressed="false" aria-label="Enable workout mode"></button>
+  </div>
   <div class="field dlg-extra">
     <label>Sync across devices</label>
     <div id="s-sync"></div>
@@ -1125,6 +1358,7 @@ function defaults(){
     sound: true,
     notify: false,
     layouts: normalizeLayouts({}),
+    workout: woDefaults(),
     savedAt: 0
   };
 }
@@ -1158,6 +1392,7 @@ function normalize(raw){
     sound: raw.sound !== false,
     notify: !!raw.notify,
     layouts: normalizeLayouts(raw),
+    workout: normalizeWorkout(raw.workout),
     savedAt: Math.max(0, +raw.savedAt || 0)
   };
   if (Array.isArray(raw.categories)) {
@@ -1571,17 +1806,23 @@ function applyTileSize(){ document.documentElement.style.setProperty("--tile", c
 var FIT_MQ = window.matchMedia ? window.matchMedia("(min-width: 900px)") : null;
 function fitToScreen(){
   tilesEl.style.removeProperty("--tile");
-  if (arranging || section !== "habits" || view !== "today" || !FIT_MQ || !FIT_MQ.matches) return;
+  // workout circles have their own size, set in Workout settings
+  var wo = section === "workout" && woView === "today";
+  if (wo) woTilesEl.style.setProperty("--tile", state.workout.size);
+  var el = wo ? woTilesEl : tilesEl;
+  if (!wo && (arranging || section !== "habits" || view !== "today")) return;
+  if (!FIT_MQ || !FIT_MQ.matches) return;
   var root = document.documentElement;
   function fits(){ return root.scrollHeight <= window.innerHeight + 1; }
   if (fits()) return;
-  var lo = 0.3, hi = curLayout().size, best = lo;
+  // workout circles carry more text, so they stop shrinking sooner and the page scrolls
+  var lo = wo ? 0.6 : 0.3, hi = wo ? state.workout.size : curLayout().size, best = lo;
   for (var i = 0; i < 9; i++) {
     var mid = (lo + hi) / 2;
-    tilesEl.style.setProperty("--tile", mid);
+    el.style.setProperty("--tile", mid);
     if (fits()) { best = mid; lo = mid; } else hi = mid;
   }
-  tilesEl.style.setProperty("--tile", best);
+  el.style.setProperty("--tile", best);
 }
 
 function tileHTML(h, i, count){
@@ -2405,6 +2646,10 @@ var reorder = false;
 var section = "habits";
 var view = "today";
 function render(){
+  // the Workout tab exists only while workout mode is on (it can change from a sync or import)
+  document.querySelector('#main-tabs [data-sec="workout"]').hidden = !state.workout.on;
+  if (section === "workout" && !state.workout.on) { section = "habits"; applyNav(); return; }
+  if (section === "workout") { renderWorkout(); return; }
   if (section === "tasks") { renderTasks(); startDayLoop(); return; }
   if (view === "today") renderToday();
   else if (view === "month") renderMonth();
@@ -2419,8 +2664,9 @@ function applyNav(){
     b.setAttribute("aria-selected", String(b.dataset.view === view));
   });
   document.getElementById("habit-tabs").hidden = section !== "habits";
+  document.getElementById("wo-tabs").hidden = section !== "workout";
   btnGroup.style.visibility = section === "habits" ? "" : "hidden";
-  var active = section === "tasks" ? "view-tasks" : "view-" + view;
+  var active = section === "tasks" ? "view-tasks" : (section === "workout" ? "view-workout" : "view-" + view);
   document.querySelectorAll(".view").forEach(function(v){ v.classList.toggle("on", v.id === active); });
   render();
 }
@@ -3503,6 +3749,7 @@ function syncSettings(){
   updateGroupBtn();
   swRemind.setAttribute("aria-pressed", String(!!state.reminder.on));
   swSound.setAttribute("aria-pressed", String(!!state.sound));
+  swWorkout.setAttribute("aria-pressed", String(!!state.workout.on));
   renderTimes();
   refreshNotifState();
   renderSync();
@@ -3562,18 +3809,21 @@ function dataNote(msg, err){
 function exportData(){
   var out = { app: "groundwork", exportedAt: new Date().toISOString() };
   Object.keys(state).forEach(function(k){ out[k] = state[k]; });
-  var text = JSON.stringify(out, null, 2), name = "groundwork-backup-" + TODAY + ".json";
+  saveFile("groundwork-backup-" + TODAY + ".json", JSON.stringify(out, null, 2), "application/json",
+    function(msg){ dataNote(msg, true); });
+}
+function saveFile(name, text, type, fail){
   if (capDownloads) {
-    capDownloads.save({ filename: name, data: text }).catch(function(){ dataNote("The download did not go through.", true); });
+    capDownloads.save({ filename: name, data: text }).catch(function(){ fail("The download did not go through."); });
     return;
   }
   try {
-    var url = URL.createObjectURL(new Blob([text], { type: "application/json" }));
+    var url = URL.createObjectURL(new Blob([text], { type: type }));
     var a = document.createElement("a");
     a.href = url; a.download = name;
     document.body.appendChild(a); a.click(); a.remove();
     setTimeout(function(){ URL.revokeObjectURL(url); }, 4000);
-  } catch (e) { dataNote("Downloads are blocked here.", true); }
+  } catch (e) { fail("Downloads are blocked here."); }
 }
 document.getElementById("s-export").addEventListener("click", exportData);
 document.getElementById("s-import").addEventListener("click", function(){
@@ -3896,6 +4146,1051 @@ function tick(){
   var open = t.total - t.done;
   if (open > 0) showNudge(open);
 }
+
+/* ---------------- workout mode ----------------
+   Its own corner of the app: state.workout, the Workout tab (shown only once it
+   is switched on in Settings), its own view and dialogs. Nothing here reads or
+   writes habits or tasks. Each exercise is a circle like a habit: a tap logs every
+   set, or one set at a time, and a long press opens steppers for sets, reps and
+   weight. A weekly plan of muscle groups decides which circles are highlighted. */
+var MUSCLES = ["Chest", "Back", "Shoulders", "Arms", "Legs", "Core", "Cardio"];
+var MUSCLE_GLAZE = { Chest: "clay", Back: "indigo", Shoulders: "ochre", Arms: "plum", Legs: "teal", Core: "sea", Cardio: "rose" };
+var WO_FULL_GUIDE = ["intro", "pick", "base", "plan"];
+var WO_STALE = 10;   // with no weekly plan, a circle left this many days gets highlighted
+var KG = 0.45359237;
+// key, name, muscle groups (the first is where its circle lives), kind, emoji, then a
+// starting weight in lb (kind w) or the time unit (kind t).
+// Kinds: w = sets × reps at a weight, b = bodyweight sets × reps, t = timed.
+var WO_LIB = [
+  ["bench", "Bench press", ["Chest", "Arms"], "w", "\u{1F3CB}️", 95],
+  ["incline", "Incline DB press", ["Chest", "Shoulders"], "w", "\u{1F3CB}️", 30],
+  ["fly", "Chest fly", ["Chest"], "w", "\u{1F98B}", 20],
+  ["pushup", "Push-ups", ["Chest", "Arms", "Core"], "b", "\u{1F938}"],
+  ["dips", "Dips", ["Chest", "Arms"], "b", "\u{1F938}"],
+  ["deadlift", "Deadlift", ["Back", "Legs"], "w", "\u{1F3CB}️", 135],
+  ["row", "Barbell row", ["Back"], "w", "\u{1F3CB}️", 75],
+  ["pullup", "Pull-ups", ["Back", "Arms"], "b", "\u{1F9D7}"],
+  ["pulldown", "Lat pulldown", ["Back"], "w", "⬇️", 70],
+  ["cablerow", "Seated cable row", ["Back"], "w", "\u{1F6A3}", 70],
+  ["ohp", "Overhead press", ["Shoulders", "Arms"], "w", "\u{1F3CB}️", 65],
+  ["lateral", "Lateral raise", ["Shoulders"], "w", "\u{1F937}", 15],
+  ["facepull", "Face pull", ["Shoulders", "Back"], "w", "\u{1F3AF}", 30],
+  ["reardelt", "Rear delt fly", ["Shoulders"], "w", "\u{1F985}", 15],
+  ["shrug", "Shrugs", ["Shoulders", "Back"], "w", "\u{1F937}", 50],
+  ["curl", "Biceps curl", ["Arms"], "w", "\u{1F4AA}", 25],
+  ["hammer", "Hammer curl", ["Arms"], "w", "\u{1F528}", 25],
+  ["pushdown", "Triceps pushdown", ["Arms"], "w", "\u{1F4AA}", 40],
+  ["skull", "Skull crushers", ["Arms"], "w", "\u{1F480}", 40],
+  ["squat", "Back squat", ["Legs", "Core"], "w", "\u{1F9B5}", 95],
+  ["frontsq", "Front squat", ["Legs", "Core"], "w", "\u{1F9B5}", 75],
+  ["goblet", "Goblet squat", ["Legs"], "w", "\u{1F3C6}", 35],
+  ["legpress", "Leg press", ["Legs"], "w", "\u{1F9B5}", 140],
+  ["rdl", "Romanian deadlift", ["Legs", "Back"], "w", "\u{1F3CB}️", 95],
+  ["lunge", "Lunges", ["Legs"], "w", "\u{1F6B6}", 20],
+  ["split", "Bulgarian split squat", ["Legs"], "w", "\u{1F9B5}", 20],
+  ["legcurl", "Leg curl", ["Legs"], "w", "\u{1F9B5}", 50],
+  ["legext", "Leg extension", ["Legs"], "w", "\u{1F9B5}", 50],
+  ["thrust", "Hip thrust", ["Legs"], "w", "\u{1F351}", 95],
+  ["calf", "Calf raise", ["Legs"], "w", "\u{1F9B6}", 50],
+  ["swing", "Kettlebell swing", ["Legs", "Core", "Cardio"], "w", "\u{1F514}", 35],
+  ["plank", "Plank", ["Core"], "t", "\u{1F9D8}", "s"],
+  ["sideplank", "Side plank", ["Core"], "t", "\u{1F9D8}", "s"],
+  ["crunch", "Crunches", ["Core"], "b", "\u{1F504}"],
+  ["legraise", "Hanging leg raise", ["Core"], "b", "\u{1F9B5}"],
+  ["twist", "Russian twist", ["Core"], "b", "\u{1F300}"],
+  ["abwheel", "Ab wheel", ["Core"], "b", "\u{1F6DE}"],
+  ["deadbug", "Dead bug", ["Core"], "b", "\u{1FAB2}"],
+  ["burpee", "Burpees", ["Cardio", "Legs", "Core"], "b", "\u{1F525}"],
+  ["run", "Run", ["Cardio"], "t", "\u{1F3C3}", "min"],
+  ["bike", "Cycling", ["Cardio"], "t", "\u{1F6B4}", "min"],
+  ["rower", "Rowing machine", ["Cardio", "Back"], "t", "\u{1F6A3}", "min"],
+  ["rope", "Jump rope", ["Cardio"], "t", "\u{1FAA2}", "min"],
+  ["stairs", "Stair climber", ["Cardio", "Legs"], "t", "\u{1FA9C}", "min"],
+  ["swim", "Swim", ["Cardio"], "t", "\u{1F3CA}", "min"],
+  ["walk", "Walk", ["Cardio"], "t", "\u{1F6B6}", "min"],
+  ["hiit", "HIIT", ["Cardio"], "t", "⚡", "min"]
+].map(function(r){
+  return { key: r[0], name: r[1], groups: r[2], kind: r[3], emoji: r[4],
+           lb: r[3] === "w" ? r[5] : 0, tu: r[3] === "t" ? r[5] : "min" };
+});
+var WO_KIND_EMOJI = { w: "\u{1F3CB}️", b: "\u{1F938}", t: "⏱️" };
+var WO_FIELD_NAME = { weight: "weight", reps: "reps", sets: "sets", dur: "time" };
+var WO_LIMITS = { sets: [1, 20, 1], reps: [1, 200, 1], weight: [0, 2000, 0.25], dur: [1, 600, 1],
+                  n: [0, 20, 1], weeks: [1, 12, 1], by: [0.25, 100, 0.25] };
+var CHEV_U = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/></svg>';
+var CHEV_D = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>';
+var DAY_RE = /^\d{4}-\d{2}-\d{2}$/;
+
+function woDefaults(){
+  return { on: false, setup: false, unit: "lb", tap: "all", size: 1, doneGlaze: "moss", recGlaze: "clay",
+           exercises: [], log: {}, plan: {} };
+}
+function woNum(v, lo, hi, step){
+  v = +v;
+  if (!isFinite(v)) v = lo;
+  if (step) v = Math.round(v / step) * step;
+  return Math.max(lo, Math.min(hi, +v.toFixed(2)));
+}
+function woClamp(f, v){ var L = WO_LIMITS[f]; return woNum(v, L[0], L[1], L[2]); }
+function woFmtNum(v){ return String(+(+v).toFixed(2)); }
+function woProgFields(kind){ return kind === "w" ? ["weight", "reps", "sets"] : (kind === "b" ? ["reps", "sets"] : ["dur", "sets"]); }
+
+function normalizeWorkout(raw){
+  var w = woDefaults();
+  if (!raw || typeof raw !== "object") return w;
+  w.on = !!raw.on;
+  w.setup = !!raw.setup;
+  w.unit = raw.unit === "kg" ? "kg" : "lb";
+  w.tap = raw.tap === "set" ? "set" : "all";
+  w.size = woNum(raw.size || 1, 0.6, 1.6);
+  w.doneGlaze = GLAZES.indexOf(raw.doneGlaze) >= 0 ? raw.doneGlaze : "moss";
+  w.recGlaze = GLAZES.indexOf(raw.recGlaze) >= 0 ? raw.recGlaze : "clay";
+  var ids = {};
+  (Array.isArray(raw.exercises) ? raw.exercises : []).forEach(function(x){
+    if (!x || !x.id || typeof x.name !== "string" || ids[x.id]) return;
+    var kind = x.kind === "b" || x.kind === "t" ? x.kind : "w";
+    var groups = Array.isArray(x.groups) ? x.groups.filter(function(g, i){
+      return MUSCLES.indexOf(g) >= 0 && x.groups.indexOf(g) === i;
+    }) : [];
+    var p = x.prog || {}, fields = woProgFields(kind);
+    ids[x.id] = true;
+    w.exercises.push({
+      id: String(x.id),
+      key: typeof x.key === "string" ? x.key : null,
+      name: x.name.slice(0, 32),
+      emoji: typeof x.emoji === "string" && x.emoji ? x.emoji : WO_KIND_EMOJI[kind],
+      groups: groups.length ? groups : ["Core"],
+      kind: kind,
+      tu: x.tu === "s" ? "s" : "min",
+      sets: woClamp("sets", x.sets || 3),
+      reps: woClamp("reps", x.reps || 10),
+      weight: woClamp("weight", x.weight || 0),
+      dur: woClamp("dur", x.dur || 20),
+      tap: x.tap === "all" || x.tap === "set" ? x.tap : null,
+      prog: {
+        on: !!p.on,
+        field: fields.indexOf(p.field) >= 0 ? p.field : fields[0],
+        by: woClamp("by", p.by || 1),
+        weeks: woClamp("weeks", p.weeks || 2),
+        since: DAY_RE.test(p.since) ? p.since : TODAY,
+        snooze: DAY_RE.test(p.snooze) ? p.snooze : null
+      },
+      created: DAY_RE.test(x.created) ? x.created : TODAY,
+      retired: DAY_RE.test(x.retired) ? x.retired : null
+    });
+  });
+  if (raw.log && typeof raw.log === "object") {
+    Object.keys(raw.log).forEach(function(k){
+      var day = raw.log[k], out = {};
+      if (!DAY_RE.test(k) || !day || typeof day !== "object") return;
+      Object.keys(day).forEach(function(id){
+        var e = day[id];
+        if (!ids[id] || !e) return;
+        var sets = woClamp("sets", e.sets || 1), n = woNum(e.n || 0, 0, sets, 1);
+        if (!n) return;
+        out[id] = { n: n, sets: sets, reps: woClamp("reps", e.reps || 1), weight: woClamp("weight", e.weight || 0),
+                    dur: woClamp("dur", e.dur || 1), u: e.u === "kg" ? "kg" : "lb" };
+      });
+      if (Object.keys(out).length) w.log[k] = out;
+    });
+  }
+  if (raw.plan && typeof raw.plan === "object") {
+    for (var d = 0; d < 7; d++) {
+      var g = raw.plan[d];
+      if (!Array.isArray(g)) continue;
+      g = g.filter(function(x, i){ return MUSCLES.indexOf(x) >= 0 && g.indexOf(x) === i; });
+      if (g.length) w.plan[d] = g;
+    }
+  }
+  return w;
+}
+
+/* ---- exercises, today's entries, progression ---- */
+function woLive(){ return state.workout.exercises.filter(function(x){ return !x.retired; }); }
+function woEx(id){
+  var a = state.workout.exercises;
+  for (var i = 0; i < a.length; i++) if (a[i].id === id) return a[i];
+  return null;
+}
+function woExOf(el){ var h = el && el.closest("[data-ex]"); return h ? woEx(h.dataset.ex) : null; }
+function woEntry(id, k){ var d = state.workout.log[k || TODAY]; return (d && d[id]) || null; }
+function woFull(id, k){ var e = woEntry(id, k); return !!e && e.n >= e.sets; }
+function woHasHistory(id){
+  var log = state.workout.log;
+  return Object.keys(log).some(function(k){ return !!log[k][id]; });
+}
+function woLastBefore(id, k){
+  var log = state.workout.log, best = null;
+  Object.keys(log).forEach(function(d){ if (d < k && log[d][id] && (!best || d > best)) best = d; });
+  return best;
+}
+function daysApart(a, b){ return Math.round((parseKey(b) - parseKey(a)) / 864e5); }
+function woUnit(ex, f){
+  if (f === "weight") return state.workout.unit;
+  if (f === "dur") return ex.tu === "s" ? "s" : "min";
+  if (f === "weeks") return "wk";
+  if (f === "by") return woUnit(ex, ex.prog.field);
+  return "";
+}
+function woSummary(o, ex){
+  if (ex.kind === "t") return (o.sets > 1 ? o.sets + " × " : "") + o.dur + (ex.tu === "s" ? "s" : " min");
+  var s = o.sets + "×" + o.reps;
+  if (ex.kind === "w" && o.weight) s += " · " + woFmtNum(o.weight) + " " + (o.u || state.workout.unit);
+  return s;
+}
+function woSetN(ex, n){
+  var log = state.workout.log, day = log[TODAY] || (log[TODAY] = {});
+  n = Math.max(0, Math.min(ex.sets, n));
+  if (n) day[ex.id] = { n: n, sets: ex.sets, reps: ex.reps, weight: ex.weight, dur: ex.dur, u: state.workout.unit };
+  else delete day[ex.id];
+  if (!Object.keys(day).length) delete log[TODAY];
+}
+// Whole-circle taps fill every set; per-set taps add one. A full circle empties.
+function woTap(ex){
+  var e = woEntry(ex.id), n = e ? e.n : 0, mode = ex.tap || state.workout.tap;
+  var next = n >= ex.sets ? 0 : (mode === "set" ? n + 1 : ex.sets);
+  woSetN(ex, next);
+  return next;
+}
+function woGet(ex, f){
+  if (f === "n") { var e = woEntry(ex.id); return e ? e.n : 0; }
+  if (f === "by" || f === "weeks") return ex.prog[f];
+  return ex[f];
+}
+function woStepOf(ex, f){
+  var kg = state.workout.unit === "kg";
+  if (f === "weight") return kg ? 2.5 : 5;
+  if (f === "dur") return ex.tu === "s" ? 5 : 1;
+  if (f === "by") return ex.prog.field === "weight" ? (kg ? 1.25 : 2.5) : woStepOf(ex, ex.prog.field);
+  return 1;
+}
+function woDefaultBy(ex, field){
+  if (field === "weight") return state.workout.unit === "kg" ? 2.5 : 5;
+  if (field === "dur") return ex.tu === "s" ? 10 : 5;
+  return 1;
+}
+// Today's entry follows any change, so the log always shows what was really done.
+function woSet(ex, f, v){
+  v = woClamp(f, v);
+  if (f === "n") { woSetN(ex, v); return; }
+  if (f === "by" || f === "weeks") { ex.prog[f] = v; return; }
+  var old = ex[f];
+  ex[f] = v;
+  // going up by hand counts as the step up, so the clock restarts
+  if (ex.prog.field === f && v > old) { ex.prog.since = TODAY; ex.prog.snooze = null; }
+  var e = woEntry(ex.id);
+  if (e) woSetN(ex, e.n);
+}
+function woDue(ex){
+  var p = ex.prog;
+  if (!p.on || ex.retired) return false;
+  if (p.snooze && TODAY < p.snooze) return false;
+  return daysApart(p.since, TODAY) >= p.weeks * 7;
+}
+function woNextBump(ex){
+  var p = ex.prog, at = shiftKey(p.since, p.weeks * 7);
+  return p.snooze && p.snooze > at ? p.snooze : at;
+}
+function woBumpText(ex){
+  var f = ex.prog.field, u = woUnit(ex, f), now = ex[f], next = woClamp(f, now + ex.prog.by);
+  return woFmtNum(now) + " → " + woFmtNum(next) + (u ? " " + u : " " + WO_FIELD_NAME[f]);
+}
+function woBump(ex){
+  var p = ex.prog;
+  woSet(ex, p.field, ex[p.field] + p.by);
+  p.since = TODAY;
+  p.snooze = null;
+}
+
+/* ---- the weekly plan and what it recommends ---- */
+function woPlanToday(){ return state.workout.plan[parseKey(TODAY).getDay()] || []; }
+function woHasPlan(){ return Object.keys(state.workout.plan).length > 0; }
+// id -> days since it was last done (9999 = never). Judged on days before today,
+// so a highlighted circle stays the same pick all day and simply turns done.
+function woRecs(){
+  var out = {}, live = woLive();
+  function since(ex){ var k = woLastBefore(ex.id, TODAY); return k ? daysApart(k, TODAY) : 9999; }
+  if (woHasPlan()) {
+    woPlanToday().forEach(function(g){
+      live.filter(function(ex){ return ex.groups.indexOf(g) >= 0; })
+        .sort(function(a, b){
+          var pa = a.groups[0] === g ? 0 : 1, pb = b.groups[0] === g ? 0 : 1;
+          return pa - pb || since(b) - since(a);
+        })
+        .slice(0, 2).forEach(function(ex){ out[ex.id] = since(ex); });
+    });
+  } else {
+    live.map(function(ex){ return { ex: ex, d: since(ex) }; })
+      .filter(function(x){ return x.d >= WO_STALE && x.d < 9999; })
+      .sort(function(a, b){ return b.d - a.d; })
+      .slice(0, 3).forEach(function(x){ out[x.ex.id] = x.d; });
+  }
+  return out;
+}
+function woTogglePlan(d, g){
+  var p = state.workout.plan, a = (p[d] || []).slice(), i = a.indexOf(g);
+  if (i >= 0) a.splice(i, 1); else a.push(g);
+  a.sort(function(x, y){ return MUSCLES.indexOf(x) - MUSCLES.indexOf(y); });
+  if (a.length) p[d] = a; else delete p[d];
+}
+
+/* ---- adding and removing exercises ---- */
+function woNewEx(src){
+  var kg = state.workout.unit === "kg", timed = src.kind === "t", secs = timed && src.tu === "s";
+  var weight = src.kind !== "w" ? 0
+    : (src.lb ? (kg ? Math.max(2.5, Math.round(src.lb * KG / 2.5) * 2.5) : src.lb) : (kg ? 10 : 20));
+  var ex = {
+    id: "w" + Math.random().toString(36).slice(2, 9), key: src.key || null,
+    name: src.name.slice(0, 32), emoji: src.emoji || WO_KIND_EMOJI[src.kind],
+    groups: src.groups.slice(), kind: src.kind, tu: secs ? "s" : "min",
+    sets: timed && !secs ? 1 : 3, reps: 10, weight: weight, dur: secs ? 30 : 20, tap: null,
+    prog: { on: src.kind === "w", field: woProgFields(src.kind)[0], by: 1, weeks: src.kind === "w" ? 2 : 1,
+            since: TODAY, snooze: null },
+    created: TODAY, retired: null
+  };
+  ex.prog.by = woDefaultBy(ex, ex.prog.field);
+  return ex;
+}
+// An exercise with history is only put away, so its progress stays readable.
+function woRemove(ex){
+  if (woHasHistory(ex.id)) ex.retired = TODAY;
+  else state.workout.exercises = state.workout.exercises.filter(function(x){ return x !== ex; });
+}
+function woRestore(ex){ ex.retired = null; ex.prog.since = TODAY; ex.prog.snooze = null; }
+function woToggleLib(key){
+  var ex = null;
+  state.workout.exercises.forEach(function(x){ if (x.key === key) ex = x; });
+  if (ex) { if (ex.retired) woRestore(ex); else woRemove(ex); return; }
+  var lib = WO_LIB.filter(function(l){ return l.key === key; })[0];
+  if (lib) state.workout.exercises.push(woNewEx(lib));
+}
+function woSetUnit(u){
+  var w = state.workout;
+  if (w.unit === u) return;
+  var f = u === "kg" ? KG : 1 / KG, step = u === "kg" ? 2.5 : 5;
+  w.exercises.forEach(function(ex){
+    if (ex.weight) ex.weight = Math.max(step, Math.round(ex.weight * f / step) * step);
+    if (ex.prog.field === "weight") ex.prog.by = Math.max(step / 2, Math.round(ex.prog.by * f / (step / 2)) * (step / 2));
+  });
+  w.unit = u;   // logged entries keep their own unit; charts convert them
+}
+
+/* ---- the number widget: ▼ value ▲, shared by the guide and the quick sheet ---- */
+function woNumHTML(ex, f, label){
+  var v = woGet(ex, f), u = woUnit(ex, f), name = label || (f === "by" ? "Step" : f === "weeks" ? "Weeks" : f);
+  return '<span class="wo-field">' + (label ? '<span class="lbl">' + label + "</span>" : "") +
+    '<span class="wo-num" data-f="' + f + '">' +
+    '<button type="button" data-d="-1" aria-label="Less ' + esc(name.toLowerCase()) + '">' + CHEV_D + "</button>" +
+    (f === "n"
+      ? "<b>" + v + " of " + ex.sets + "</b>"
+      : '<input type="number" inputmode="decimal" step="any" min="' + WO_LIMITS[f][0] + '" max="' + WO_LIMITS[f][1] +
+        '" value="' + woFmtNum(v) + '" aria-label="' + esc(name) + '">') +
+    (u ? '<span class="u">' + u + "</span>" : "") +
+    '<button type="button" data-d="1" aria-label="More ' + esc(name.toLowerCase()) + '">' + CHEV_U + "</button></span></span>";
+}
+function woNumsHTML(ex){
+  return woNumHTML(ex, "sets", "Sets") +
+    (ex.kind === "t" ? woNumHTML(ex, "dur", "Time") : woNumHTML(ex, "reps", "Reps")) +
+    (ex.kind === "w" ? woNumHTML(ex, "weight", "Weight") : "");
+}
+function woProgHTML(ex){
+  var fields = woProgFields(ex.kind);
+  return '<div class="wo-prog" data-ex="' + ex.id + '">' +
+    '<button type="button" class="sw" data-prog aria-pressed="' + ex.prog.on + '" aria-label="Step up on a schedule"></button>' +
+    "<span>Go up</span>" + woNumHTML(ex, "by") +
+    '<select class="wo-sel" data-pf aria-label="What goes up">' + fields.map(function(f){
+      return '<option value="' + f + '"' + (f === ex.prog.field ? " selected" : "") + ">" + WO_FIELD_NAME[f] + "</option>";
+    }).join("") + "</select>" +
+    "<span>every</span>" + woNumHTML(ex, "weeks") + "</div>";
+}
+function woRefreshNums(root){
+  root.querySelectorAll(".wo-num").forEach(function(box){
+    var ex = woExOf(box);
+    if (!ex) return;
+    var f = box.dataset.f, v = woGet(ex, f), inp = box.querySelector("input"), b = box.querySelector("b");
+    if (inp && inp !== document.activeElement) inp.value = woFmtNum(v);
+    if (b) b.textContent = v + " of " + ex.sets;
+    var u = box.querySelector(".u");
+    if (u) u.textContent = woUnit(ex, f);
+  });
+}
+function woBindNums(root, after){
+  root.addEventListener("click", function(e){
+    var b = e.target.closest(".wo-num [data-d]");
+    if (!b) return;
+    var box = b.closest(".wo-num"), ex = woExOf(box), f = box.dataset.f;
+    if (!ex) return;
+    woSet(ex, f, woGet(ex, f) + (+b.dataset.d) * woStepOf(ex, f));
+    scheduleSave();
+    after(ex, f);
+  });
+  root.addEventListener("change", function(e){
+    var inp = e.target.closest(".wo-num input");
+    if (!inp) return;
+    var box = inp.closest(".wo-num"), ex = woExOf(box);
+    if (!ex) return;
+    if (inp.value.trim() !== "") woSet(ex, box.dataset.f, inp.value);
+    inp.value = woFmtNum(woGet(ex, box.dataset.f));
+    scheduleSave();
+    after(ex, box.dataset.f);
+  });
+}
+function woBindProg(root, after){
+  root.addEventListener("click", function(e){
+    var b = e.target.closest("[data-prog]");
+    if (!b) return;
+    var ex = woExOf(b);
+    if (!ex) return;
+    ex.prog.on = !ex.prog.on;
+    if (ex.prog.on) { ex.prog.since = TODAY; ex.prog.snooze = null; }
+    b.setAttribute("aria-pressed", String(ex.prog.on));
+    scheduleSave();
+    after(ex);
+  });
+  root.addEventListener("change", function(e){
+    var s = e.target.closest("[data-pf]");
+    if (!s) return;
+    var ex = woExOf(s);
+    if (!ex) return;
+    ex.prog.field = s.value;
+    ex.prog.by = woDefaultBy(ex, s.value);
+    scheduleSave();
+    after(ex);
+  });
+}
+
+/* ---- today ---- */
+var woView = "today";
+var woTilesEl = document.getElementById("wo-tiles");
+var woFootEl = document.getElementById("wo-foot");
+
+function woRingSVG(ex){
+  var now = parseKey(TODAY), y = now.getFullYear(), m = now.getMonth(), dToday = now.getDate();
+  var n = daysIn(y, m), parts = "";
+  for (var d = 1; d <= n; d++) {
+    var a = (d - 1) / n * Math.PI * 2 - Math.PI / 2;
+    var x = (50 + Math.cos(a) * 44.5).toFixed(2), yy = (50 + Math.sin(a) * 44.5).toFixed(2);
+    var k = key(y, m, d), on = !!woEntry(ex.id, k);
+    var cls = on ? "day done" : (d > dToday || k < ex.created ? "day future" : "day past-off");
+    parts += '<circle class="' + cls + '" cx="' + x + '" cy="' + yy + '" r="' + (on ? 2.6 : 2) + '"></circle>';
+    if (d === dToday) parts += '<circle class="today-mark" cx="' + x + '" cy="' + yy + '" r="4.6"></circle>';
+  }
+  return '<svg class="ring" viewBox="0 0 100 100" aria-hidden="true">' + parts + "</svg>";
+}
+function woTileHTML(ex, recs){
+  var e = woEntry(ex.id), n = e ? e.n : 0, full = n > 0 && n >= ex.sets;
+  var rec = !full && recs.hasOwnProperty(ex.id), due = woDue(ex), mode = ex.tap || state.workout.tap;
+  var why = rec && !n ? (recs[ex.id] >= 9999 ? "not done yet" : recs[ex.id] + (recs[ex.id] === 1 ? " day" : " days") + " ago") : "";
+  var dots = "";
+  if (ex.sets > 1 && ex.sets <= 10 && (mode === "set" || (n && !full))) {
+    for (var i = 0; i < ex.sets; i++) dots += "<i" + (i < n ? ' class="on"' : "") + "></i>";
+  }
+  return '<div class="tile wo-tile' + (full ? " done" : "") + (n && !full ? " part" : "") + (rec ? " rec" : "") +
+    '" style="--pct:' + (full ? 100 : n / ex.sets * 100).toFixed(1) + '%" data-id="' + ex.id + '">' +
+    woRingSVG(ex) +
+    '<button class="hit" data-act="tap" aria-label="' + esc(ex.name) + ", " + n + " of " + ex.sets + " sets done" +
+      (rec ? ", recommended today" : "") + '. Press and hold to adjust">' +
+      '<span class="emo">' + ex.emoji + "</span>" +
+      '<span class="nm">' + esc(ex.name) + "</span>" +
+      '<span class="sub">' + (due ? '<b class="wo-up" title="Time to go up">↑</b> ' : "") + esc(woSummary(ex, ex)) + "</span>" +
+      (dots ? '<span class="wo-dots">' + dots + "</span>" : "") +
+      (why ? '<span class="wo-why">' + why + "</span>" : "") +
+    "</button>" +
+    '<button class="tile-menu" data-act="more" aria-label="Adjust ' + esc(ex.name) + '">' +
+      '<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="1.9"/><circle cx="12" cy="12" r="1.9"/><circle cx="19" cy="12" r="1.9"/></svg></button>' +
+    "</div>";
+}
+function woRecsDone(recs){
+  var ids = Object.keys(recs);
+  return ids.length > 0 && ids.every(function(id){ return woFull(id, TODAY); });
+}
+function woRenderToday(){
+  var w = state.workout, now = parseKey(TODAY), live = woLive(), recs = woRecs(), plan = woPlanToday();
+  document.getElementById("wo-date").textContent = WDFULL[now.getDay()] + ", " + MONTHS[now.getMonth()] + " " + now.getDate();
+  woTilesEl.style.setProperty("--glaze", "var(--g-" + w.doneGlaze + ")");
+  woTilesEl.style.setProperty("--rec", "var(--g-" + w.recGlaze + ")");
+  var meter = document.getElementById("wo-meter"), meterI = meter.querySelector("i");
+  meterI.style.background = "var(--g-" + w.doneGlaze + ")";
+
+  var day = w.log[TODAY] || {}, exIn = Object.keys(day).length, setsIn = 0;
+  Object.keys(day).forEach(function(id){ setsIn += day[id].n; });
+  var recIds = Object.keys(recs), recDone = recIds.filter(function(id){ return woFull(id, TODAY); }).length;
+  var line = document.getElementById("wo-line"), html;
+  meter.hidden = true;
+  if (!live.length) html = "Nothing to lift yet. <em>Pick a few.</em>";
+  else if (plan.length) {
+    html = esc(plan.join(" + ")) + " day. ";
+    if (recIds.length) {
+      html += "<em>" + (recDone === recIds.length ? "Highlights done." : recDone + " of " + recIds.length + " highlights done.") + "</em>";
+      meter.hidden = false;
+      meter.classList.toggle("full", recDone === recIds.length);
+      meterI.style.width = (recDone / recIds.length * 100) + "%";
+    } else html += "<em>Nothing for it yet.</em>";
+  } else if (woHasPlan()) html = exIn ? "Rest day, <em>but " + setsIn + " sets in anyway.</em>" : "Rest day. <em>Recover.</em>";
+  else html = exIn
+    ? '<span class="tnum">' + exIn + "</span> exercise" + (exIn === 1 ? "" : "s") + " in. <em>" + setsIn + " sets.</em>"
+    : "Ready when you are. <em>Tap a circle.</em>";
+  line.innerHTML = html;
+
+  var order = plan.concat(MUSCLES.filter(function(g){ return plan.indexOf(g) < 0; }));
+  woTilesEl.innerHTML = live.length ? order.map(function(g){
+    var hs = live.filter(function(ex){ return ex.groups[0] === g; });
+    if (!hs.length) return "";
+    var done = hs.filter(function(ex){ return woFull(ex.id, TODAY); }).length;
+    return '<section><div class="sec-head"><h2>' + g + "</h2>" +
+      (plan.indexOf(g) >= 0 ? '<span class="badge">Today</span>' : "") +
+      '<span class="sec-stat">' + done + " of " + hs.length + '</span><span class="sec-rule"></span></div>' +
+      '<div class="tiles">' + hs.map(function(ex){ return woTileHTML(ex, recs); }).join("") + "</div></section>";
+  }).join("") : "";
+
+  woFootEl.innerHTML = live.length
+    ? '<div class="today-actions">' +
+        '<button class="add-tile" data-wo="pick"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Exercises</button>' +
+        '<button class="add-tile" data-wo="plan">Weekly plan</button>' +
+        '<button class="add-tile" data-wo="settings">Workout settings</button></div>' +
+      '<p class="wo-tip">' + ((w.tap === "set") ? "Each tap logs one set." : "A tap logs every set.") +
+        " Press and hold a circle (or right-click it) to change sets, reps or weight.</p>"
+    : '<div class="empty"><h2>' + (w.setup ? "No exercises yet" : "Set up workout mode") + "</h2>" +
+      "<p>Pick the exercises you do and where you are starting from. Each one becomes a circle you tap after your sets.</p>" +
+      '<button class="btn btn-primary" data-wo="' + (w.setup ? "pick" : "guide") + '">' + (w.setup ? "Choose exercises" : "Start setup") + "</button></div>";
+  fitToScreen();
+}
+
+// A long press (or right-click) opens the quick sheet; a plain tap logs.
+var woPress = null, woLong = false;
+function woCancelPress(){ if (woPress) { clearTimeout(woPress.t); woPress = null; } }
+woTilesEl.addEventListener("pointerdown", function(e){
+  woLong = false;
+  var hit = e.target.closest(".wo-tile .hit");
+  if (!hit || e.button !== 0) return;
+  var id = hit.closest(".tile").dataset.id;
+  woCancelPress();
+  woPress = { x: e.clientX, y: e.clientY, t: setTimeout(function(){
+    woPress = null;
+    woLong = true;
+    try { if (navigator.vibrate) navigator.vibrate(12); } catch (err) {}
+    woOpenQuick(id);
+  }, 480) };
+});
+woTilesEl.addEventListener("pointermove", function(e){
+  if (woPress && Math.abs(e.clientX - woPress.x) + Math.abs(e.clientY - woPress.y) > 12) woCancelPress();
+});
+["pointerup", "pointercancel"].forEach(function(t){ woTilesEl.addEventListener(t, woCancelPress); });
+woTilesEl.addEventListener("contextmenu", function(e){
+  var tile = e.target.closest(".wo-tile");
+  if (!tile) return;
+  e.preventDefault();
+  woCancelPress();
+  if (!dlgQuick.open) woOpenQuick(tile.dataset.id);
+});
+woTilesEl.addEventListener("click", function(e){
+  var btn = e.target.closest("button"), tile = btn && btn.closest(".wo-tile");
+  if (!tile) return;
+  var ex = woEx(tile.dataset.id);
+  if (!ex) return;
+  if (btn.dataset.act === "more") { woOpenQuick(ex.id); return; }
+  if (woLong) { woLong = false; return; }
+  var recs = woRecs(), before = woRecsDone(recs);
+  var n = woTap(ex);
+  scheduleSave();
+  if (!n) sndUndo();
+  else if (!before && woRecsDone(recs)) sndWin();
+  else sndCheck();
+  woRenderToday();
+  var fresh = woTilesEl.querySelector('.tile[data-id="' + ex.id + '"]');
+  if (!fresh) return;
+  if (n) {
+    fresh.classList.add("just");
+    setTimeout(function(){ fresh.classList.remove("just"); }, 460);
+  }
+  if (n >= ex.sets) {
+    var bloom = document.createElement("div");
+    bloom.className = "bloom";
+    fresh.appendChild(bloom);
+    setTimeout(function(){ bloom.remove(); }, 700);
+  }
+  fresh.querySelector(".hit").focus({ preventScroll: true });
+});
+document.getElementById("view-workout").addEventListener("click", function(e){
+  var b = e.target.closest("[data-wo]");
+  if (b) {
+    var what = b.dataset.wo;
+    if (what === "guide") woOpenGuide(WO_FULL_GUIDE);
+    else if (what === "pick") woOpenGuide(["pick", "base"]);
+    else if (what === "plan") woOpenGuide(["plan"]);
+    else if (what === "settings") woOpenSettings();
+    return;
+  }
+  var x = e.target.closest("[data-export]");
+  if (x) woExport(x.dataset.export);
+});
+document.getElementById("wo-tabs").addEventListener("click", function(e){
+  var b = e.target.closest("button");
+  if (!b) return;
+  woView = b.dataset.wv;
+  renderWorkout();
+});
+
+function renderWorkout(){
+  document.querySelectorAll("#wo-tabs button").forEach(function(b){
+    b.setAttribute("aria-selected", String(b.dataset.wv === woView));
+  });
+  ["today", "progress", "history"].forEach(function(v){
+    document.getElementById("wo-" + v).hidden = v !== woView;
+  });
+  if (woView === "progress") woRenderProgress();
+  else if (woView === "history") woRenderHistory();
+  else woRenderToday();
+}
+
+/* ---- quick sheet: long press on a circle ---- */
+var dlgQuick = document.getElementById("dlg-wo-quick"), wqId = null;
+function woOpenQuick(id){
+  if (!woEx(id)) return;
+  wqId = id;
+  document.getElementById("wq-confirm").hidden = true;
+  document.getElementById("wq-more").open = false;
+  woRenderQuick();
+  if (!dlgQuick.open) dlgQuick.showModal();
+}
+function woRenderQuick(){
+  var ex = woEx(wqId);
+  if (!ex) return;
+  document.getElementById("wq-emo").textContent = ex.emoji;
+  var rows = document.getElementById("wq-rows");
+  rows.dataset.ex = ex.id;
+  rows.innerHTML = woNumHTML(ex, "n", "Sets done today") + woNumsHTML(ex);
+  var more = document.getElementById("wq-more-body"), dflt = state.workout.tap === "set" ? "one set" : "every set";
+  more.dataset.ex = ex.id;
+  more.innerHTML =
+    '<div class="field"><label for="wq-name-in">Name</label><input type="text" id="wq-name-in" maxlength="32" value="' + esc(ex.name) + '"></div>' +
+    '<div class="field"><label>A tap logs</label><div class="cat-picks" id="wq-tap">' +
+      [["", "Default (" + dflt + ")"], ["all", "Every set"], ["set", "One set"]].map(function(o){
+        return '<button type="button" data-qtap="' + o[0] + '" aria-pressed="' + ((ex.tap || "") === o[0]) + '">' + o[1] + "</button>";
+      }).join("") + "</div></div>" +
+    '<div class="field"><label>Muscle groups</label><div class="cat-picks" id="wq-groups">' +
+      MUSCLES.map(function(g){
+        return '<button type="button" data-qg="' + g + '" aria-pressed="' + (ex.groups.indexOf(g) >= 0) + '">' + g + "</button>";
+      }).join("") + '</div><p class="note" style="margin-top:6px">The first one is where its circle sits on Today.</p></div>' +
+    '<div class="field"><label>Progression</label>' + woProgHTML(ex) + '<p class="note" id="wq-prog-note"></p></div>';
+  woRefreshQuick();
+}
+function woRefreshQuick(){
+  var ex = woEx(wqId);
+  if (!ex) return;
+  document.getElementById("wq-name").textContent = ex.name;
+  woRefreshNums(dlgQuick);
+  var last = woLastBefore(ex.id, TODAY), e = last ? woEntry(ex.id, last) : null;
+  document.getElementById("wq-last").textContent = e
+    ? "Last time, " + fmtRange(last, last) + ": " + (e.n < e.sets ? e.n + " of " : "") + woSummary(e, ex)
+    : "First time logging this one.";
+  var due = woDue(ex);
+  document.getElementById("wq-due").hidden = !due;
+  if (due) {
+    document.getElementById("wq-due-text").innerHTML = "It has been " + ex.prog.weeks + " week" + (ex.prog.weeks === 1 ? "" : "s") +
+      ". Ready to go up? <b>" + esc(woBumpText(ex)) + "</b>";
+  }
+  var note = document.getElementById("wq-prog-note");
+  if (note) {
+    note.textContent = !ex.prog.on ? "Off. Numbers change only when you change them."
+      : due ? "Due now." : "Next step up around " + fmtRange(woNextBump(ex), woNextBump(ex)) + ". You'll see ↑ on the circle.";
+  }
+}
+woBindNums(dlgQuick, function(){ woRefreshQuick(); woRenderToday(); });
+woBindProg(dlgQuick, function(){ woRefreshQuick(); woRenderToday(); });
+dlgQuick.addEventListener("input", function(e){
+  if (e.target.id !== "wq-name-in") return;
+  var ex = woEx(wqId), v = e.target.value.trim();
+  if (!ex || !v) return;
+  ex.name = v.slice(0, 32);
+  scheduleSave();
+  document.getElementById("wq-name").textContent = ex.name;
+  woRenderToday();
+});
+dlgQuick.addEventListener("click", function(e){
+  var ex = woEx(wqId), t = e.target, b;
+  if (!ex) return;
+  if ((b = t.closest("[data-qtap]"))) {
+    ex.tap = b.dataset.qtap || null;
+    dlgQuick.querySelectorAll("[data-qtap]").forEach(function(x){ x.setAttribute("aria-pressed", String(x === b)); });
+  } else if ((b = t.closest("[data-qg]"))) {
+    var g = b.dataset.qg, i = ex.groups.indexOf(g);
+    if (i >= 0 && ex.groups.length > 1) ex.groups.splice(i, 1);
+    else if (i < 0) ex.groups.push(g);
+    dlgQuick.querySelectorAll("[data-qg]").forEach(function(x){ x.setAttribute("aria-pressed", String(ex.groups.indexOf(x.dataset.qg) >= 0)); });
+  } else if (t.closest("#wq-bump")) {
+    woBump(ex);
+    sndCheck();
+  } else if (t.closest("#wq-snooze")) {
+    ex.prog.snooze = shiftKey(TODAY, 7);
+  } else if (t.closest("#wq-remove")) {
+    document.getElementById("wq-confirm-text").textContent = woHasHistory(ex.id)
+      ? "Take " + ex.name + " off Today? Its history stays in Progress, and you can bring it back from Exercises."
+      : "Remove " + ex.name + "? Nothing has been logged for it yet.";
+    document.getElementById("wq-confirm").hidden = false;
+    return;
+  } else if (t.closest("#wq-confirm-no")) {
+    document.getElementById("wq-confirm").hidden = true;
+    return;
+  } else if (t.closest("#wq-confirm-yes")) {
+    woRemove(ex);
+    scheduleSave();
+    dlgQuick.close();
+    woRenderToday();
+    return;
+  } else if (t.closest("#wq-done")) {
+    dlgQuick.close();
+    return;
+  } else return;
+  scheduleSave();
+  woRefreshQuick();
+  woRenderToday();
+});
+
+/* ---- setup guide: tap style, exercises, baselines, weekly plan ---- */
+var dlgGuide = document.getElementById("dlg-wo-guide"), wg = { steps: WO_FULL_GUIDE, i: 0 };
+var WG_TITLES = { intro: "Set up workout mode", pick: "Choose your exercises", base: "Your starting point", plan: "Your usual week" };
+function woPie(frac){
+  var a = frac * Math.PI * 2 - Math.PI / 2, x = 27 + Math.cos(a) * 20, y = 27 + Math.sin(a) * 20;
+  var wedge = frac >= 1 ? '<circle cx="27" cy="27" r="20" fill="var(--g-moss)"/>'
+    : '<path d="M27 27 L27 7 A20 20 0 ' + (frac > 0.5 ? 1 : 0) + ' 1 ' + x.toFixed(2) + " " + y.toFixed(2) + ' Z" fill="color-mix(in srgb, var(--g-moss) 50%, var(--surface))"/>';
+  return '<svg width="54" height="54" viewBox="0 0 54 54" aria-hidden="true"><circle cx="27" cy="27" r="20" fill="var(--surface)" stroke="var(--hairline-2)" stroke-width="1.5"/>' + wedge + "</svg>";
+}
+var WG_STEPS = {
+  intro: function(){
+    var w = state.workout;
+    return '<p class="wg-lead">Every exercise gets its own circle, just like a habit. Tap it once your sets are done. ' +
+      "Workouts live in their own tab and never touch your habits or tasks.</p>" +
+      '<div class="field"><label>A tap on a circle logs</label><div class="wo-choice" id="wg-tap">' +
+        '<button type="button" data-gtap="all" aria-pressed="' + (w.tap === "all") + '">' + woPie(1) +
+          "<b>Every set at once</b><small>One tap and the circle is full.</small></button>" +
+        '<button type="button" data-gtap="set" aria-pressed="' + (w.tap === "set") + '">' + woPie(0.25) +
+          "<b>One set per tap</b><small>With 4 sets, each tap fills a quarter.</small></button></div></div>" +
+      '<div class="field"><label>Weights in</label><div class="cat-picks">' +
+        '<button type="button" data-gunit="lb" aria-pressed="' + (w.unit === "lb") + '">lb</button>' +
+        '<button type="button" data-gunit="kg" aria-pressed="' + (w.unit === "kg") + '">kg</button></div></div>' +
+      '<p class="note">To change sets, reps or weight, press and hold a circle (or right-click it) and use ▲ ▼. ' +
+      "Any exercise can also use its own tap style.</p>";
+  },
+  pick: function(){
+    var mine = {}, own = [];
+    state.workout.exercises.forEach(function(ex){
+      if (ex.key) mine[ex.key] = !ex.retired;
+      else own.push(ex);
+    });
+    return '<p class="wg-lead">Pick what you train. Each one becomes a circle, grouped by muscle. Change it any time.</p>' +
+      MUSCLES.map(function(g){
+        var libs = WO_LIB.filter(function(l){ return l.groups[0] === g; });
+        var n = libs.filter(function(l){ return mine[l.key]; }).length + own.filter(function(ex){ return !ex.retired && ex.groups[0] === g; }).length;
+        return '<div class="wg-group"><h3>' + g + (n ? "<span>" + n + " picked</span>" : "") + '</h3><div class="cat-picks">' +
+          libs.map(function(l){
+            return '<button type="button" data-key="' + l.key + '" aria-pressed="' + !!mine[l.key] + '">' + l.emoji + " " + esc(l.name) + "</button>";
+          }).join("") + "</div></div>";
+      }).join("") +
+      '<div class="wg-group"><h3>Your own</h3>' +
+        (own.length ? '<div class="cat-picks">' + own.map(function(ex){
+          return '<button type="button" data-own="' + ex.id + '" aria-pressed="' + !ex.retired + '">' + ex.emoji + " " + esc(ex.name) + "</button>";
+        }).join("") + "</div>" : "") +
+        '<div class="wg-own"><input type="text" id="wg-own-name" maxlength="32" placeholder="Cable kickback, sled push…" aria-label="Exercise name">' +
+        '<select class="wo-sel" id="wg-own-group" aria-label="Muscle group">' + MUSCLES.map(function(g){ return "<option>" + g + "</option>"; }).join("") + "</select>" +
+        '<select class="wo-sel" id="wg-own-kind" aria-label="How it is measured"><option value="w">Weights</option><option value="b">Bodyweight</option><option value="t">Timed</option></select>' +
+        '<button type="button" class="btn btn-ghost" id="wg-own-add">Add</button></div></div>';
+  },
+  base: function(){
+    var live = woLive();
+    if (!live.length) return '<p class="wg-lead">No exercises picked yet. Go back a step and choose a few.</p>';
+    return '<p class="wg-lead">Where are you starting from? Enter what you do today. Taps log these numbers until you change them, ' +
+      "and “Go up” puts a ↑ on the circle when it is time to add more.</p>" +
+      live.map(function(ex){
+        return '<div class="wb-row" data-ex="' + ex.id + '"><div class="wb-name"><span>' + ex.emoji + "</span><b>" + esc(ex.name) +
+          "</b><small>" + ex.groups.join(", ") + '</small></div><div class="wb-nums">' + woNumsHTML(ex) + "</div>" + woProgHTML(ex) + "</div>";
+      }).join("");
+  },
+  plan: function(){
+    var p = state.workout.plan, today = parseKey(TODAY).getDay();
+    return '<p class="wg-lead">Optional. Pick the muscle groups for each day. On that day, the circles you have gone longest without ' +
+      "are highlighted so you know what is due. Leave a day empty to rest.</p>" +
+      [1, 2, 3, 4, 5, 6, 0].map(function(d){
+        return '<div class="wp-row' + (d === today ? " today" : "") + '"><span class="wp-day">' + WD[d] + '</span><div class="cat-picks" data-day="' + d + '">' +
+          MUSCLES.map(function(g){
+            return '<button type="button" data-g="' + g + '" aria-pressed="' + ((p[d] || []).indexOf(g) >= 0) + '">' + g + "</button>";
+          }).join("") + "</div></div>";
+      }).join("");
+  }
+};
+function woOpenGuide(steps){
+  wg = { steps: steps, i: 0 };
+  woRenderGuide();
+  if (!dlgGuide.open) dlgGuide.showModal();
+}
+function woRenderGuide(keepScroll){
+  var step = wg.steps[wg.i], top = dlgGuide.scrollTop;
+  document.getElementById("wg-count").textContent = wg.steps.length > 1 ? "Step " + (wg.i + 1) + " of " + wg.steps.length : "";
+  document.getElementById("wg-title").textContent = WG_TITLES[step];
+  document.getElementById("wg-body").innerHTML = WG_STEPS[step]();
+  document.getElementById("wg-back").hidden = wg.i === 0;
+  document.getElementById("wg-next").textContent = wg.i === wg.steps.length - 1 ? "Done" : "Next";
+  dlgGuide.scrollTop = keepScroll ? top : 0;
+}
+function woAddOwn(){
+  var inp = document.getElementById("wg-own-name"), name = inp.value.trim();
+  if (!name) { inp.focus(); return; }
+  var g = document.getElementById("wg-own-group").value, kind = document.getElementById("wg-own-kind").value;
+  state.workout.exercises.push(woNewEx({ name: name, groups: [g], kind: kind, tu: g === "Cardio" ? "min" : "s" }));
+  scheduleSave();
+  woRenderGuide(true);
+  renderWorkout();
+}
+woBindNums(dlgGuide, function(){ woRefreshNums(dlgGuide); });
+woBindProg(dlgGuide, function(){ woRenderGuide(true); });
+dlgGuide.addEventListener("keydown", function(e){
+  if (e.key === "Enter" && e.target.id === "wg-own-name") { e.preventDefault(); woAddOwn(); }
+});
+dlgGuide.addEventListener("click", function(e){
+  var t = e.target, w = state.workout, b;
+  if ((b = t.closest("[data-gtap]"))) w.tap = b.dataset.gtap;
+  else if ((b = t.closest("[data-gunit]"))) woSetUnit(b.dataset.gunit);
+  else if ((b = t.closest("[data-key]"))) woToggleLib(b.dataset.key);
+  else if ((b = t.closest("[data-own]"))) { var ex = woEx(b.dataset.own); if (ex) { if (ex.retired) woRestore(ex); else woRemove(ex); } }
+  else if ((b = t.closest("[data-day] [data-g]"))) woTogglePlan(+b.closest("[data-day]").dataset.day, b.dataset.g);
+  else if (t.closest("#wg-own-add")) { woAddOwn(); return; }
+  else if (t.closest("#wg-back")) { wg.i--; woRenderGuide(); return; }
+  else if (t.closest("#wg-next")) {
+    if (wg.i < wg.steps.length - 1) { wg.i++; woRenderGuide(); return; }
+    w.setup = true;
+    scheduleSave();
+    dlgGuide.close();
+    section = "workout"; woView = "today";
+    applyNav();
+    return;
+  } else return;
+  scheduleSave();
+  woRenderGuide(true);
+  renderWorkout();
+});
+
+/* ---- workout settings ---- */
+var dlgWoSet = document.getElementById("dlg-wo-set");
+function woOpenSettings(){ woRenderSettings(); dlgWoSet.showModal(); }
+function woRenderSettings(){
+  var w = state.workout;
+  dlgWoSet.querySelectorAll("[data-tap]").forEach(function(b){ b.setAttribute("aria-pressed", String(b.dataset.tap === w.tap)); });
+  dlgWoSet.querySelectorAll("[data-unit]").forEach(function(b){ b.setAttribute("aria-pressed", String(b.dataset.unit === w.unit)); });
+  [["ws-rec", "rec", w.recGlaze], ["ws-done", "done", w.doneGlaze]].forEach(function(s){
+    document.getElementById(s[0]).innerHTML = GLAZES.map(function(gl){
+      return '<button type="button" data-' + s[1] + '="' + gl + '" style="--glaze:var(--g-' + gl + ')" aria-pressed="' + (gl === s[2]) + '" aria-label="' + gl + '"></button>';
+    }).join("");
+  });
+  document.getElementById("ws-size").value = w.size;
+  document.getElementById("ws-size-val").textContent = Math.round(w.size * 100) + "%";
+}
+dlgWoSet.addEventListener("click", function(e){
+  var w = state.workout, t = e.target, b;
+  if ((b = t.closest("[data-tap]"))) w.tap = b.dataset.tap;
+  else if ((b = t.closest("[data-unit]"))) woSetUnit(b.dataset.unit);
+  else if ((b = t.closest("[data-rec]"))) w.recGlaze = b.dataset.rec;
+  else if ((b = t.closest("[data-done]"))) w.doneGlaze = b.dataset.done;
+  else if ((b = t.closest("[data-export]"))) { woExport(b.dataset.export); return; }
+  else if (t.closest("#ws-guide")) { dlgWoSet.close(); woOpenGuide(WO_FULL_GUIDE); return; }
+  else if (t.closest("#ws-close")) { dlgWoSet.close(); return; }
+  else return;
+  scheduleSave();
+  woRenderSettings();
+  renderWorkout();
+});
+document.getElementById("ws-size").addEventListener("input", function(e){
+  state.workout.size = woNum(e.target.value, 0.6, 1.6);
+  document.getElementById("ws-size-val").textContent = Math.round(state.workout.size * 100) + "%";
+  scheduleSave();
+  renderWorkout();
+});
+
+/* ---- progress and history ---- */
+function woConv(v, u){ var to = state.workout.unit; return u === to ? v : (to === "kg" ? v * KG : v / KG); }
+function woVol(e, ex){ return ex && ex.kind === "w" ? e.n * e.reps * woConv(e.weight, e.u) : 0; }
+function woMonday(k){ return shiftKey(k, -((parseKey(k).getDay() + 6) % 7)); }
+function woBig(n){ return Math.round(n).toLocaleString(); }
+function woAgo(d){ return d === null ? "—" : d === 0 ? "today" : d + "d ago"; }
+function woSpark(vals){
+  var n = vals.length, lo = Math.min.apply(null, vals), hi = Math.max.apply(null, vals), span = hi - lo || 1;
+  var pts = vals.map(function(v, i){
+    return [n > 1 ? 6 + i / (n - 1) * 288 : 150, hi === lo ? 30 : 52 - (v - lo) / span * 44];
+  });
+  var last = pts[pts.length - 1];
+  return '<svg class="wo-spark" viewBox="0 0 300 60" aria-hidden="true"><line x1="0" x2="300" y1="59" y2="59"></line>' +
+    (n > 1 ? '<polyline points="' + pts.map(function(p){ return p[0].toFixed(1) + "," + p[1].toFixed(1); }).join(" ") + '"></polyline>' : "") +
+    '<circle cx="' + last[0].toFixed(1) + '" cy="' + last[1].toFixed(1) + '" r="3.6"></circle></svg>';
+}
+function woCard(ex){
+  var log = state.workout.log, pts = [];
+  Object.keys(log).sort().forEach(function(k){ if (log[k][ex.id]) pts.push({ k: k, e: log[k][ex.id] }); });
+  var useW = ex.kind === "w" && pts.some(function(p){ return p.e.weight > 0; });
+  var unit = ex.kind === "t" ? (ex.tu === "s" ? "s" : "min") : (useW ? state.workout.unit : "reps");
+  var vals = pts.map(function(p){ return +(ex.kind === "t" ? p.e.dur : (useW ? woConv(p.e.weight, p.e.u) : p.e.reps)).toFixed(1); });
+  var sets = pts.reduce(function(a, p){ return a + p.e.n; }, 0);
+  var best = Math.max.apply(null, vals), first = vals[0], last = vals[vals.length - 1], diff = +(last - first).toFixed(1);
+  var since = fmtDay(pts[0].k);
+  var change = pts.length === 1 ? "First logged " + since + " at " + woFmtNum(first) + " " + unit
+    : diff > 0 ? "<b>+" + woFmtNum(diff) + " " + unit + "</b> since " + since
+    : diff < 0 ? woFmtNum(diff) + " " + unit + " since " + since
+    : "Holding at " + woFmtNum(last) + " " + unit + " since " + since;
+  return '<div class="card" style="--glaze:var(--g-' + MUSCLE_GLAZE[ex.groups[0]] + ')">' +
+    '<div class="card-head"><span class="wo-card-emo">' + ex.emoji + "</span><h3>" + esc(ex.name) + "</h3>" +
+    (ex.retired ? '<span class="badge">Put away</span>' : (woDue(ex) ? '<span class="badge">↑ Due</span>' : "")) +
+    '<div class="facts"><span><b>' + pts.length + "</b> day" + (pts.length === 1 ? "" : "s") + "</span>" +
+    "<span><b>" + sets + "</b> sets</span><span>best <b>" + woFmtNum(best) + " " + unit + "</b></span></div></div>" +
+    woSpark(vals.slice(-40)) + '<div class="wo-change">' + change + "</div></div>";
+}
+function woExportHTML(){
+  return '<div class="wo-export"><span class="shelf-label">Your workout data</span>' +
+    '<button type="button" class="btn btn-soft" data-export="csv">Download CSV</button>' +
+    '<button type="button" class="btn btn-soft" data-export="json">Download JSON</button></div>';
+}
+function woRenderProgress(){
+  var w = state.workout, log = w.log, el = document.getElementById("wo-progress");
+  var days = Object.keys(log).sort();
+  if (!days.length) {
+    el.innerHTML = '<div class="empty"><h2>Nothing logged yet</h2><p>Tap a circle on Today after your sets and your progress starts filling in here.</p></div>' + woExportHTML();
+    return;
+  }
+  // this week so far against the same days of last week, so Monday never reads as a loss
+  var wk = woMonday(TODAY), prevWk = shiftKey(wk, -7), prevCut = shiftKey(TODAY, -7), month = TODAY.slice(0, 7);
+  var cur = { sets: 0, vol: 0 }, prev = { sets: 0, vol: 0 }, monthDays = 0, weeks = {}, perDay = {};
+  days.forEach(function(k){
+    weeks[woMonday(k)] = true;
+    if (k.slice(0, 7) === month) monthDays++;
+    var bucket = k >= wk ? cur : (k >= prevWk && k <= prevCut ? prev : null), n = 0;
+    Object.keys(log[k]).forEach(function(id){
+      var e = log[k][id];
+      n += e.n;
+      if (bucket) { bucket.sets += e.n; bucket.vol += woVol(e, woEx(id)); }
+    });
+    perDay[k] = n;
+  });
+  var streak = 0, m = weeks[wk] ? wk : prevWk;
+  while (weeks[m]) { streak++; m = shiftKey(m, -7); }
+  function delta(a, b){
+    if (!a && !b) return "";
+    var d = Math.round(a - b);
+    return ' <span class="delta' + (d > 0 ? "" : " flat") + '">' + (d > 0 ? "+" : "") + woBig(d) + "</span> vs last week";
+  }
+  var html = '<div class="stat-row">' +
+    '<div class="stat"><div class="bignum">' + monthDays + "</div><label>Workout days in " + MONTHS[parseKey(TODAY).getMonth()] + "</label></div>" +
+    '<div class="stat"><div class="bignum">' + cur.sets + "</div><label>Sets this week" + delta(cur.sets, prev.sets) + "</label></div>" +
+    '<div class="stat"><div class="bignum">' + woBig(cur.vol) + "</div><label>" + w.unit + " moved this week" + delta(cur.vol, prev.vol) + "</label></div>" +
+    '<div class="stat"><div class="bignum">' + streak + "</div><label>Week streak</label></div></div>";
+
+  // last 16 weeks, a column per week
+  var start = shiftKey(wk, -15 * 7), heat = "", active = 0;
+  for (var i = 0; i < 16 * 7; i++) {
+    var k = shiftKey(start, i), n = perDay[k] || 0;
+    if (n) active++;
+    heat += '<i class="' + (k > TODAY ? "future" : "") + '" data-n="' + (n ? (n < 7 ? 1 : n < 15 ? 2 : 3) : 0) +
+      '" title="' + fmtDay(k) + ": " + n + " set" + (n === 1 ? "" : "s") + '"></i>';
+  }
+  // sets per muscle group over the last four weeks; an exercise counts toward each of its groups
+  var from = shiftKey(TODAY, -27), byGroup = {}, lastGroup = {};
+  days.forEach(function(k){
+    Object.keys(log[k]).forEach(function(id){
+      var ex = woEx(id);
+      if (!ex) return;
+      ex.groups.forEach(function(g){
+        if (k >= from) byGroup[g] = (byGroup[g] || 0) + log[k][id].n;
+        lastGroup[g] = k;
+      });
+    });
+  });
+  var planned = {};
+  Object.keys(w.plan).forEach(function(d){ w.plan[d].forEach(function(g){ planned[g] = true; }); });
+  var groups = MUSCLES.filter(function(g){
+    return byGroup[g] || lastGroup[g] || planned[g] || woLive().some(function(ex){ return ex.groups.indexOf(g) >= 0; });
+  });
+  var top = Math.max.apply(null, groups.map(function(g){ return byGroup[g] || 0; }).concat([1]));
+  var bars = groups.map(function(g){
+    var ago = lastGroup[g] ? daysApart(lastGroup[g], TODAY) : null;
+    return '<div class="bar-row"><span class="wk">' + g + '</span><span class="bar-track"><i style="width:' +
+      ((byGroup[g] || 0) / top * 100) + "%; background:var(--g-" + MUSCLE_GLAZE[g] + ')"></i></span>' +
+      '<span class="n">' + (byGroup[g] || 0) + '</span><span class="ago' + (ago === null || ago > WO_STALE ? " late" : "") + '">' +
+      woAgo(ago) + "</span></div>";
+  }).join("");
+
+  html += '<div class="card-grid">' +
+    '<div class="card" style="--glaze:var(--g-' + w.doneGlaze + ')"><div class="card-head"><h3>Last 16 weeks</h3>' +
+      '<div class="facts"><span><b>' + active + "</b> workout days</span></div></div>" +
+      '<div class="wo-heat">' + heat + "</div></div>" +
+    '<div class="card"><div class="card-head"><h3>Muscle balance</h3><div class="facts"><span>sets, last 4 weeks · last trained</span></div></div>' +
+      '<div class="bars wo-bars">' + bars + "</div></div></div>";
+
+  var withHistory = w.exercises.filter(function(ex){ return woHasHistory(ex.id); });
+  withHistory.sort(function(a, b){ return (a.retired ? 1 : 0) - (b.retired ? 1 : 0); });
+  var waiting = woLive().filter(function(ex){ return !woHasHistory(ex.id); });
+  html += '<div class="mile-head"><h2>Exercises</h2><span class="sec-rule"></span></div>' +
+    (waiting.length ? '<p class="wo-not-yet">Not logged yet: ' + waiting.map(function(ex){ return esc(ex.name); }).join(", ") + "</p>" : "") +
+    '<div class="wo-cards">' + withHistory.map(woCard).join("") + "</div>" + woExportHTML();
+  el.innerHTML = html;
+}
+function woRenderHistory(){
+  var log = state.workout.log, el = document.getElementById("wo-history");
+  var days = Object.keys(log).sort().reverse().slice(0, 90);
+  if (!days.length) {
+    el.innerHTML = '<div class="empty"><h2>No sessions yet</h2><p>Each day you log a set shows up here with what you did.</p></div>' + woExportHTML();
+    return;
+  }
+  el.innerHTML = days.map(function(k){
+    var ids = Object.keys(log[k]), sets = 0, vol = 0, d = parseKey(k);
+    var rows = ids.map(function(id){
+      var e = log[k][id], ex = woEx(id);
+      sets += e.n;
+      vol += woVol(e, ex);
+      return '<div class="log-row' + (e.n < e.sets ? " partial" : "") + '"><span class="at">' + ex.emoji + "</span>" +
+        '<span class="what">' + esc(ex.name) + "</span>" +
+        '<span class="len">' + (e.n < e.sets ? e.n + " of " : "") + esc(woSummary(e, ex)) + "</span></div>";
+    }).join("");
+    var label = k === TODAY ? "Today" : (k === shiftKey(TODAY, -1) ? "Yesterday" : WD[d.getDay()] + ", " + MSHORT[d.getMonth()] + " " + d.getDate());
+    return '<div class="log-day"><h3>' + label + "<span>" + ids.length + " exercise" + (ids.length === 1 ? "" : "s") +
+      " · " + sets + " sets" + (vol ? " · " + woBig(vol) + " " + state.workout.unit : "") + "</span></h3>" + rows + "</div>";
+  }).join("") + woExportHTML();
+}
+
+/* ---- export ---- */
+function csvCell(v){ v = String(v); return /[",\n]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v; }
+function woExport(kind){
+  var w = state.workout, log = w.log, text, name;
+  if (kind === "json") {
+    text = JSON.stringify({ app: "groundwork-workout", exportedAt: new Date().toISOString(), unit: w.unit,
+                            exercises: w.exercises, plan: w.plan, log: log }, null, 2);
+    name = "groundwork-workouts-" + TODAY + ".json";
+  } else {
+    var rows = [["date", "exercise", "muscle_groups", "sets_done", "sets_planned", "reps", "weight", "weight_unit", "time", "time_unit", "volume"]];
+    Object.keys(log).sort().forEach(function(k){
+      Object.keys(log[k]).forEach(function(id){
+        var e = log[k][id], ex = woEx(id), t = ex.kind === "t", wt = ex.kind === "w";
+        rows.push([k, ex.name, ex.groups.join(" + "), e.n, e.sets, t ? "" : e.reps, wt ? e.weight : "", wt ? e.u : "",
+                   t ? e.dur : "", t ? ex.tu : "", wt ? Math.round(e.n * e.reps * e.weight) : ""]);
+      });
+    });
+    text = rows.map(function(r){ return r.map(csvCell).join(","); }).join("\n") + "\n";
+    name = "groundwork-workouts-" + TODAY + ".csv";
+  }
+  saveFile(name, text, kind === "json" ? "application/json" : "text/csv", flashNote);
+}
+
+/* ---- switching it on and off (Settings) ---- */
+var swWorkout = document.getElementById("s-workout");
+swWorkout.addEventListener("click", function(){
+  var w = state.workout;
+  w.on = !w.on;
+  swWorkout.setAttribute("aria-pressed", String(w.on));
+  scheduleSave();
+  if (w.on) {
+    dlgSet.close();
+    section = "workout"; woView = "today";
+    applyNav();
+    if (!w.setup) woOpenGuide(WO_FULL_GUIDE);
+  } else {
+    applyNav();
+  }
+});
 
 /* ---------------- start ---------------- */
 function start(){

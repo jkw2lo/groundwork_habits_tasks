@@ -50,6 +50,33 @@ tray onto spots — or tap a habit, then tap a spot. Empty spots stay empty on T
 Habits left in the tray show under the board, and new habits drop into the first free
 spot. Grouping by category takes precedence over the custom board while it is on.
 
+## Workout mode
+
+Off by default. Settings → **Workout mode** adds a **Workout** tab after Habits and Tasks
+and opens a setup guide the first time: how a tap logs sets, lb or kg, which exercises
+(picked from a list grouped by muscle, or your own), your starting sets/reps/weight, and
+an optional weekly plan of muscle groups. Switching it off hides the tab and keeps the data.
+
+It lives in its own slice of the data, `workout`, and never touches habits or tasks.
+
+- **Logging.** Each exercise is a circle. A tap logs every set at once, or one set per
+  tap (4 sets → each tap fills a quarter); set the default in Workout settings and
+  override it per exercise. Tapping a full circle clears it.
+- **Adjusting.** Press and hold a circle (or right-click it, or use its ⋯ button) for
+  ▲ ▼ steppers on sets done today, sets, reps and weight (or time). Numbers can be
+  typed too. They carry forward to the next session until changed.
+- **Progression.** Per exercise: go up by an amount every N weeks (weight, reps, sets or
+  time). When it is due, the circle shows ↑ and the long-press sheet offers **Go up**
+  or **Not yet** (asks again in a week). Raising the number by hand also restarts the clock.
+- **Recommendations.** With a weekly plan, each planned muscle group highlights the two
+  exercises you have gone longest without (color set in Workout settings). With no plan,
+  anything untouched for 10+ days is highlighted. Done circles take the done color.
+- **Progress** tab: workout days, sets and volume vs the same days last week, week streak,
+  a 16-week activity grid, sets per muscle group, and a trend line per exercise.
+  **History** lists each day's sessions.
+- **Export:** Download CSV (one row per exercise per day) or JSON from Progress, History
+  or Workout settings. The regular backup includes workouts as well.
+
 ## Sync across devices (Firebase + GitHub or Google sign-in)
 
 The artifact already syncs through your claude.ai account. The Firebase option is for

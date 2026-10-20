@@ -695,7 +695,7 @@ dialog h2{font-size:20px; font-stretch:112%; margin-bottom:18px}
 /* phones: muscle-group cards, then big rows */
 #wo-tiles.wo-m{display:block}
 .wo-cats{display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:12px}
-.wo-cat{position:relative; display:flex; flex-direction:column; align-items:flex-start; gap:4px; padding:14px; min-height:132px;
+.wo-cat{position:relative; display:flex; flex-direction:column; align-items:flex-start; gap:4px; padding:14px; min-height:112px;
   border-radius:16px; background:var(--surface); border:1px solid var(--hairline); box-shadow:var(--shadow)}
 .wo-cat.has-due{border-color:var(--rec); background:color-mix(in srgb, var(--rec) 8%, var(--surface))}
 .wo-cat-open{position:absolute; inset:0; border-radius:16px; z-index:1}
@@ -806,7 +806,7 @@ dialog h2{font-size:20px; font-stretch:112%; margin-bottom:18px}
 .wo-up{color:var(--g-moss); font-weight:800}
 .tile.done .wo-up{color:var(--on-glaze)}
 .wo-tile .hit > *{flex-shrink:0}
-@container (max-width:150px){
+@container (max-width:170px){
   .wo-dots{display:none} .wo-tile .wo-why{font-size:10px}
   /* small circles: the "days ago" or record line stands in for the numbers */
   .wo-tile .hit:has(.wo-why, .wo-pr) .sub{display:none}
@@ -859,7 +859,8 @@ dialog h2{font-size:20px; font-stretch:112%; margin-bottom:18px}
 /* deal me a workout */
 .wd-cta{display:flex; flex-wrap:wrap; align-items:center; gap:8px 16px; margin:-8px 0 22px}
 .wd-cta span{font-size:13px; color:var(--ink-3); flex:1 1 220px}
-.wd-go{display:inline-flex; align-items:center; gap:8px; padding:11px 20px; border-radius:999px; font-size:15px}
+.wd-cta .wd-btns{display:flex; gap:8px; flex-wrap:wrap}
+.wd-go{display:inline-flex; align-items:center; gap:6px; padding:7px 14px; border-radius:999px; font-size:13.5px}
 .wd-go{white-space:nowrap; flex:none}
 /* phones: a shorter top, so the exercises start sooner */
 @media (max-width:640px){
@@ -868,7 +869,6 @@ dialog h2{font-size:20px; font-stretch:112%; margin-bottom:18px}
   #wo-today .meter{margin-top:10px}
   .wd-cta{margin:-4px 0 14px}
   .wd-cta span{display:none}
-  .wd-go{width:100%; justify-content:center; padding:12px 16px}
   .wo-hint{margin:0 0 14px; padding:10px 12px}
   .wo-hint p{font-size:13px}
   .wo-hint .btn{padding:7px 12px; font-size:13.5px}
@@ -906,7 +906,7 @@ dialog h2{font-size:20px; font-stretch:112%; margin-bottom:18px}
 .wd-nav{width:44px; height:44px; border-radius:50%; border:1px solid var(--hairline); background:var(--surface); color:var(--ink-2);
   display:grid; place-items:center; flex:none}
 .wd-nav:disabled{opacity:.3}
-#wo-tiles .wd-card .tile{width:min(340px, 66vw)}
+#wo-tiles .wd-card .tile{width:min(calc(300px * var(--tile, 1)), 78vw)}
 .wd-card .tile-menu{display:none}
 .wd-info{text-align:center}
 .wd-info h2{font-size:26px; font-stretch:112%; letter-spacing:-.02em}
@@ -919,6 +919,7 @@ dialog h2{font-size:20px; font-stretch:112%; margin-bottom:18px}
 .wo-swipe{touch-action:pan-y}
 .wo-sw-head{display:flex; align-items:center; gap:10px; margin-bottom:6px}
 .wo-sw-head > div{flex:1; text-align:center}
+.wo-sw-head .sec-stat{display:block}
 .wo-sw-head h2{font-size:24px; font-stretch:112%; letter-spacing:-.02em; display:inline-flex; align-items:center; gap:8px}
 .wo-sw-nav{width:40px; height:40px; border-radius:50%; border:1px solid var(--hairline); background:var(--surface); color:var(--ink-2); display:grid; place-items:center}
 .wo-sw-nav:disabled{opacity:.3}
@@ -926,7 +927,7 @@ dialog h2{font-size:20px; font-stretch:112%; margin-bottom:18px}
 .wo-sw-dots i{width:7px; height:7px; border-radius:50%; background:var(--dot-off)}
 .wo-sw-dots i.on{background:var(--ink)}
 .wo-empty-s{max-width:none}
-#wo-tiles.wo-m .tiles{display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:10px}
+#wo-tiles.wo-m .tiles{display:grid; grid-template-columns:repeat(auto-fill, minmax(calc(150px * var(--tile, 1)), 1fr)); gap:10px}
 #wo-tiles.wo-m .tiles .tile{width:auto}
 /* compact list on wider screens: groups stack, rows sit in columns */
 #wo-tiles.wo-list > section{flex:1 1 100%}
@@ -938,6 +939,74 @@ dialog h2{font-size:20px; font-stretch:112%; margin-bottom:18px}
 .wo-compact .wo-row .rm-dots{margin-top:6px; gap:5px}
 .wo-compact .wo-row .rm-dots button{width:20px; height:20px}
 .wo-compact .wo-row .rm-check{width:40px; height:40px}
+/* circles: every line stays inside the round edge */
+#wo-tiles .wo-tile .hit{padding:9% 11%}
+#wo-tiles .wo-tile .hit .nm{max-width:94%}
+#wo-tiles .wo-tile .hit .sub, #wo-tiles .wo-tile .wo-why, #wo-tiles .wo-tile .wo-pr{max-width:84%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+/* rows follow the size setting too, more gently than circles */
+#wo-tiles .wo-rows{zoom:calc(.7 + .3 * var(--tile, 1))}
+.wo-row .rm-check .rm-n{font-size:13px; font-weight:700; font-variant-numeric:tabular-nums; color:var(--ink-2)}
+/* phones: one line per exercise */
+#wo-tiles.wo-m .wo-rows{gap:6px}
+#wo-tiles.wo-m .wo-row{padding:6px 6px 6px 8px; gap:10px; border-radius:12px; box-shadow:none; min-height:50px}
+#wo-tiles.wo-m .wo-row.rec{border-width:1.5px}
+#wo-tiles.wo-m .wo-row .rm-emo{width:32px; height:32px; font-size:16px}
+#wo-tiles.wo-m .wo-row .rm-main{display:flex; align-items:baseline; gap:8px}
+#wo-tiles.wo-m .wo-row .rm-nm{flex:1 1 auto; min-width:0; font-size:15px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+#wo-tiles.wo-m .wo-row .rm-sub{flex:0 1 auto; min-width:0; margin:0; font-size:12.5px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+#wo-tiles.wo-m .wo-row .rm-why, #wo-tiles.wo-m .wo-row .rm-pr, #wo-tiles.wo-m .wo-row .rm-dots,
+#wo-tiles.wo-m .wo-row .rm-more, #wo-tiles.wo-m .wo-row .rm-part{display:none}
+#wo-tiles.wo-m .wo-row .rm-check{width:38px; height:38px}
+#wo-tiles.wo-m .wo-row .rm-check svg{width:18px; height:18px}
+#wo-tiles.wo-m .wo-row .rm-move button{height:24px}
+/* view and filter bar */
+.wo-vbar{display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin:0 0 14px}
+#wo-tiles > .wo-vbar, #wo-tiles > .wo-fbar{flex:1 1 100%}
+#wo-tiles:not(.wo-m) > .wo-vbar, #wo-tiles:not(.wo-m) > .wo-fbar{margin-bottom:0}
+.wo-vbar .wo-mview{margin:0}
+.wo-only button[aria-pressed="true"]{background:var(--surface); color:var(--ink); box-shadow:var(--shadow)}
+.wo-only button:disabled{opacity:.45; cursor:default}
+@media (max-width:640px){ .wo-vbar .tabs button{padding:6px 9px; font-size:13px} }
+/* swipe: a fixed box, so changing groups never jumps the page */
+.wo-sw-box{height:min(56vh, 520px); height:min(56dvh, 520px); overflow-y:auto; overscroll-behavior:contain;
+  padding:8px; border-radius:18px; border:1px solid var(--hairline); background:var(--sunk)}
+.wo-sw-box .wo-rows{gap:6px}
+.wo-sw-box.in-l{animation:woInL .2s ease-out}
+.wo-sw-box.in-r{animation:woInR .2s ease-out}
+@keyframes woInL{from{transform:translateX(28px); opacity:.3} to{transform:none; opacity:1}}
+@keyframes woInR{from{transform:translateX(-28px); opacity:.3} to{transform:none; opacity:1}}
+.wo-sw-tip{text-align:center; font-size:12px; color:var(--ink-3); margin:8px 0 0}
+/* focus: only the exercises until the workout is done */
+.wo-focusing header.top, .wo-focusing #wo-today .today-head, .wo-focusing #wo-hint, .wo-focusing #wo-foot,
+.wo-focusing #wo-notebox, .wo-focusing #wo-demo{display:none !important}
+.wo-focusing .wo-sw-box{height:calc(100vh - 250px); height:calc(100dvh - 250px)}
+.wo-fbar{position:sticky; top:0; z-index:5; display:flex; align-items:center; gap:12px; padding:12px 0; margin-bottom:8px;
+  background:var(--ground); border-bottom:1px solid var(--hairline)}
+.wo-fbar .t{flex:1; min-width:0}
+.wo-fbar .t b{display:block; font-size:18px; font-stretch:110%; letter-spacing:-.01em}
+.wo-fbar .t span{font-size:13px; color:var(--ink-3); font-variant-numeric:tabular-nums}
+.wo-done-btn{padding:10px 16px; font-weight:700; letter-spacing:.05em; text-transform:uppercase; font-size:13px; white-space:nowrap}
+/* how did that set feel */
+.wo-feel{position:fixed; left:50%; bottom:22px; transform:translateX(-50%); z-index:62; display:flex; align-items:center; gap:8px;
+  width:max-content; max-width:calc(100vw - 24px); background:var(--surface); color:var(--ink); border:1px solid var(--hairline);
+  padding:6px 6px 6px 14px; border-radius:999px; box-shadow:var(--shadow-lift); animation:woFeelIn .2s ease-out}
+.wo-rest:not([hidden]) ~ .wo-feel{bottom:82px}
+@keyframes woFeelIn{from{opacity:0; transform:translate(-50%, 10px)} to{opacity:1; transform:translate(-50%, 0)}}
+.wo-feel p{margin:0; font-size:13.5px; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; min-width:0}
+.wo-feel-b{display:flex; gap:4px; flex:none}
+.wo-feel-b button{padding:7px 12px; border-radius:99px; font-size:13px; font-weight:600; background:var(--surface-2); color:var(--ink)}
+.wo-feel-b button[data-feel="1"]{background:color-mix(in srgb, var(--g-moss) 20%, var(--surface))}
+.wo-feel-b button[data-feel="3"]{background:color-mix(in srgb, var(--g-clay) 20%, var(--surface))}
+.wo-feel-b button:hover{filter:brightness(.96)}
+.wo-feel .x{width:30px; height:30px; border-radius:50%; color:var(--ink-3); flex:none; font-size:18px; line-height:1}
+/* workout settings inside the main Settings */
+.s-wo{margin-top:6px}
+.s-wo summary{cursor:pointer; list-style:none; display:flex; align-items:center; justify-content:space-between; padding:11px 14px;
+  border-radius:12px; background:var(--surface-2); font-weight:600; font-size:14.5px}
+.s-wo summary::-webkit-details-marker{display:none}
+.s-wo summary::after{content:"\203A"; font-size:20px; color:var(--ink-3); transition:transform .15s}
+.s-wo[open] summary::after{transform:rotate(90deg)}
+.s-wo .ws-body{padding:16px 2px 4px}
 .wo-choice3{grid-template-columns:repeat(3, 1fr)}
 .wo-choice3 button{padding:12px 10px}
 .wg-per{margin-bottom:18px}
@@ -1016,7 +1085,8 @@ dialog h2{font-size:20px; font-stretch:112%; margin-bottom:18px}
 .wo-rest button:hover{background:color-mix(in srgb, var(--ground) 34%, transparent)}
 .wo-rest i{position:absolute; left:0; bottom:0; height:3px; width:0; background:var(--g-moss); transition:width .25s linear}
 .wo-rest.go{background:var(--g-moss); color:var(--on-glaze)}
-.wo-rest:not([hidden]) ~ .nudge{bottom:84px}
+.wo-rest:not([hidden]) ~ .nudge.up, .wo-feel:not([hidden]) ~ .nudge.up{bottom:84px}
+.wo-rest:not([hidden]) ~ .wo-feel:not([hidden]) ~ .nudge.up{bottom:144px}
 
 dialog.wide{width:min(640px, calc(100vw - 32px))}
 .wg-step{font-size:11.5px; letter-spacing:.1em; text-transform:uppercase; font-weight:600; color:var(--ink-3); margin:0 0 4px}
@@ -1362,6 +1432,11 @@ dialog.wide.xwide{width:min(940px, calc(100vw - 32px))}
   <button type="button" id="wo-rest-skip">Skip</button>
   <i></i>
 </div>
+<div class="wo-feel" id="wo-feel" role="status" hidden>
+  <p id="wo-feel-text"></p>
+  <div class="wo-feel-b"><button type="button" data-feel="1">Easy</button><button type="button" data-feel="2">OK</button><button type="button" data-feel="3">Hard</button></div>
+  <button type="button" class="x" id="wo-feel-x" aria-label="Skip">×</button>
+</div>
 
 <div class="nudge" id="nudge" role="status">
   <p id="nudge-text">—</p>
@@ -1605,106 +1680,6 @@ dialog.wide.xwide{width:min(940px, calc(100vw - 32px))}
   </div>
 </dialog>
 
-<dialog id="dlg-wo-set">
-  <h2>Workout settings</h2>
-  <div class="field">
-    <label>A tap on a circle logs</label>
-    <div class="cat-picks" id="ws-tap">
-      <button type="button" data-tap="all">Every set</button>
-      <button type="button" data-tap="set">One set</button>
-    </div>
-  </div>
-  <div class="field">
-    <label>Weights in</label>
-    <div class="cat-picks" id="ws-unit">
-      <button type="button" data-unit="lb">lb</button>
-      <button type="button" data-unit="kg">kg</button>
-    </div>
-  </div>
-  <div class="field">
-    <label>Highlight for what's due</label>
-    <div class="swatches" id="ws-rec"></div>
-  </div>
-  <div class="field">
-    <label>Done</label>
-    <div class="swatches" id="ws-done"></div>
-  </div>
-  <div class="toggle-row" style="margin-bottom:14px">
-    <p>Color circles by muscle group<small>Each group gets its own color instead of one done color</small></p>
-    <button class="sw" id="ws-groupc" aria-pressed="false" aria-label="Color circles by muscle group"></button>
-  </div>
-  <div class="toggle-row" style="margin-bottom:14px">
-    <p>Today's groups first<small>Planned muscle groups jump to the top; off keeps your own order</small></p>
-    <button class="sw" id="ws-planfirst" aria-pressed="true" aria-label="Put today's muscle groups first"></button>
-  </div>
-  <div class="field">
-    <label>Highlights per muscle group</label>
-    <div class="wo-target"><input type="number" id="ws-per" min="1" max="10" inputmode="numeric" aria-label="Highlights per muscle group">
-      <span>exercises highlighted in each planned group</span></div>
-  </div>
-  <div class="field">
-    <label>Exercises look like</label>
-    <div class="cat-picks" id="ws-shape">
-      <button type="button" data-shape="auto">Auto</button>
-      <button type="button" data-shape="circle">Circles</button>
-      <button type="button" data-shape="list">Compact list</button>
-    </div>
-    <p class="note" style="margin-top:6px">Auto: circles on a computer, a list on a phone.</p>
-  </div>
-  <div class="field">
-    <label>On a phone, Today shows</label>
-    <div class="cat-picks" id="ws-mview">
-      <button type="button" data-mview="groups">Muscle groups</button>
-      <button type="button" data-mview="due">Due today</button>
-      <button type="button" data-mview="swipe">One group, swipe</button>
-    </div>
-  </div>
-  <div class="field">
-    <label>Rest timer between sets</label>
-    <div class="cat-picks">
-      <button type="button" data-rest="0">Off</button>
-      <button type="button" data-rest="60">1:00</button>
-      <button type="button" data-rest="90">1:30</button>
-      <button type="button" data-rest="120">2:00</button>
-      <button type="button" data-rest="180">3:00</button>
-    </div>
-    <p class="note" style="margin-top:6px">Starts when a tap logs one set of several.</p>
-  </div>
-  <div class="field">
-    <label>Weekly sets per muscle group</label>
-    <div class="wo-target"><input type="number" id="ws-tmin" min="0" max="60" inputmode="numeric" aria-label="Fewest sets a week">
-      <span>to</span><input type="number" id="ws-tmax" min="1" max="80" inputmode="numeric" aria-label="Most sets a week"><span>sets a week</span></div>
-    <p class="note" style="margin-top:6px">Progress shows each group against this range. 10&ndash;20 is a common range for building muscle; cardio isn't counted.</p>
-  </div>
-  <div class="field dlg-extra">
-    <label>Sample data</label>
-    <button type="button" class="btn btn-soft" id="ws-demo">Try with sample data</button>
-    <p class="note">Twelve made-up weeks of training, to explore Progress and History. Nothing you do in it is saved, and your own data stays as it is.</p>
-  </div>
-  <div class="field">
-    <label for="ws-size">Circle size</label>
-    <span class="size-ctl">
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><circle cx="12" cy="12" r="7"/></svg>
-      <input type="range" id="ws-size" min="0.6" max="1.6" step="0.05" value="1">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9.5"/></svg>
-      <b id="ws-size-val">100%</b>
-    </span>
-  </div>
-  <div class="field dlg-extra">
-    <label>Your workout data</label>
-    <div class="data-row">
-      <button type="button" class="btn btn-soft" data-export="csv">Download CSV</button>
-      <button type="button" class="btn btn-soft" data-export="json">Download JSON</button>
-    </div>
-    <p class="note">The CSV has one row per exercise per day, ready for a spreadsheet.</p>
-  </div>
-  <div class="dlg-actions">
-    <button type="button" class="btn btn-ghost" id="ws-guide">Replay setup guide</button>
-    <div style="flex:1"></div>
-    <button type="button" class="btn btn-primary" id="ws-close">Done</button>
-  </div>
-</dialog>
-
 <dialog id="dlg-settings">
   <h2>Settings</h2>
   <div class="field">
@@ -1745,6 +1720,114 @@ dialog.wide.xwide{width:min(940px, calc(100vw - 32px))}
   <div class="toggle-row" style="margin-top:14px">
     <p>Workout mode<small>A Workout tab for logging sets, kept apart from habits and tasks</small></p>
     <button class="sw" id="s-workout" aria-pressed="false" aria-label="Enable workout mode"></button>
+  </div>
+  <div class="s-wo" id="s-wo" hidden>
+    <details id="s-wo-det">
+      <summary>Workout settings</summary>
+      <div class="ws-body" id="ws-body">
+    <div class="field">
+      <label>A tap on a circle logs</label>
+      <div class="cat-picks" id="ws-tap">
+        <button type="button" data-tap="all">Every set</button>
+        <button type="button" data-tap="set">One set</button>
+      </div>
+    </div>
+    <div class="field">
+      <label>Weights in</label>
+      <div class="cat-picks" id="ws-unit">
+        <button type="button" data-unit="lb">lb</button>
+        <button type="button" data-unit="kg">kg</button>
+      </div>
+    </div>
+    <div class="field">
+      <label>Highlight for what's due</label>
+      <div class="swatches" id="ws-rec"></div>
+    </div>
+    <div class="field">
+      <label>Done</label>
+      <div class="swatches" id="ws-done"></div>
+    </div>
+    <div class="toggle-row" style="margin-bottom:14px">
+      <p>Color circles by muscle group<small>Each group gets its own color instead of one done color</small></p>
+      <button class="sw" id="ws-groupc" aria-pressed="false" aria-label="Color circles by muscle group"></button>
+    </div>
+    <div class="toggle-row" style="margin-bottom:14px">
+      <p>Today's groups first<small>Planned muscle groups jump to the top; off keeps your own order</small></p>
+      <button class="sw" id="ws-planfirst" aria-pressed="true" aria-label="Put today's muscle groups first"></button>
+    </div>
+    <div class="field">
+      <label>Highlights per muscle group</label>
+      <div class="wo-target"><input type="number" id="ws-per" min="1" max="10" inputmode="numeric" aria-label="Highlights per muscle group">
+        <span>exercises highlighted in each planned group</span></div>
+    </div>
+    <div class="field">
+      <label>Exercises look like</label>
+      <div class="cat-picks" id="ws-shape">
+        <button type="button" data-shape="auto">Auto</button>
+        <button type="button" data-shape="circle">Circles</button>
+        <button type="button" data-shape="list">Compact list</button>
+      </div>
+      <p class="note" style="margin-top:6px">Auto: circles on a computer, a list on a phone.</p>
+    </div>
+    <div class="field">
+      <label>On a phone, Today shows</label>
+      <div class="cat-picks" id="ws-mview">
+        <button type="button" data-mview="groups">Muscle groups</button>
+        <button type="button" data-mview="due">Due today</button>
+        <button type="button" data-mview="swipe">One group, swipe</button>
+      </div>
+    </div>
+    <div class="field">
+      <label>After a set, ask how it felt</label>
+      <div class="cat-picks" id="ws-feel">
+        <button type="button" data-wfeel="set">Every set</button>
+        <button type="button" data-wfeel="last">Last set only</button>
+        <button type="button" data-wfeel="off">Don't ask</button>
+      </div>
+      <p class="note" style="margin-top:6px">Easy, OK or Hard. It disappears on its own if you ignore it. Two easy sessions in a row can bring a step up forward.</p>
+    </div>
+    <div class="field">
+      <label>Rest timer between sets</label>
+      <div class="cat-picks">
+        <button type="button" data-rest="0">Off</button>
+        <button type="button" data-rest="60">1:00</button>
+        <button type="button" data-rest="90">1:30</button>
+        <button type="button" data-rest="120">2:00</button>
+        <button type="button" data-rest="180">3:00</button>
+      </div>
+      <p class="note" style="margin-top:6px">Starts when a tap logs one set of several.</p>
+    </div>
+    <div class="field">
+      <label>Weekly sets per muscle group</label>
+      <div class="wo-target"><input type="number" id="ws-tmin" min="0" max="60" inputmode="numeric" aria-label="Fewest sets a week">
+        <span>to</span><input type="number" id="ws-tmax" min="1" max="80" inputmode="numeric" aria-label="Most sets a week"><span>sets a week</span></div>
+      <p class="note" style="margin-top:6px">Progress shows each group against this range. 10&ndash;20 is a common range for building muscle; cardio isn't counted.</p>
+    </div>
+    <div class="field dlg-extra">
+      <label>Sample data</label>
+      <button type="button" class="btn btn-soft" id="ws-demo">Try with sample data</button>
+      <p class="note">Twelve made-up weeks of training, to explore Progress and History. Nothing you do in it is saved, and your own data stays as it is.</p>
+    </div>
+    <div class="field">
+      <label for="ws-size">Circle and row size</label>
+      <span class="size-ctl">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><circle cx="12" cy="12" r="7"/></svg>
+        <input type="range" id="ws-size" min="0.6" max="1.6" step="0.05" value="1">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9.5"/></svg>
+        <b id="ws-size-val">100%</b>
+      </span>
+    </div>
+    <div class="field dlg-extra">
+      <label>Your workout data</label>
+      <div class="data-row">
+        <button type="button" class="btn btn-soft" data-export="csv">Download CSV</button>
+        <button type="button" class="btn btn-soft" data-export="json">Download JSON</button>
+      </div>
+      <p class="note">The CSV has one row per exercise per day, ready for a spreadsheet.</p>
+    </div>
+      <button type="button" class="btn btn-ghost" id="ws-guide">Replay setup guide</button>
+      </div>
+    </details>
   </div>
   <div class="field dlg-extra">
     <label>Sync across devices</label>
@@ -4238,12 +4321,15 @@ function syncSettings(){
   swRemind.setAttribute("aria-pressed", String(!!state.reminder.on));
   swSound.setAttribute("aria-pressed", String(!!state.sound));
   swWorkout.setAttribute("aria-pressed", String(!!state.workout.on));
+  document.getElementById("s-wo").hidden = !state.workout.on;
+  if (state.workout.on) woRenderSettings();
   renderTimes();
   refreshNotifState();
   renderSync();
 }
 document.getElementById("btn-settings").addEventListener("click", function(){
   syncSettings();
+  document.getElementById("s-wo-det").open = section === "workout";
   pendingImport = null;
   document.getElementById("s-import-confirm").hidden = true;
   dataNote("");
@@ -4720,7 +4806,7 @@ function woDefaults(){
   return { on: false, setup: false, unit: "lb", tap: "all", size: 1, doneGlaze: "moss", recGlaze: "clay",
            perGroup: 2, groupColors: false, rest: 90, groupOrder: MUSCLES.slice(), planFirst: true,
            exercises: [], log: {}, plan: {}, planT: {}, templates: [], recLog: {}, planHint: "",
-           off: {}, notes: {}, target: [10, 20], shape: "auto", mview: "groups", deck: null, deckSize: 6 };
+           off: {}, notes: {}, target: [10, 20], shape: "auto", mview: "groups", deck: null, deckSize: 6, feel: "set", only: "all" };
 }
 function woNum(v, lo, hi, step){
   v = +v;
@@ -4799,7 +4885,14 @@ function normalizeWorkout(raw){
           });
         }
       });
-      Object.keys(out).forEach(function(id){ var ef = +day[id].ef; if (ef >= 1 && ef <= 5) out[id].ef = Math.round(ef); });
+      Object.keys(out).forEach(function(id){
+        var ef = +day[id].ef, fs = day[id].fs;
+        if (ef >= 1 && ef <= 5) out[id].ef = Math.round(ef);
+        if (Array.isArray(fs)) {
+          fs = fs.slice(0, out[id].n).map(function(v){ v = +v; return v >= 1 && v <= 3 ? Math.round(v) : 0; });
+          if (fs.some(Boolean)) out[id].fs = fs;
+        }
+      });
       if (Object.keys(out).length) w.log[k] = out;
     });
   }
@@ -4815,6 +4908,8 @@ function normalizeWorkout(raw){
   w.shape = raw.shape === "circle" || raw.shape === "list" ? raw.shape : "auto";
   w.mview = raw.mview === "due" || raw.mview === "swipe" ? raw.mview : "groups";
   w.deckSize = woNum(raw.deckSize || 6, 2, 15, 1);
+  w.feel = raw.feel === "last" || raw.feel === "off" ? raw.feel : "set";
+  w.only = raw.only === "rec" ? "rec" : "all";
   w.planFirst = raw.planFirst !== false;
   w.groupOrder = (Array.isArray(raw.groupOrder) ? raw.groupOrder : []).filter(function(g, i, a){
     return MUSCLES.indexOf(g) >= 0 && a.indexOf(g) === i;
@@ -4933,6 +5028,7 @@ function woSetN(ex, n, k){
     if (!n) delete day[ex.id];
     else {
       old.n = n;
+      if (old.fs) old.fs = old.fs.slice(0, n);
       if (old.ps) { old.ps = old.ps.slice(0, n); while (old.ps.length < n) old.ps.push({ reps: old.reps, weight: old.weight, dur: old.dur }); }
     }
     if (!Object.keys(day).length) delete log[k];
@@ -4942,6 +5038,7 @@ function woSetN(ex, n, k){
   if (n) {
     var e = { n: n, sets: ex.sets, reps: ex.reps, weight: ex.weight, dur: ex.dur, u: state.workout.unit };
     if (old && old.ef) e.ef = old.ef;
+    if (old && old.fs) e.fs = old.fs.slice(0, n);
     if (old && old.ps) {
       e.ps = old.ps.slice(0, n);
       while (e.ps.length < n) e.ps.push({ reps: e.reps, weight: e.weight, dur: e.dur });
@@ -5052,7 +5149,14 @@ function woFullRun(ex){
   return n;
 }
 // The calendar says it is time AND the last two sessions had every set done.
-function woDue(ex){ return woTimeUp(ex) && woFullRun(ex) >= WO_READY; }
+function woDue(ex){ return (woTimeUp(ex) && woFullRun(ex) >= WO_READY) || woEasyEarly(ex); }
+// The last two sessions were full and felt easy: no need to wait out the calendar.
+function woEasyEarly(ex){
+  var p = ex.prog;
+  if (!p.on || ex.retired || woSnoozed(ex) || daysApart(p.since, TODAY) < 7) return false;
+  var l = woEntries(ex.id, function(k){ return k >= p.since; }).slice(-2);
+  return l.length >= 2 && l.every(function(e){ return e.n >= e.sets && e.ef === 1; });
+}
 // Two of the last three sessions at these numbers (before today) stopped short.
 function woStruggle(ex){
   if (ex.retired || woSnoozed(ex)) return false;
@@ -5420,7 +5524,8 @@ function woTileHTML(ex, recs){
   var why = rec && !n ? woWhy(ex, recs) : "";
   var color = state.workout.groupColors ? "--glaze:var(--g-" + MUSCLE_GLAZE[ex.groups[0]] + ");" : "";
   var dots = "";
-  if (S > 1 && S <= 10 && (mode === "set" || (n && !full))) {
+  // one extra line at most under the numbers, so nothing spills past the round edge
+  if (S > 1 && S <= 10 && !pr && !why && (mode === "set" || (n && !full))) {
     for (var i = 0; i < S; i++) dots += "<i" + (i < n ? ' class="on"' : "") + "></i>";
   }
   return '<div class="tile wo-tile' + (full ? " done" : "") + (n && !full ? " part" : "") + (rec ? " rec" : "") +
@@ -5470,7 +5575,7 @@ function woLogRowHTML(ex, recs){
     '<span class="rm-emo" aria-hidden="true">' + ex.emoji + "</span>" +
     '<div class="rm-main"><div class="rm-nm">' + esc(ex.name) + "</div>" +
       '<div class="rm-sub">' + (due ? '<b class="wo-up" title="Time to go up">\u2191</b> ' : "") + esc(woSummary(src, ex)) +
-        (n && !full ? " \u00b7 " + n + " of " + S + " sets" : "") + "</div>" +
+        (n && !full ? '<span class="rm-part"> \u00b7 ' + n + " of " + S + " sets</span>" : "") + "</div>" +
       (pr ? '<div class="rm-pr">\u2605 New best</div>' : rec && !n ? '<div class="rm-why">Due \u00b7 ' + woWhy(ex, recs) + "</div>" : "") +
       (dots && !woReorder ? '<div class="rm-dots">' + dots + "</div>" : "") +
     "</div>" +
@@ -5482,7 +5587,7 @@ function woLogRowHTML(ex, recs){
         '<span class="rm-handle" aria-hidden="true">\u2807</span>'
       : '<button type="button" class="rm-more" data-act="more" aria-label="Adjust ' + esc(ex.name) + '">' + WO_DOTS + "</button>" +
         '<button type="button" class="rm-check" data-act="tap" aria-pressed="' + full + '" aria-label="' + esc(ex.name) + ", " + n + " of " +
-          S + ' sets done. Log">' + WO_CHECK + "</button>") +
+          S + ' sets done. Log">' + (n && !full ? '<span class="rm-n">' + n + "/" + S + "</span>" : WO_CHECK) + "</button>") +
     "</div>";
 }
 // A muscle group's progress as a small ring for the phone cards.
@@ -5498,6 +5603,41 @@ function woGroupOrder(plan){
   if (!w.planFirst) return base;
   return base.filter(function(g){ return plan.indexOf(g) >= 0; }).concat(base.filter(function(g){ return plan.indexOf(g) < 0; }));
 }
+// The groups and exercises Today shows, with the All / Recommended filter applied.
+function woShown(recs){
+  var only = state.workout.only === "rec" && !woPast();
+  var exs = woLive().filter(function(ex){ return !only || recs.hasOwnProperty(ex.id); });
+  var order = woGroupOrder(woPast() ? [] : woPlanToday()).filter(function(g){ return exs.some(function(ex){ return ex.groups[0] === g; }); });
+  return { exs: exs, order: order, only: only };
+}
+// Focus mode: just the exercises until "Done workout". Kept per device so a reload mid-workout stays in it.
+var woFocus = null;
+try { woFocus = JSON.parse(localStorage.getItem("gw-wo-focus") || "null"); } catch (err) { woFocus = null; }
+if (!woFocus || woFocus.k !== TODAY) woFocus = null;
+function woSetFocus(on){
+  woFocus = on ? { k: TODAY, t: Date.now() } : null;
+  try { if (on) localStorage.setItem("gw-wo-focus", JSON.stringify(woFocus)); else localStorage.removeItem("gw-wo-focus"); } catch (err) {}
+}
+function woDayTotals(k){
+  var day = state.workout.log[k] || {}, ids = Object.keys(day), sets = 0;
+  ids.forEach(function(id){ sets += day[id].n; });
+  return { ex: ids.length, sets: sets };
+}
+function woFocusText(){
+  var t = woDayTotals(TODAY), min = woFocus ? Math.max(0, Math.round((Date.now() - woFocus.t) / 60000)) : 0;
+  return min + " min \u00b7 " + t.sets + " set" + (t.sets === 1 ? "" : "s") + " \u00b7 " + t.ex + " exercise" + (t.ex === 1 ? "" : "s");
+}
+setInterval(function(){ var el = document.getElementById("wo-ftime"); if (el && woFocus) el.textContent = woFocusText(); }, 20000);
+function woEndFocus(){
+  var t = woDayTotals(TODAY), min = woFocus ? Math.max(1, Math.round((Date.now() - woFocus.t) / 60000)) : 0;
+  woSetFocus(false);
+  woStopRest();
+  woHideFeel();
+  woRenderToday();
+  window.scrollTo(0, 0);
+  flashNote(t.sets ? "Workout done: " + t.sets + " sets across " + t.ex + " exercise" + (t.ex === 1 ? "" : "s") + " in " + min + " min." : "Focus mode off.");
+}
+var woSlide = "";
 function woRecsDone(recs){
   var ids = Object.keys(recs);
   return ids.length > 0 && ids.every(function(id){ return woFull(id, woK()); });
@@ -5550,7 +5690,7 @@ function woRenderToday(){
     : "Ready when you are. <em>Tap a circle.</em>";
   line.innerHTML = html;
 
-  var order = woGroupOrder(plan).filter(function(g){ return live.some(function(ex){ return ex.groups[0] === g; }); });
+  var shown = woShown(recs), order = shown.order;
   var mobile = woMobile(), shape = woShape(), mview = mobile ? w.mview : "groups";
   if (woGroup && order.indexOf(woGroup) < 0) woGroup = null;
   if (mview === "swipe" && !woGroup && order.length) woGroup = order[0];
@@ -5558,6 +5698,8 @@ function woRenderToday(){
   document.getElementById("wo-today").classList.toggle("wo-pastday", past);
   document.getElementById("wo-today").classList.toggle("wo-decking", !!woDeckView);
   var inGroup = mobile && !!woGroup && mview === "groups";
+  var focusing = !!woFocus && !past && !woDeckView && !woReorder;
+  document.body.classList.toggle("wo-focusing", focusing);
   function items(list, compactOK){
     return shape === "circle"
       ? '<div class="tiles">' + list.map(function(ex){ return woTileHTML(ex, recs); }).join("") + "</div>"
@@ -5567,6 +5709,14 @@ function woRenderToday(){
     [["groups", "Groups"], ["due", "Due"], ["swipe", "Swipe"]].map(function(o){
       return '<button type="button" role="tab" data-mv="' + o[0] + '" aria-selected="' + (mview === o[0]) + '">' + o[1] + "</button>";
     }).join("") + "</div>" : "";
+  var fbar = !past && !woReorder && !inGroup ? '<div class="tabs wo-only" role="group" aria-label="Show">' +
+    [["all", "All"], ["rec", "Recommended"]].map(function(o){
+      var on = mview === "due" ? o[0] === "rec" : w.only === o[0];
+      return '<button type="button" data-only="' + o[0] + '" aria-pressed="' + on + '"' + (mview === "due" ? " disabled" : "") + ">" + o[1] + "</button>";
+    }).join("") + "</div>" : "";
+  var vbar = (focusing ? '<div class="wo-fbar"><div class="t"><b>Workout in progress</b><span id="wo-ftime">' + woFocusText() + "</span></div>" +
+      '<button type="button" class="btn btn-primary wo-done-btn" data-act="fdone">Done workout</button></div>' : "") +
+    (mbar || fbar ? '<div class="wo-vbar">' + mbar + fbar + "</div>" : "");
   document.querySelector("#wo-today .today-head").hidden = inGroup;
   document.getElementById("wo-hint").hidden = inGroup;
   woTilesEl.className = "sections" + (mobile ? " wo-m" : "") + (woReorder ? " wo-reorder" : "");
@@ -5580,29 +5730,36 @@ function woRenderToday(){
       WO_CHEV_L + '</button><button type="button" data-gmove="1" aria-label="Move ' + g + ' later"' + (i === order.length - 1 ? " disabled" : "") + ">" +
       WO_CHEV_R + "</button></span>" : "";
   }
-  function inG(g){ return live.filter(function(ex){ return ex.groups[0] === g; }); }
+  function inG(g){ return shown.exs.filter(function(ex){ return ex.groups[0] === g; }); }
   if (woDeckView) { woTilesEl.className = "wo-deckmode"; woTilesEl.innerHTML = woDeckHTML(); }
   else if (!live.length) woTilesEl.innerHTML = "";
+  else if (shown.only && !shown.exs.length && mview !== "due") {
+    woTilesEl.innerHTML = vbar + '<div class="empty wo-empty-s"><h2>Nothing recommended</h2><p>' +
+      (offK ? "It's marked as a day off." : "No plan for today, and nothing is overdue.") +
+      '</p><button type="button" class="btn btn-primary" data-only="all">Show everything</button></div>';
+  }
   else if (inGroup) {
     var hs = inG(woGroup), dn = hs.filter(function(ex){ return woFull(ex.id, K); }).length;
-    woTilesEl.innerHTML = '<div class="wo-gh"><button type="button" class="wo-back" data-act="back">' + WO_CHEV_L + " All groups</button>" +
+    woTilesEl.innerHTML = (focusing ? vbar : "") + '<div class="wo-gh"><button type="button" class="wo-back" data-act="back">' + WO_CHEV_L + " All groups</button>" +
       "<h2>" + woGroup + "</h2>" + badge(woGroup) + '<span class="sec-stat">' + dn + " of " + hs.length + " done</span></div>" + items(hs);
   } else if (mview === "due") {
     // only what's highlighted today, in group order; done ones stay so the list doesn't jump
     var due = order.reduce(function(a, g){ return a.concat(inG(g).filter(function(ex){ return recs.hasOwnProperty(ex.id); })); }, []);
-    woTilesEl.innerHTML = mbar + (due.length ? items(due)
+    woTilesEl.innerHTML = vbar + (due.length ? items(due)
       : '<div class="empty wo-empty-s"><h2>Nothing highlighted</h2><p>' + (offK ? "It's marked as a day off." : past ? "Highlights are for today." :
           "No plan for today, and nothing is overdue.") + ' Deal a workout, or see every group.</p><button type="button" class="btn btn-primary" data-mv="groups">Show all groups</button></div>');
   } else if (mview === "swipe") {
     var gi = Math.max(0, order.indexOf(woGroup)), sg = order[gi], shs = inG(sg), sdn = shs.filter(function(ex){ return woFull(ex.id, K); }).length;
-    woTilesEl.innerHTML = mbar + '<div class="wo-swipe" data-swipe>' +
+    woTilesEl.innerHTML = vbar + '<div class="wo-swipe" data-swipe>' +
       '<div class="wo-sw-head"><button type="button" class="wo-sw-nav" data-sw="-1" aria-label="Previous group"' + (gi === 0 ? " disabled" : "") + ">" + WO_CHEV_L + "</button>" +
       "<div><h2>" + sg + " " + badge(sg) + '</h2><span class="sec-stat">' + sdn + " of " + shs.length + " done</span></div>" +
       '<button type="button" class="wo-sw-nav" data-sw="1" aria-label="Next group"' + (gi === order.length - 1 ? " disabled" : "") + ">" + WO_CHEV_R + "</button></div>" +
       '<div class="wo-sw-dots" aria-hidden="true">' + order.map(function(g, i){ return "<i" + (i === gi ? ' class="on"' : "") + "></i>"; }).join("") + "</div>" +
-      items(shs) + "</div>";
+      '<div class="wo-sw-box' + (woSlide ? " in-" + woSlide : "") + '">' + items(shs) + "</div>" +
+      (order.length > 1 ? '<p class="wo-sw-tip">Swipe sideways for the next group</p>' : "") + "</div>";
+    woSlide = "";
   } else if (mobile) {
-    woTilesEl.innerHTML = mbar + '<div class="wo-cats">' + order.map(function(g){
+    woTilesEl.innerHTML = vbar + '<div class="wo-cats">' + order.map(function(g){
       var hs = inG(g), dn = hs.filter(function(ex){ return woFull(ex.id, K); }).length;
       var due = hs.filter(function(ex){ return recs.hasOwnProperty(ex.id) && !woFull(ex.id, K); }).length;
       // the ring counts sets, so a half-done exercise already shows
@@ -5612,11 +5769,10 @@ function woRenderToday(){
         (woReorder ? gmove(g) : '<button type="button" class="wo-cat-open" data-cat="' + g + '" aria-label="' + g + ", " + dn + " of " + hs.length +
           " done" + (due ? ", " + due + " due" : "") + '"></button>' + (due ? "" : badge(g))) +
         woMiniRing(setsIn, setsAll) + "<h3>" + g + '</h3><span class="cnt">' + dn + " of " + hs.length + " done</span>" +
-        (due ? '<span class="due">' + due + " due today</span>" : "") +
-        '<span class="emos" aria-hidden="true">' + hs.slice(0, 6).map(function(ex){ return ex.emoji; }).join("") + "</span></div>";
+        (due ? '<span class="due">' + due + " due today</span>" : "") + "</div>";
     }).join("") + "</div>";
   } else {
-    woTilesEl.innerHTML = order.map(function(g){
+    woTilesEl.innerHTML = vbar + order.map(function(g){
       var hs = inG(g), dn = hs.filter(function(ex){ return woFull(ex.id, K); }).length;
       return '<section data-g="' + g + '"><div class="sec-head"><h2>' + g + "</h2>" + badge(g) +
         '<span class="sec-stat">' + dn + " of " + hs.length + "</span>" + gmove(g) + '<span class="sec-rule"></span></div>' +
@@ -5629,9 +5785,11 @@ function woRenderToday(){
   var pill = offK ? '<button type="button" class="wo-offpill wo-off-' + offK.t + '" data-wo="off">' + WO_OFF[offK.t] +
     (offK.note ? " \u00b7 " + esc(offK.note) : "") + " \u00b7 <u>Edit</u></button>" : "";
   var dk = woDeckToday(), left = dk ? dk.ids.filter(function(id){ return !woFull(id, TODAY); }).length : 0;
-  var cta = live.length && !past && !woReorder && !inGroup && !woDeckView
-    ? '<div class="wd-cta"><button type="button" class="btn btn-primary wd-go" data-dk="' + (left ? "resume" : "open") + '">' +
+  var cta = live.length && !past && !woReorder && !inGroup && !woDeckView && !focusing
+    ? '<div class="wd-cta"><div class="wd-btns"><button type="button" class="btn btn-primary wd-go" data-dk="' + (left ? "resume" : "open") + '">' +
         '<span aria-hidden="true">\u{1F0CF}</span> ' + (left ? "Resume your deal \u00b7 " + left + " left" : "Deal me a workout") + "</button>" +
+        '<button type="button" class="btn btn-soft wd-go" data-wo="focus" title="Hide everything but your exercises until you tap Done workout">' +
+        '<span aria-hidden="true">\u25B6</span> Start workout</button></div>' +
       "<span>" + (left ? "Or deal a fresh one from the deck screen." : "A short list picked from today\u2019s plan and what\u2019s overdue, one exercise at a time.") + "</span></div>"
     : "";
   document.getElementById("wo-hint").innerHTML = cta + pill + (hint
@@ -5656,14 +5814,13 @@ function woRenderToday(){
         '<button class="add-tile" data-wo="pick"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Exercises</button>' +
         '<button class="add-tile" data-wo="plan">Weekly plan</button>' +
         '<button class="add-tile" data-wo="reorder">' + (woReorder ? "Done rearranging" : "Rearrange") + "</button>" +
-        (offK ? "" : '<button class="add-tile" data-wo="off">Rest or away\u2026</button>') +
-        '<button class="add-tile" data-wo="settings">Workout settings</button></div>' +
+        (offK ? "" : '<button class="add-tile" data-wo="off">Rest or away\u2026</button>') + "</div>" +
       '<p class="wo-tip">' + (woReorder
         ? (mobile ? "Use the arrows, or drag a row by its handle. On the group screen, the arrows on each card move the whole group."
                   : "Drag circles within a group, or use the arrows. The arrows beside a group's name move the whole group.")
         : ((w.tap === "set") ? "Each tap logs one set." : "A tap logs every set.") +
-          (mobile ? " Tap a set dot to log that set. Press and hold a row to change sets, reps or weight."
-                  : " Press and hold a circle (or right-click it) to change sets, reps or weight.")) + "</p>"
+          (mobile ? " Press and hold an exercise to change sets, reps or weight. Workout settings live in Settings (the gear)."
+                  : " Press and hold a circle (or right-click it) to change sets, reps or weight. Workout settings live in Settings (the gear).")) + "</p>"
     : '<div class="empty"><h2>' + (w.setup ? "No exercises yet" : "Set up workout mode") + "</h2>" +
       "<p>Pick the exercises you do and where you are starting from. Each one becomes a circle you tap after your sets.</p>" +
       '<button class="btn btn-primary" data-wo="' + (w.setup ? "pick" : "guide") + '">' + (w.setup ? "Choose exercises" : "Start setup") + "</button></div>";
@@ -5721,6 +5878,8 @@ woTilesEl.addEventListener("click", function(e){
   if (!btn || woNoClick) return;
   if (btn.dataset.mv) { state.workout.mview = btn.dataset.mv; woGroup = null; scheduleSave(); woRenderToday(); return; }
   if (btn.dataset.sw) { woSwipeGroup(+btn.dataset.sw); return; }
+  if (btn.dataset.only) { if (!btn.disabled) { state.workout.only = btn.dataset.only; scheduleSave(); woRenderToday(); } return; }
+  if (btn.dataset.act === "fdone") { woEndFocus(); return; }
   if (btn.dataset.cat) { woGroup = btn.dataset.cat; woRenderToday(); window.scrollTo(0, 0); return; }
   if (btn.dataset.act === "back") { woGroup = null; woRenderToday(); window.scrollTo(0, 0); return; }
   if (btn.dataset.gmove) { woMoveGroup(btn.closest("[data-g]").dataset.g, +btn.dataset.gmove); return; }
@@ -5739,6 +5898,7 @@ woTilesEl.addEventListener("click", function(e){
     if (next === was) { flashNote("All " + ex.sets + " sets are in. Press and hold to change them."); return; }
   } else return;
   woLog(ex, was, next, act === "dot" || playing);
+  if (next > was) woAskFeel(ex, was, next);
   if (playing && woFull(ex.id, TODAY)) woDeckFinishOne(ex);
   woRenderToday();
   var fresh = woTilesEl.querySelector('[data-id="' + ex.id + '"]');
@@ -5760,10 +5920,11 @@ woTilesEl.addEventListener("click", function(e){
 /* ---- layouts ---- */
 function woShape(){ var s = state.workout.shape; return s === "auto" ? (woMobile() ? "list" : "circle") : s; }
 function woSwipeGroup(dir){
-  var live = woLive(), order = woGroupOrder(woPlanToday()).filter(function(g){ return live.some(function(ex){ return ex.groups[0] === g; }); });
+  var order = woShown(woPast() ? {} : woRecs()).order;
   var i = order.indexOf(woGroup) + dir;
   if (i < 0 || i >= order.length) return;
   woGroup = order[i];
+  woSlide = dir > 0 ? "l" : "r";
   woRenderToday();
 }
 
@@ -6052,6 +6213,7 @@ document.getElementById("view-workout").addEventListener("click", function(e){
     else if (what === "pick") woOpenGuide(["pick", "base"]);
     else if (what === "plan") woOpenGuide(["plan"]);
     else if (what === "settings") woOpenSettings();
+    else if (what === "focus") { woSetFocus(true); woRenderToday(); window.scrollTo(0, 0); }
     else if (what === "day") woOpenDay(shiftKey(TODAY, -1));
     else if (what === "reorder") { woReorder = !woReorder; woRenderToday(); }
     else if (what === "off") woOpenOff(woK());
@@ -6332,8 +6494,13 @@ var WG_STEPS = {
          ["swipe", "One group at a time", "Swipe left and right between groups."]].map(function(o){
           return '<button type="button" data-gmview="' + o[0] + '" aria-pressed="' + (w.mview === o[0]) + '"><b>' + o[1] + "</b><small>" + o[2] + "</small></button>";
         }).join("") + "</div></div>" +
+      '<div class="field"><label>After a set, ask how it felt</label><div class="wo-choice wo-choice3">' +
+        [["set", "After every set", "A quick Easy / OK / Hard. Ignore it and it goes away."], ["last", "After the last set", "Once per exercise."],
+         ["off", "Don\u2019t ask", "You can still rate effort with a long press."]].map(function(o){
+          return '<button type="button" data-gfeel="' + o[0] + '" aria-pressed="' + (w.feel === o[0]) + '"><b>' + o[1] + "</b><small>" + o[2] + "</small></button>";
+        }).join("") + '</div><p class="note" style="margin-top:6px">It shows on Progress as effort over time, and two easy sessions in a row can bring a step up forward.</p></div>' +
       '<p class="note">To change sets, reps or weight, press and hold a circle (or right-click it) and use ▲ ▼. ' +
-      "Any exercise can also use its own tap style. All of this can be changed later in Workout settings.</p>";
+      "Any exercise can also use its own tap style. All of this can be changed later in Settings, under Workout settings.</p>";
   },
   pick: function(){
     var mine = {}, own = [];
@@ -6555,6 +6722,7 @@ dlgGuide.addEventListener("click", function(e){
   if ((b = t.closest("[data-gtap]"))) w.tap = b.dataset.gtap;
   else if ((b = t.closest("[data-gshape]"))) w.shape = b.dataset.gshape;
   else if ((b = t.closest("[data-gmview]"))) w.mview = b.dataset.gmview;
+  else if ((b = t.closest("[data-gfeel]"))) w.feel = b.dataset.gfeel;
   else if ((b = t.closest("[data-per-d]"))) w.perGroup = woNum(w.perGroup + (+b.dataset.perD), 1, 10, 1);
   else if ((b = t.closest("[data-gunit]"))) woSetUnit(b.dataset.gunit);
   else if ((b = t.closest("[data-key]"))) woSetLib(b.dataset.key, !woLibOn(b.dataset.key));
@@ -6745,6 +6913,42 @@ function woMakeDemo(){
   return normalizeWorkout(JSON.parse(JSON.stringify(demo)));
 }
 
+/* ---- how did that feel: Easy / OK / Hard right after a set ---- */
+var woFeelEl = document.getElementById("wo-feel"), woFeelT = null, woFeelTO = null;
+function woAskFeel(ex, was, next){
+  var mode = state.workout.feel, S = woEntry(ex.id) ? woEntry(ex.id).sets : ex.sets;
+  if (mode === "off" || woPast() || (mode === "last" && next < S)) return;
+  woFeelT = { id: ex.id, k: TODAY, from: mode === "last" ? 0 : was, to: next };
+  document.getElementById("wo-feel-text").textContent = next - was === 1 && S > 1 && mode === "set"
+    ? "Set " + next + " of " + S + " felt" : ex.name + " felt";
+  woFeelEl.title = ex.name;
+  woFeelEl.hidden = false;
+  clearTimeout(woFeelTO);
+  woFeelTO = setTimeout(woHideFeel, 9000);
+}
+function woHideFeel(){ clearTimeout(woFeelTO); woFeelT = null; woFeelEl.hidden = true; }
+// Each set keeps its own feel; the exercise's effort for the day is their average.
+function woSetFeel(v){
+  var f = woFeelT, e = f && woEntry(f.id, f.k);
+  woHideFeel();
+  if (!e) return;
+  var fs = (e.fs || []).slice(0, e.n);
+  while (fs.length < e.n) fs.push(0);
+  for (var i = f.from; i < Math.min(f.to, e.n); i++) fs[i] = v;
+  var on = fs.filter(Boolean);
+  e.fs = fs;
+  if (on.length) e.ef = Math.round(on.reduce(function(a, b){ return a + b; }, 0) / on.length);
+  scheduleSave();
+  if (dlgQuick.open) woRefreshQuick();
+}
+woFeelEl.addEventListener("click", function(e){
+  var b = e.target.closest("button");
+  if (!b) return;
+  if (b.dataset.feel) woSetFeel(+b.dataset.feel); else woHideFeel();
+});
+woFeelEl.addEventListener("pointerenter", function(){ clearTimeout(woFeelTO); });
+woFeelEl.addEventListener("pointerleave", function(){ if (woFeelT) woFeelTO = setTimeout(woHideFeel, 4000); });
+
 /* ---- rest timer between sets ---- */
 var woRestEl = document.getElementById("wo-rest"), woRestT = null, woRestIv = null;
 function woStartRest(ex, n){
@@ -6869,8 +7073,14 @@ dlgDay.addEventListener("keydown", function(e){
 document.getElementById("wd-close").addEventListener("click", function(){ dlgDay.close(); });
 
 /* ---- workout settings ---- */
-var dlgWoSet = document.getElementById("dlg-wo-set");
-function woOpenSettings(){ woRenderSettings(); dlgWoSet.showModal(); }
+var dlgWoSet = document.getElementById("ws-body");
+// Workout settings are a section of Settings; from the Workout tab it opens already expanded.
+function woOpenSettings(){
+  syncSettings();
+  document.getElementById("s-wo-det").open = true;
+  if (!dlgSet.open) dlgSet.showModal();
+  document.getElementById("s-wo").scrollIntoView({ block: "start" });
+}
 function woRenderSettings(){
   var w = state.workout;
   dlgWoSet.querySelectorAll("[data-tap]").forEach(function(b){ b.setAttribute("aria-pressed", String(b.dataset.tap === w.tap)); });
@@ -6884,6 +7094,7 @@ function woRenderSettings(){
   dlgWoSet.querySelectorAll("[data-shape]").forEach(function(b){ b.setAttribute("aria-pressed", String(b.dataset.shape === w.shape)); });
   dlgWoSet.querySelectorAll("[data-mview]").forEach(function(b){ b.setAttribute("aria-pressed", String(b.dataset.mview === w.mview)); });
   dlgWoSet.querySelectorAll("[data-rest]").forEach(function(b){ b.setAttribute("aria-pressed", String(+b.dataset.rest === w.rest)); });
+  dlgWoSet.querySelectorAll("[data-wfeel]").forEach(function(b){ b.setAttribute("aria-pressed", String(b.dataset.wfeel === w.feel)); });
   document.getElementById("ws-groupc").setAttribute("aria-pressed", String(w.groupColors));
   document.getElementById("ws-planfirst").setAttribute("aria-pressed", String(w.planFirst));
   document.getElementById("ws-tmin").value = w.target[0];
@@ -6901,12 +7112,12 @@ dlgWoSet.addEventListener("click", function(e){
   else if ((b = t.closest("[data-shape]"))) w.shape = b.dataset.shape;
   else if ((b = t.closest("[data-mview]"))) { w.mview = b.dataset.mview; woGroup = null; }
   else if ((b = t.closest("[data-rest]"))) { w.rest = +b.dataset.rest; if (!w.rest) woStopRest(); }
+  else if ((b = t.closest("[data-wfeel]"))) { w.feel = b.dataset.wfeel; if (w.feel === "off") woHideFeel(); }
   else if (t.closest("#ws-groupc")) w.groupColors = !w.groupColors;
   else if (t.closest("#ws-planfirst")) w.planFirst = !w.planFirst;
-  else if (t.closest("#ws-demo")) { dlgWoSet.close(); if (woReal) woExitDemo(); else woStartDemo(); return; }
+  else if (t.closest("#ws-demo")) { dlgSet.close(); if (woReal) woExitDemo(); else woStartDemo(); return; }
   else if ((b = t.closest("[data-export]"))) { woExport(b.dataset.export); return; }
-  else if (t.closest("#ws-guide")) { dlgWoSet.close(); woOpenGuide(WO_FULL_GUIDE); return; }
-  else if (t.closest("#ws-close")) { dlgWoSet.close(); return; }
+  else if (t.closest("#ws-guide")) { dlgSet.close(); woOpenGuide(WO_FULL_GUIDE); return; }
   else return;
   scheduleSave();
   woRenderSettings();
@@ -7529,6 +7740,7 @@ swWorkout.addEventListener("click", function(){
     applyNav();
     if (!w.setup) woOpenGuide(WO_FULL_GUIDE);
   } else {
+    document.getElementById("s-wo").hidden = true;
     applyNav();
   }
 });

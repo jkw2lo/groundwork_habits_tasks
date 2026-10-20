@@ -90,9 +90,11 @@ It lives in its own slice of the data, `workout`, and never touches habits or ta
 - **Records.** Beating your best weight (or reps or time) shows ★ New best on the circle
   and a star in History and Progress.
 - **Phones** (640px wide and under) get their own Today: a card per muscle group (sets
-  logged, how many are due), and tapping one opens big rows with a set dot per set and a
-  check button. Wider screens keep the circles, which no longer shrink to fit the window;
-  the text grows with each circle and names wrap rather than cut off.
+  logged, how many are due), and tapping one opens one-line rows: icon, name, numbers and
+  a check button that shows 2/3 while an exercise is part done. Wider screens keep the
+  circles, which no longer shrink to fit the window; the text grows with each circle and
+  every line stays inside the round edge. The circle and row size setting works
+  everywhere (on a phone it sets how many circles fit across).
 - **Deal me a workout.** A button on Today deals a short deck: the day's template first,
   then the highlighted picks, then whatever is most overdue (today's groups before
   others, at most half the deck from one group). On the deck screen you can swap or drop
@@ -104,9 +106,21 @@ It lives in its own slice of the data, `workout`, and never touches habits or ta
   can be resumed.
 - **Layouts.** Exercises show as circles or a compact list (Auto: circles on a computer,
   a list on a phone). On a phone, Today can show muscle-group cards, only what's due today,
-  or one group at a time with left/right swipes; switch with the Groups · Due · Swipe tabs.
+  or one group at a time with left/right swipes in a fixed-height box (switch with the
+  Groups · Due · Swipe tabs). Beside them, **All · Recommended** filters any view down to
+  what's highlighted today.
   Both are asked in the setup guide and live in Workout settings, as does the number of
   highlights per muscle group (1–10).
+- **Start workout** (beside Deal me a workout) is a focus mode: the header, plan text,
+  notes and buttons go away and only the exercises stay, until **Done workout**, which
+  shows the sets, exercises and minutes. It survives a reload for the rest of the day.
+- **How did that feel.** After a set is logged, a small Easy · OK · Hard bar appears at
+  the bottom and goes away by itself if ignored. Each set keeps its rating and the
+  exercise's effort for the day is their average. The setup guide and Workout settings
+  choose every set, the last set only, or off. Two full sessions in a row that felt easy
+  bring a step up forward (once a week has passed at the current numbers).
+- **Workout settings** are a section of the main Settings (the gear), opened already
+  expanded when you're on the Workout tab.
 - **Rearrange** (on Today) orders exercises within a group: drag circles, or rows by their
   handle on a phone, or use the arrows. Arrows beside a group's name (or on its card) move
   the whole group. Workout settings decide whether today's planned groups jump to the top.

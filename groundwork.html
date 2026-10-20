@@ -908,6 +908,10 @@ dialog h2{font-size:20px; font-stretch:112%; margin-bottom:18px}
 .wd-nav:disabled{opacity:.3}
 #wo-tiles .wd-card .tile{width:min(calc(300px * var(--tile, 1)), 78vw)}
 .wd-card .tile-menu{display:none}
+/* the adjust button on exercises: always showing, light grey */
+.wo-tile .tile-menu{opacity:1; top:4px; right:4px; background:var(--surface-2); color:var(--ink-2); border:1px solid var(--hairline-2)}
+.wo-tile .tile-menu:hover{background:var(--sunk); color:var(--ink)}
+.wo-row .rm-more{background:var(--surface-2); color:var(--ink-2); border:1px solid var(--hairline-2)}
 .wd-info{text-align:center}
 .wd-info h2{font-size:26px; font-stretch:112%; letter-spacing:-.02em}
 .wd-sets{margin:4px 0 0; font-size:16px; color:var(--ink-2); font-variant-numeric:tabular-nums}
@@ -1848,8 +1852,8 @@ dialog.wide.xwide{width:min(940px, calc(100vw - 32px))}
     <div class="field">
       <label>Exercises look like</label>
       <div class="cat-picks" id="ws-shape">
-        <button type="button" data-shape="auto">Auto</button>
         <button type="button" data-shape="circle">Circles</button>
+        <button type="button" data-shape="auto">Auto</button>
         <button type="button" data-shape="list">Compact list</button>
       </div>
       <p class="note" style="margin-top:6px">Auto: circles on a computer, a list on a phone.</p>
@@ -5387,7 +5391,7 @@ function woDefaults(){
   return { on: false, setup: false, unit: "lb", tap: "all", size: 1, doneGlaze: "moss", recGlaze: "clay",
            perGroup: 2, groupColors: false, rest: 90, groupOrder: MUSCLES.slice(), planFirst: true,
            exercises: [], log: {}, plan: {}, planT: {}, templates: [], recLog: {}, planHint: "",
-           off: {}, notes: {}, target: [10, 20], shape: "auto", mview: "groups", deck: null, deckSize: 6, feel: "set", only: "all" };
+           off: {}, notes: {}, target: [10, 20], shape: "circle", shapeV: 2, mview: "groups", deck: null, deckSize: 6, feel: "set", only: "all" };
 }
 function woNum(v, lo, hi, step){
   v = +v;
@@ -5486,7 +5490,9 @@ function normalizeWorkout(raw){
     }
   }
   w.perGroup = woNum(raw.perGroup || 2, 1, 10, 1);
-  w.shape = raw.shape === "circle" || raw.shape === "list" ? raw.shape : "auto";
+  w.shape = raw.shape === "auto" || raw.shape === "list" ? raw.shape : "circle";
+  // circles became the default: an "auto" saved before then was the old default, not a choice
+  if (raw.shapeV !== 2 && raw.shape === "auto") w.shape = "circle";
   w.mview = raw.mview === "due" || raw.mview === "swipe" ? raw.mview : "groups";
   w.deckSize = woNum(raw.deckSize || 6, 2, 15, 1);
   w.feel = raw.feel === "last" || raw.feel === "off" ? raw.feel : "set";
@@ -7117,7 +7123,7 @@ var WG_STEPS = {
         '<button type="button" data-gunit="lb" aria-pressed="' + (w.unit === "lb") + '">lb</button>' +
         '<button type="button" data-gunit="kg" aria-pressed="' + (w.unit === "kg") + '">kg</button></div></div>' +
       '<div class="field"><label>Exercises look like</label><div class="cat-picks">' +
-        [["auto", "Auto"], ["circle", "Circles"], ["list", "Compact list"]].map(function(o){
+        [["circle", "Circles"], ["auto", "Auto"], ["list", "Compact list"]].map(function(o){
           return '<button type="button" data-gshape="' + o[0] + '" aria-pressed="' + (w.shape === o[0]) + '">' + o[1] + "</button>";
         }).join("") + '</div><p class="note" style="margin-top:6px">Auto: circles on a computer, a list on a phone.</p></div>' +
       '<div class="field"><label>On a phone, Pick my own shows</label><div class="wo-choice wo-choice3">' +

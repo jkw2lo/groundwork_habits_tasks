@@ -718,11 +718,36 @@ dialog.wide{width:min(640px, calc(100vw - 32px))}
 .wo-sel{padding:7px 9px; border-radius:10px; border:1.5px solid var(--hairline); background:var(--ground);
   color:var(--ink); font:inherit; font-size:14px; cursor:pointer}
 .wo-sel:focus{outline:none; border-color:var(--ink-3)}
-.wb-row{padding:14px 0; border-top:1px solid var(--hairline); display:flex; flex-direction:column; gap:10px}
-.wb-name{display:flex; align-items:center; gap:9px; font-size:15px}
-.wb-name small{color:var(--ink-3); font-size:12.5px}
-.wb-nums{display:flex; flex-wrap:wrap; gap:10px 14px; align-items:flex-end}
-.wb-nums .wo-field{display:inline-flex; flex-direction:column; gap:4px}
+.wg-group h3 .wg-all{margin-left:auto; font-family:var(--body); font-size:12px; font-weight:600; letter-spacing:0;
+  text-transform:none; color:var(--ink-3); padding:2px 8px; border-radius:8px}
+.wg-group h3 .wg-all:hover{color:var(--ink); background:var(--surface-2)}
+.wg-tip{margin:-6px 0 14px; padding:10px 13px; border-radius:10px; background:var(--surface-2);
+  font-size:13px; color:var(--ink-2); line-height:1.45}
+.wg-allbar{margin-bottom:16px}
+.wg-allbar .btn-soft{padding:7px 14px; font-size:13.5px}
+dialog.wide.xwide{width:min(940px, calc(100vw - 32px))}
+/* the baseline table: one grid row per exercise, scrolls sideways on narrow screens */
+.wt{overflow-x:auto; margin:0 -4px; padding:2px 4px 6px}
+.wt-head, .wt-row{display:grid; gap:6px; align-items:center; min-width:800px;
+  grid-template-columns:minmax(150px, 1.6fr) 100px 124px 58px 88px 78px 74px 70px 26px}
+.wt-head{font-size:10.5px; letter-spacing:.08em; text-transform:uppercase; font-weight:600; color:var(--ink-3);
+  padding-bottom:6px; border-bottom:1px solid var(--hairline); margin-bottom:6px}
+.wt-row{margin-bottom:6px}
+.wt-row input, .wt-row select{width:100%; min-width:0; padding:7px 8px; border-radius:8px; border:1.5px solid var(--hairline);
+  background:var(--ground); color:var(--ink); font:inherit; font-size:14px; font-variant-numeric:tabular-nums}
+.wt-row select{padding-right:4px; cursor:pointer}
+.wt-row input:focus, .wt-row select:focus{outline:none; border-color:var(--ink-3); background:var(--surface)}
+.wt-row input:disabled{opacity:.35}
+.wt-row input[type=number]{-moz-appearance:textfield; appearance:textfield}
+.wt-row input::-webkit-outer-spin-button, .wt-row input::-webkit-inner-spin-button{-webkit-appearance:none; margin:0}
+.wt-row[data-new] input[data-f="name"]{border-style:dashed}
+.wt-row[data-new] :is(select, input:not([data-f="name"])){opacity:.45}
+.wt-amt{position:relative}
+.wt-amt input{padding-right:34px}
+.wt-amt i{position:absolute; right:8px; top:50%; transform:translateY(-50%); font-style:normal; font-size:11px;
+  color:var(--ink-3); pointer-events:none}
+.wt-del{width:26px; height:26px; border-radius:8px; color:var(--ink-3); font-size:17px; line-height:1}
+.wt-del:hover{background:var(--surface-2); color:var(--g-clay)}
 .wo-field .lbl{font-size:11px; letter-spacing:.1em; text-transform:uppercase; font-weight:600; color:var(--ink-3)}
 .wp-row{display:flex; align-items:center; gap:12px; padding:9px 0; border-top:1px solid var(--hairline)}
 .wp-day{width:40px; flex:none; font-weight:600; font-size:14px}
@@ -4457,12 +4482,38 @@ function woRemove(ex){
   else state.workout.exercises = state.workout.exercises.filter(function(x){ return x !== ex; });
 }
 function woRestore(ex){ ex.retired = null; ex.prog.since = TODAY; ex.prog.snooze = null; }
-function woToggleLib(key){
+function woLibEx(key){
   var ex = null;
   state.workout.exercises.forEach(function(x){ if (x.key === key) ex = x; });
-  if (ex) { if (ex.retired) woRestore(ex); else woRemove(ex); return; }
+  return ex;
+}
+function woLibOn(key){ var ex = woLibEx(key); return !!ex && !ex.retired; }
+function woSetLib(key, on){
+  var ex = woLibEx(key);
+  if (on === woLibOn(key)) return;
+  if (!on) { woRemove(ex); return; }
+  if (ex) { woRestore(ex); return; }
   var lib = WO_LIB.filter(function(l){ return l.key === key; })[0];
   if (lib) state.workout.exercises.push(woNewEx(lib));
+}
+// Select all, or clear when everything in the set is already picked.
+function woToggleLibs(libs){
+  var all = libs.every(function(l){ return woLibOn(l.key); });
+  libs.forEach(function(l){ woSetLib(l.key, !all); });
+}
+// Bulk-entry table types; timed exercises carry their unit in the type.
+var WO_TYPES = [["w", "Weights"], ["b", "Bodyweight"], ["tmin", "Timed (min)"], ["ts", "Timed (sec)"]];
+function woTypeOf(ex){ return ex.kind === "t" ? (ex.tu === "s" ? "ts" : "tmin") : ex.kind; }
+function woSetType(ex, type){
+  var kind = type === "w" || type === "b" ? type : "t", was = ex.kind;
+  if (ex.emoji === WO_KIND_EMOJI[was]) ex.emoji = WO_KIND_EMOJI[kind];
+  ex.kind = kind;
+  ex.tu = type === "ts" ? "s" : "min";
+  if (kind === "t" && was !== "t") ex.dur = ex.tu === "s" ? 30 : 20;
+  if (kind !== was) {
+    ex.prog.field = woProgFields(kind)[0];
+    ex.prog.by = woDefaultBy(ex, ex.prog.field);
+  }
 }
 function woSetUnit(u){
   var w = state.workout;
@@ -4878,11 +4929,19 @@ var WG_STEPS = {
       if (ex.key) mine[ex.key] = !ex.retired;
       else own.push(ex);
     });
+    var everything = WO_LIB.every(function(l){ return mine[l.key]; });
     return '<p class="wg-lead">Pick what you train. Each one becomes a circle, grouped by muscle. Change it any time.</p>' +
+      '<p class="wg-tip">Got a long list of your own? Skip the box at the bottom. On the next screen you can type them ' +
+      "straight into a table, pressing Tab to move from box to box.</p>" +
+      '<div class="wg-allbar"><button type="button" class="btn btn-soft" data-all="*">' +
+        (everything ? "Clear all" : "Select all " + WO_LIB.length) + "</button></div>" +
       MUSCLES.map(function(g){
         var libs = WO_LIB.filter(function(l){ return l.groups[0] === g; });
         var n = libs.filter(function(l){ return mine[l.key]; }).length + own.filter(function(ex){ return !ex.retired && ex.groups[0] === g; }).length;
-        return '<div class="wg-group"><h3>' + g + (n ? "<span>" + n + " picked</span>" : "") + '</h3><div class="cat-picks">' +
+        var full = libs.every(function(l){ return mine[l.key]; });
+        return '<div class="wg-group"><h3>' + g + (n ? "<span>" + n + " picked</span>" : "") +
+          '<button type="button" class="wg-all" data-all="' + g + '">' + (full ? "Clear" : "Select all") + "</button>" +
+          '</h3><div class="cat-picks">' +
           libs.map(function(l){
             return '<button type="button" data-key="' + l.key + '" aria-pressed="' + !!mine[l.key] + '">' + l.emoji + " " + esc(l.name) + "</button>";
           }).join("") + "</div></div>";
@@ -4897,14 +4956,13 @@ var WG_STEPS = {
         '<button type="button" class="btn btn-ghost" id="wg-own-add">Add</button></div></div>';
   },
   base: function(){
-    var live = woLive();
-    if (!live.length) return '<p class="wg-lead">No exercises picked yet. Go back a step and choose a few.</p>';
-    return '<p class="wg-lead">Where are you starting from? Enter what you do today. Taps log these numbers until you change them, ' +
-      "and “Go up” puts a ↑ on the circle when it is time to add more.</p>" +
-      live.map(function(ex){
-        return '<div class="wb-row" data-ex="' + ex.id + '"><div class="wb-name"><span>' + ex.emoji + "</span><b>" + esc(ex.name) +
-          "</b><small>" + ex.groups.join(", ") + '</small></div><div class="wb-nums">' + woNumsHTML(ex) + "</div>" + woProgHTML(ex) + "</div>";
-      }).join("");
+    var u = state.workout.unit;
+    return '<p class="wg-lead">Where are you starting from? Type what you do today. <b>Tab</b> moves to the next box and ' +
+      "<b>Enter</b> to the row below. To add more, type a name in the last row. Leave “Go up by” empty to skip progression.</p>" +
+      '<div class="wt"><div class="wt-head"><span>Exercise</span><span>Group</span><span>Type</span><span>Sets</span>' +
+      "<span>Reps / time</span><span>Weight (" + u + ")</span><span>Go up by</span><span>Every (wk)</span><span></span></div>" +
+      woLive().map(woRowHTML).join("") + woRowHTML(null) + "</div>" +
+      '<p class="note">Later, press and hold any circle to fine-tune it with ▲ ▼.</p>';
   },
   plan: function(){
     var p = state.workout.plan, today = parseKey(TODAY).getDay();
@@ -4918,6 +4976,95 @@ var WG_STEPS = {
       }).join("");
   }
 };
+/* ---- the baseline table: plain inputs, Tab across, Enter down ---- */
+// A blank row starts from the last exercise's group and type, so a run of
+// leg lifts doesn't need the dropdowns touched each time.
+function woRowHTML(ex){
+  var last = woLive().slice(-1)[0];
+  var type = ex ? woTypeOf(ex) : (last ? woTypeOf(last) : "w"), g = ex ? ex.groups[0] : (last ? last.groups[0] : "Chest");
+  function num(f, label){
+    return '<input type="number" inputmode="decimal" step="any" min="0" data-f="' + f + '" aria-label="' + label + '">';
+  }
+  return '<div class="wt-row"' + (ex ? ' data-ex="' + ex.id + '"' : " data-new") + ">" +
+    '<input type="text" data-f="name" maxlength="32" placeholder="' + (ex ? "" : "+ Type a new exercise") + '" aria-label="Exercise name"' +
+      (ex ? ' value="' + esc(ex.name) + '"' : "") + ">" +
+    '<select class="wo-sel" data-f="group" aria-label="Muscle group">' + MUSCLES.map(function(m){
+      return "<option" + (m === g ? " selected" : "") + ">" + m + "</option>";
+    }).join("") + "</select>" +
+    '<select class="wo-sel" data-f="type" aria-label="Type">' + WO_TYPES.map(function(t){
+      return '<option value="' + t[0] + '"' + (t[0] === type ? " selected" : "") + ">" + t[1] + "</option>";
+    }).join("") + "</select>" +
+    num("sets", "Sets") +
+    '<span class="wt-amt">' + num("amt", "Reps or time") + "<i></i></span>" +
+    num("weight", "Weight") + num("by", "Go up by") + num("weeks", "Every how many weeks") +
+    (ex ? '<button type="button" class="wt-del" tabindex="-1" aria-label="Remove ' + esc(ex.name) + '">×</button>' : "<span></span>") +
+    "</div>";
+}
+// Values are written in after rendering, and again after each change, so what
+// shows is always what was stored (clamped). The focused box is left alone.
+function woFillRow(row){
+  var ex = woEx(row.dataset.ex);
+  if (!ex) return;
+  var vals = { sets: ex.sets, amt: ex.kind === "t" ? ex.dur : ex.reps, weight: ex.kind === "w" ? ex.weight : "",
+               by: ex.prog.on ? ex.prog.by : "", weeks: ex.prog.weeks };
+  Object.keys(vals).forEach(function(f){
+    var inp = row.querySelector('[data-f="' + f + '"]');
+    if (inp !== document.activeElement) inp.value = vals[f] === "" ? "" : woFmtNum(vals[f]);
+  });
+  var w = row.querySelector('[data-f="weight"]');
+  w.disabled = ex.kind !== "w";
+  w.placeholder = ex.kind === "w" ? "0 = bar" : "—";
+  row.querySelector(".wt-amt i").textContent = ex.kind === "t" ? (ex.tu === "s" ? "sec" : "min") : "reps";
+  row.querySelector('[data-f="by"]').placeholder = "off";
+  row.querySelector('[data-f="by"]').title = "Adds this much " + WO_FIELD_NAME[ex.prog.field] + " each time it is due";
+}
+function woFillTable(){ dlgGuide.querySelectorAll(".wt-row[data-ex]").forEach(woFillRow); }
+function woTableChange(inp){
+  var row = inp.closest(".wt-row"), f = inp.dataset.f, v = inp.value.trim(), ex = woEx(row.dataset.ex);
+  if (!ex) {
+    // the blank last row: a name makes it a real exercise, and a new blank row appears below
+    if (f !== "name" || !v) return;
+    var type = row.querySelector('[data-f="type"]').value;
+    ex = woNewEx({ name: v, groups: [row.querySelector('[data-f="group"]').value], kind: type === "w" || type === "b" ? type : "t",
+                   tu: type === "ts" ? "s" : "min" });
+    state.workout.exercises.push(ex);
+    row.dataset.ex = ex.id;
+    row.removeAttribute("data-new");
+    row.querySelector('[data-f="name"]').placeholder = "";
+    row.lastElementChild.outerHTML = '<button type="button" class="wt-del" tabindex="-1" aria-label="Remove ' + esc(ex.name) + '">×</button>';
+    row.insertAdjacentHTML("afterend", woRowHTML(null));
+  } else if (f === "name") {
+    if (v) ex.name = v.slice(0, 32);
+  } else if (f === "group") {
+    ex.groups = [v].concat(ex.groups.filter(function(x){ return x !== v; }));
+  } else if (f === "type") {
+    woSetType(ex, v);
+  } else if (f === "by") {
+    var on = v !== "" && +v > 0;
+    if (on && !ex.prog.on) { ex.prog.since = TODAY; ex.prog.snooze = null; }
+    ex.prog.on = on;
+    if (on) ex.prog.by = woClamp("by", v);
+  } else if (v !== "") {
+    woSet(ex, f === "amt" ? (ex.kind === "t" ? "dur" : "reps") : f, v);
+  }
+  scheduleSave();
+  woFillRow(row);
+  renderWorkout();
+}
+dlgGuide.addEventListener("change", function(e){
+  if (e.target.closest(".wt-row [data-f]")) woTableChange(e.target);
+});
+dlgGuide.addEventListener("keydown", function(e){
+  var inp = e.target.closest(".wt-row input");
+  if (!inp || e.key !== "Enter") return;
+  e.preventDefault();
+  var f = inp.dataset.f, row = inp.closest(".wt-row");
+  inp.blur();   // commits the change, which may add a new blank row below
+  var next = row.nextElementSibling, target = next && next.querySelector('[data-f="' + f + '"]');
+  if (target && target.disabled) target = next.querySelector('[data-f="name"]');
+  if (target) target.focus();
+});
+
 function woOpenGuide(steps){
   wg = { steps: steps, i: 0 };
   woRenderGuide();
@@ -4928,6 +5075,8 @@ function woRenderGuide(keepScroll){
   document.getElementById("wg-count").textContent = wg.steps.length > 1 ? "Step " + (wg.i + 1) + " of " + wg.steps.length : "";
   document.getElementById("wg-title").textContent = WG_TITLES[step];
   document.getElementById("wg-body").innerHTML = WG_STEPS[step]();
+  dlgGuide.classList.toggle("xwide", step === "base");
+  if (step === "base") woFillTable();
   document.getElementById("wg-back").hidden = wg.i === 0;
   document.getElementById("wg-next").textContent = wg.i === wg.steps.length - 1 ? "Done" : "Next";
   dlgGuide.scrollTop = keepScroll ? top : 0;
@@ -4941,8 +5090,6 @@ function woAddOwn(){
   woRenderGuide(true);
   renderWorkout();
 }
-woBindNums(dlgGuide, function(){ woRefreshNums(dlgGuide); });
-woBindProg(dlgGuide, function(){ woRenderGuide(true); });
 dlgGuide.addEventListener("keydown", function(e){
   if (e.key === "Enter" && e.target.id === "wg-own-name") { e.preventDefault(); woAddOwn(); }
 });
@@ -4950,7 +5097,12 @@ dlgGuide.addEventListener("click", function(e){
   var t = e.target, w = state.workout, b;
   if ((b = t.closest("[data-gtap]"))) w.tap = b.dataset.gtap;
   else if ((b = t.closest("[data-gunit]"))) woSetUnit(b.dataset.gunit);
-  else if ((b = t.closest("[data-key]"))) woToggleLib(b.dataset.key);
+  else if ((b = t.closest("[data-key]"))) woSetLib(b.dataset.key, !woLibOn(b.dataset.key));
+  else if ((b = t.closest("[data-all]"))) {
+    var g = b.dataset.all;
+    woToggleLibs(WO_LIB.filter(function(l){ return g === "*" || l.groups[0] === g; }));
+  }
+  else if ((b = t.closest(".wt-del"))) { var rx = woExOf(b); if (rx) woRemove(rx); }
   else if ((b = t.closest("[data-own]"))) { var ex = woEx(b.dataset.own); if (ex) { if (ex.retired) woRestore(ex); else woRemove(ex); } }
   else if ((b = t.closest("[data-day] [data-g]"))) woTogglePlan(+b.closest("[data-day]").dataset.day, b.dataset.g);
   else if (t.closest("#wg-own-add")) { woAddOwn(); return; }

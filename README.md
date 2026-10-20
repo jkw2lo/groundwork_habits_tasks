@@ -54,8 +54,11 @@ spot. Grouping by category takes precedence over the custom board while it is on
 
 Off by default. Settings → **Workout mode** adds a **Workout** tab after Habits and Tasks
 and opens a setup guide the first time: how a tap logs sets, lb or kg, which exercises
-(picked from a list grouped by muscle, or your own), your starting sets/reps/weight, and
-an optional weekly plan of muscle groups. Switching it off hides the tab and keeps the data.
+(picked from a list grouped by muscle, with Select all per group or for everything),
+your starting numbers, and an optional weekly plan of muscle groups. Starting numbers go
+in a typed table: Tab moves across, Enter moves down, and typing a name in the last row
+adds a new exercise (it starts with the previous row's group and type), so a long list
+goes in without clicking. Switching it off hides the tab and keeps the data.
 
 It lives in its own slice of the data, `workout`, and never touches habits or tasks.
 

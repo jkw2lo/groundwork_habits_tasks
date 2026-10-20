@@ -109,6 +109,24 @@ It lives in its own slice of the data, `workout`, and never touches habits or ta
   the sheet's numbers edit only that day's entry (your working numbers stay put).
   Highlights, the rest timer and step-up prompts are for today only. History's **Edit**
   opens that day the same way; **Type it in a table** is still there for bulk entry. Bodyweight work counts reps alongside volume.
+- **Days off.** **Rest or away…** on Today (any day, including earlier ones, and ranges up
+  to 60 days) marks a rest, sick, travel or away day with an optional note. Nothing is
+  highlighted on a day off; marked days don't count against your plan; sick, travel and
+  away days don't make exercises look more overdue; and a week with four or more days
+  marked off is skipped by the week streak instead of breaking it.
+- **Effort and notes.** The long-press sheet rates how hard an exercise was (Easy to All
+  out), and Today has a note box per day. Both show in History, the exercise page and
+  the monthly review, and go into the CSV.
+- **Self-assessment.** Progress opens with **Worth a look**: lifts with no new best in 3+
+  weeks (4+ sessions, no step up) and lifts that keep stopping short. **Weekly sets vs
+  target** compares each muscle group's average sets a week (last 4 weeks) with your
+  target range (Workout settings, default 10–20). The **monthly review** compares a month
+  with the one before (day for day while it's current): workout days, sets, volume,
+  records, average effort, most improved and slipped lifts, most/least trained groups,
+  days off and notes. Each exercise page lists its **progression history**: every step
+  up, step back and edit to its numbers.
+- **Sample data.** Workout settings → **Try with sample data** loads twelve made-up weeks
+  to explore Progress and History. It's never saved: saving always writes your real data.
 - **Export:** Download CSV (one row per exercise per day) or JSON from Progress, History
   or Workout settings. The regular backup includes workouts as well.
 

@@ -813,6 +813,49 @@ dialog h2{font-size:20px; font-stretch:112%; margin-bottom:18px}
 }
 @container (max-width:112px){ .wo-tile .wo-why{display:none} }
 .wo-tip{font-size:12.5px; color:var(--ink-3); margin:12px 0 0}
+.wo-offpill{display:inline-flex; align-items:center; gap:6px; margin:-12px 0 20px; padding:7px 14px; border-radius:999px;
+  border:1px solid var(--hairline-2); background:var(--surface-2); font-size:13.5px; font-weight:600; color:var(--ink-2)}
+.wo-offpill u{text-decoration:none; color:var(--ink-3); font-weight:500}
+.wo-off-sick, .wo-off-travel, .wo-off-away{border-style:dashed}
+.wo-note{margin-top:26px; max-width:620px}
+.wo-note label{display:block; font-size:11.5px; letter-spacing:.1em; text-transform:uppercase; font-weight:600; color:var(--ink-3); margin-bottom:7px}
+.wo-note textarea{width:100%; resize:vertical; min-height:58px; padding:10px 12px; border-radius:12px; border:1.5px solid var(--hairline);
+  background:var(--surface); color:var(--ink); font:inherit; font-size:14.5px; line-height:1.45}
+.wo-note textarea:focus{outline:none; border-color:var(--ink-3)}
+.wo-hnote{margin:-2px 0 8px; padding:8px 12px; border-left:3px solid var(--hairline-2); font-size:13.5px; color:var(--ink-2); white-space:pre-wrap}
+.wq-effort{margin:14px 0 0}
+.wq-effort .cat-picks button{padding:5px 11px; font-size:13px}
+.wo-heat i.off{background:none; box-shadow:inset 0 0 0 1.5px var(--hairline-2)}
+.wo-att{border-color:color-mix(in srgb, var(--g-ochre) 45%, var(--hairline))}
+.wo-att-row{display:flex; flex-wrap:wrap; gap:4px 12px; padding:9px 0; border-top:1px solid var(--hairline); font-size:14px; cursor:pointer}
+.wo-att-row:first-of-type{border-top:none}
+.wo-att-row > span:first-child{min-width:170px}
+.wo-att-row > span:last-child{flex:1 1 260px; color:var(--ink-2)}
+.wo-att-row:hover b{text-decoration:underline}
+.badge.wo-stall{color:var(--g-ochre); border-color:color-mix(in srgb, var(--g-ochre) 45%, transparent)}
+.wo-stallnote{margin:0 0 20px; background:color-mix(in srgb, var(--g-ochre) 10%, var(--surface))}
+.wo-trow .wo-ttrack{position:relative; overflow:visible}
+.wo-ttrack .band{position:absolute; top:-3px; bottom:-3px; background:color-mix(in srgb, var(--ink) 9%, transparent); border-radius:3px}
+.wo-ttrack i{position:relative}
+.wo-tst{width:84px; flex:none; font-size:11.5px; color:var(--ink-3); white-space:nowrap}
+.wo-tst.under, .wo-tst.over{color:var(--ink-2); font-weight:600}
+.wo-review .card-head .stepper button{width:28px; height:28px}
+.wo-rev-figs{display:flex; flex-wrap:wrap; gap:14px 30px; margin-bottom:14px}
+.wo-rev-figs b{display:block; font-family:var(--display); font-stretch:115%; font-size:28px; letter-spacing:-.02em; line-height:1.05}
+.wo-rev-figs span{display:block; font-size:12px; color:var(--ink-3); margin-top:3px}
+.wo-rev-list{margin:0; padding-left:18px; font-size:14px; line-height:1.7; color:var(--ink-2)}
+.wo-rev-list b{color:var(--ink); font-weight:600}
+.wo-rev-notes p{margin:8px 0 0; font-size:13.5px; color:var(--ink-2)}
+.wo-target{display:flex; align-items:center; gap:8px; flex-wrap:wrap; font-size:14px; color:var(--ink-2)}
+.wo-target input{width:64px; padding:7px 9px; border-radius:9px; border:1.5px solid var(--hairline); background:var(--ground);
+  color:var(--ink); font:inherit; font-size:15px}
+.wo-demo{display:flex; flex-wrap:wrap; align-items:center; gap:10px 16px; margin:0 0 20px; padding:12px 15px; border-radius:var(--r);
+  background:color-mix(in srgb, var(--g-indigo) 12%, var(--surface)); border:1px solid color-mix(in srgb, var(--g-indigo) 35%, transparent)}
+.wo-demo p{margin:0; flex:1 1 260px; font-size:14px}
+@media (max-width:640px){
+  .wo-tst{width:70px}
+  .wo-bars .ago{display:none}
+}
 .wo-daynav{display:inline-flex; align-items:center; gap:8px; flex-wrap:wrap}
 .wo-daynav button{width:26px; height:26px; border-radius:8px; border:1px solid var(--hairline); background:var(--surface);
   display:inline-grid; place-items:center; color:var(--ink-2); vertical-align:middle}
@@ -1209,6 +1252,7 @@ dialog.wide.xwide{width:min(940px, calc(100vw - 32px))}
     <div id="y-body"></div>
   </section>
   <section class="view" id="view-workout">
+    <div id="wo-demo"></div>
     <div id="wo-today">
       <div class="today-head">
         <p class="eyebrow" id="wo-date">—</p>
@@ -1217,6 +1261,7 @@ dialog.wide.xwide{width:min(940px, calc(100vw - 32px))}
       </div>
       <div id="wo-hint"></div>
       <div class="sections" id="wo-tiles"></div>
+      <div id="wo-notebox"></div>
       <div id="wo-foot"></div>
     </div>
     <div id="wo-progress" hidden></div>
@@ -1406,6 +1451,10 @@ dialog.wide.xwide{width:min(940px, calc(100vw - 32px))}
     </div>
   </div>
   <div class="wq-rows" id="wq-rows"></div>
+  <div class="field wq-effort" id="wq-effort" hidden>
+    <label>How hard was it?</label>
+    <div class="cat-picks" id="wq-ef"></div>
+  </div>
   <details class="wq-more" id="wq-each">
     <summary>Sets weren&rsquo;t all the same?</summary>
     <div id="wq-each-body"></div>
@@ -1425,6 +1474,33 @@ dialog.wide.xwide{width:min(940px, calc(100vw - 32px))}
       <button type="button" class="btn btn-ghost" id="wq-confirm-no">Keep it</button>
       <button type="button" class="btn btn-remove" id="wq-confirm-yes">Remove</button>
     </div>
+  </div>
+</dialog>
+
+<dialog id="dlg-wo-off">
+  <h2 id="wf-title">Mark this day</h2>
+  <div class="field">
+    <label>What kind of day</label>
+    <div class="cat-picks">
+      <button type="button" data-wf="rest">Rest day</button>
+      <button type="button" data-wf="sick">Sick</button>
+      <button type="button" data-wf="travel">Travel</button>
+      <button type="button" data-wf="away">Away</button>
+    </div>
+    <p class="note" id="wf-hint" style="margin-top:8px"></p>
+  </div>
+  <div class="field two">
+    <div><label for="wf-from">From</label><input type="date" id="wf-from"></div>
+    <div><label for="wf-to">Through</label><input type="date" id="wf-to"></div>
+  </div>
+  <div class="field">
+    <label for="wf-note">Note</label>
+    <input type="text" id="wf-note" maxlength="80" placeholder="Optional: flu, work trip, deload…">
+  </div>
+  <div class="dlg-actions">
+    <button type="button" class="btn btn-danger" id="wf-clear">Clear the mark</button>
+    <button type="button" class="btn btn-ghost" id="wf-cancel">Cancel</button>
+    <button type="button" class="btn btn-primary" id="wf-save">Save</button>
   </div>
 </dialog>
 
@@ -1492,6 +1568,17 @@ dialog.wide.xwide{width:min(940px, calc(100vw - 32px))}
       <button type="button" data-rest="180">3:00</button>
     </div>
     <p class="note" style="margin-top:6px">Starts when a tap logs one set of several.</p>
+  </div>
+  <div class="field">
+    <label>Weekly sets per muscle group</label>
+    <div class="wo-target"><input type="number" id="ws-tmin" min="0" max="60" inputmode="numeric" aria-label="Fewest sets a week">
+      <span>to</span><input type="number" id="ws-tmax" min="1" max="80" inputmode="numeric" aria-label="Most sets a week"><span>sets a week</span></div>
+    <p class="note" style="margin-top:6px">Progress shows each group against this range. 10&ndash;20 is a common range for building muscle; cardio isn't counted.</p>
+  </div>
+  <div class="field dlg-extra">
+    <label>Sample data</label>
+    <button type="button" class="btn btn-soft" id="ws-demo">Try with sample data</button>
+    <p class="note">Twelve made-up weeks of training, to explore Progress and History. Nothing you do in it is saved, and your own data stays as it is.</p>
   </div>
   <div class="field">
     <label for="ws-size">Circle size</label>
@@ -1960,7 +2047,7 @@ function setStatus(stateName, text){
 }
 
 function mirrorLocal(){
-  try { localStorage.setItem(LS_KEY, JSON.stringify(state)); return true; }
+  try { localStorage.setItem(LS_KEY, JSON.stringify(woPersist())); return true; }
   catch (e) { return false; }
 }
 
@@ -1979,7 +2066,7 @@ function scheduleSave(fromRemote){
 function flush(){
   if (!dirty || saving || cloudOff || !capArtifact) return;
   saving = true;
-  var payload = JSON.stringify(state);
+  var payload = JSON.stringify(woPersist());
   dirty = false;
   var files = {}; files[DATA_PATH] = payload;
   capArtifact.publish(files).then(function(){
@@ -4108,7 +4195,8 @@ function dataNote(msg, err){
 }
 function exportData(){
   var out = { app: "groundwork", exportedAt: new Date().toISOString() };
-  Object.keys(state).forEach(function(k){ out[k] = state[k]; });
+  var keep = woPersist();
+  Object.keys(keep).forEach(function(k){ out[k] = keep[k]; });
   saveFile("groundwork-backup-" + TODAY + ".json", JSON.stringify(out, null, 2), "application/json",
     function(msg){ dataNote(msg, true); });
 }
@@ -4167,7 +4255,8 @@ document.getElementById("s-import-yes").addEventListener("click", function(){
 
 // Swap in a whole new state; the old one is kept in this browser just in case.
 function replaceState(next, stash){
-  try { localStorage.setItem(LS_KEY + stash, JSON.stringify(state)); } catch (e) {}
+  try { localStorage.setItem(LS_KEY + stash, JSON.stringify(woPersist())); } catch (e) {}
+  woReal = null;   // a sample-data session ends when real data arrives
   state = next;
   reorder = false; arranging = false; arr = null; arrSel = null;
   updateGroupBtn();
@@ -4295,7 +4384,7 @@ function fbPush(){
   if (!fb.user) return;
   clearTimeout(fb.timer);
   userDoc().set({
-    state: JSON.stringify(state),
+    state: JSON.stringify(woPersist()),
     savedAt: state.savedAt || 0,
     updatedAt: firebase.firestore.FieldValue.serverTimestamp()
   }).then(function(){
@@ -4529,7 +4618,8 @@ var WO_ICONS = ["\u{1F3CB}\uFE0F", "\u{1F4AA}", "\u{1F9B5}", "\u{1F9B6}", "\u{1F
 function woDefaults(){
   return { on: false, setup: false, unit: "lb", tap: "all", size: 1, doneGlaze: "moss", recGlaze: "clay",
            perGroup: 2, groupColors: false, rest: 90, groupOrder: MUSCLES.slice(), planFirst: true,
-           exercises: [], log: {}, plan: {}, planT: {}, templates: [], recLog: {}, planHint: "" };
+           exercises: [], log: {}, plan: {}, planT: {}, templates: [], recLog: {}, planHint: "",
+           off: {}, notes: {}, target: [10, 20] };
 }
 function woNum(v, lo, hi, step){
   v = +v;
@@ -4582,7 +4672,12 @@ function normalizeWorkout(raw){
         snooze: DAY_RE.test(p.snooze) ? p.snooze : null
       },
       created: DAY_RE.test(x.created) ? x.created : TODAY,
-      retired: DAY_RE.test(x.retired) ? x.retired : null
+      retired: DAY_RE.test(x.retired) ? x.retired : null,
+      steps: (Array.isArray(x.steps) ? x.steps : []).filter(function(st){
+        return st && DAY_RE.test(st.k) && WO_ENTRY_F[st.f];
+      }).slice(-60).map(function(st){
+        return { k: st.k, f: st.f, a: +st.a || 0, b: +st.b || 0, how: st.how === "up" || st.how === "back" ? st.how : "edit", u: st.u === "kg" ? "kg" : "lb" };
+      })
     });
   });
   if (raw.log && typeof raw.log === "object") {
@@ -4603,6 +4698,7 @@ function normalizeWorkout(raw){
           });
         }
       });
+      Object.keys(out).forEach(function(id){ var ef = +day[id].ef; if (ef >= 1 && ef <= 5) out[id].ef = Math.round(ef); });
       if (Object.keys(out).length) w.log[k] = out;
     });
   }
@@ -4640,7 +4736,35 @@ function normalizeWorkout(raw){
       if (DAY_RE.test(k) && k >= keep && Array.isArray(a)) w.recLog[k] = a.filter(function(id){ return ids[id]; });
     });
   }
+  if (raw.off && typeof raw.off === "object") {
+    Object.keys(raw.off).forEach(function(k){
+      var o = raw.off[k];
+      if (DAY_RE.test(k) && o && WO_OFF[o.t]) w.off[k] = { t: o.t, note: typeof o.note === "string" ? o.note.slice(0, 80) : "" };
+    });
+  }
+  if (raw.notes && typeof raw.notes === "object") {
+    Object.keys(raw.notes).forEach(function(k){
+      var t = raw.notes[k];
+      if (DAY_RE.test(k) && typeof t === "string" && t.trim()) w.notes[k] = t.slice(0, 500);
+    });
+  }
+  if (Array.isArray(raw.target) && raw.target.length === 2) {
+    w.target = [woNum(raw.target[0], 0, 60, 1), woNum(raw.target[1], 1, 80, 1)];
+    if (w.target[1] < w.target[0]) w.target[1] = w.target[0];
+  }
   return w;
+}
+// Days off: a rest day is planned recovery; sick, travel and away are excused.
+var WO_OFF = { rest: "Rest day", sick: "Sick", travel: "Travel", away: "Away" };
+var WO_EFFORT = ["", "Easy", "Steady", "Hard", "Very hard", "All out"];
+function woOff(k){ return state.workout.off[k] || null; }
+function woExcused(k){ var o = woOff(k); return !!o && o.t !== "rest"; }
+// Days from a to b, not counting excused days in between: a sick week
+// doesn't make everything look a week more overdue.
+function woGap(a, b){
+  var n = daysApart(a, b), c = shiftKey(a, 1), guard = 0;
+  while (c < b && guard++ < 400) { if (woExcused(c)) n--; c = shiftKey(c, 1); }
+  return Math.max(0, n);
 }
 
 /* ---- exercises, today's entries, progression ---- */
@@ -4709,6 +4833,7 @@ function woSetN(ex, n, k){
   n = Math.max(0, Math.min(ex.sets, n));
   if (n) {
     var e = { n: n, sets: ex.sets, reps: ex.reps, weight: ex.weight, dur: ex.dur, u: state.workout.unit };
+    if (old && old.ef) e.ef = old.ef;
     if (old && old.ps) {
       e.ps = old.ps.slice(0, n);
       while (e.ps.length < n) e.ps.push({ reps: e.reps, weight: e.weight, dur: e.dur });
@@ -4776,11 +4901,27 @@ function woSet(ex, f, v){
   }
   var old = ex[f];
   ex[f] = v;
+  woNoteStep(ex, f, old, v, woStepHow);
   // going up by hand counts as the step up, so the clock restarts
   if (ex.prog.field === f && v > old) { ex.prog.since = TODAY; ex.prog.snooze = null; }
   var e = woEntry(ex.id);
   if (e && e.ps) e.ps.forEach(function(x){ if (x[f] === old) x[f] = v; });
   if (e) woSetN(ex, e.n);
+}
+// Every change to the working numbers, once an exercise has history: what
+// changed, from what to what, and whether it was a step up, a step back or an
+// edit. Several edits to one number on one day collapse into one entry.
+var woStepHow = "edit";
+function woNoteStep(ex, f, a, b, how){
+  if (a === b || !woHasHistory(ex.id)) return;
+  var st = ex.steps || (ex.steps = []), last = st[st.length - 1];
+  if (last && last.k === TODAY && last.f === f && last.how === "edit" && how === "edit") {
+    last.b = b;
+    if (last.a === last.b) st.pop();
+    return;
+  }
+  st.push({ k: TODAY, f: f, a: a, b: b, how: how, u: state.workout.unit });
+  if (st.length > 60) st.shift();
 }
 var WO_READY = 2;   // full sessions in a row, at the current numbers, before a step up is offered
 function woDays(id){
@@ -4816,7 +4957,9 @@ function woBackText(ex){
 }
 function woBack(ex){
   var p = ex.prog;
+  woStepHow = "back";
   woSet(ex, p.field, ex[p.field] - p.by);
+  woStepHow = "edit";
   p.since = TODAY;
   p.snooze = null;
 }
@@ -4830,7 +4973,9 @@ function woBumpText(ex){
 }
 function woBump(ex){
   var p = ex.prog;
+  woStepHow = "up";
   woSet(ex, p.field, ex[p.field] + p.by);
+  woStepHow = "edit";
   p.since = TODAY;
   p.snooze = null;
 }
@@ -4893,7 +5038,8 @@ function woPlanHint(){
 // skipping stops crowding out the rest.
 function woRecs(){
   var w = state.workout, out = {}, live = woLive(), groups = woPlanToday(), tpl = woTemplateToday();
-  function since(ex){ var k = woLastBefore(ex.id, TODAY); return k ? daysApart(k, TODAY) : 9999; }
+  if (woOff(TODAY)) return out;   // a day off: nothing is due
+  function since(ex){ var k = woLastBefore(ex.id, TODAY); return k ? woGap(k, TODAY) : 9999; }
   function score(ex){
     var s = since(ex), r = woRhythm(ex.id) || WO_STALE;
     return (s >= 9999 ? 50 : s / r) / (1 + 0.6 * woIgnored(ex.id));
@@ -4930,6 +5076,21 @@ function woTogglePlan(d, g){
   if (i >= 0) a.splice(i, 1); else a.push(g);
   a.sort(function(x, y){ return MUSCLES.indexOf(x) - MUSCLES.indexOf(y); });
   if (a.length) p[d] = a; else delete p[d];
+}
+
+/* ---- plateaus ---- */
+// Stalled: four or more sessions across three-plus weeks since the last
+// record, with no step up in that time.
+function woPlateau(ex){
+  if (ex.retired) return null;
+  var days = woDays(ex.id).filter(function(k){ return k <= TODAY; });
+  if (days.length < 5) return null;
+  var lastPR = null;
+  days.forEach(function(k){ if (woPR(ex, k)) lastPR = k; });
+  var since = lastPR || days[0], after = days.filter(function(k){ return k > since; });
+  var weeks = Math.floor(woGap(since, TODAY) / 7);
+  var stepped = (ex.steps || []).some(function(st){ return st.k > since && st.b > st.a && st.how !== "back"; });
+  return after.length >= 4 && weeks >= 3 && !stepped ? { since: since, sessions: after.length, weeks: weeks } : null;
 }
 
 /* ---- metrics and personal records ---- */
@@ -5253,7 +5414,13 @@ function woRenderToday(){
   var recIds = Object.keys(recs), recDone = recIds.filter(function(id){ return woFull(id, K); }).length;
   var line = document.getElementById("wo-line"), html;
   meter.hidden = true;
-  if (past) {
+  var offK = woOff(K);
+  if (offK) {
+    html = (past ? (K === shiftKey(TODAY, -1) ? "Yesterday" : WD[now.getDay()] + " " + MSHORT[now.getMonth()] + " " + now.getDate()) + ": " : "") +
+      WO_OFF[offK.t] + (exIn ? ", <em>but " + setsIn + " sets in anyway.</em>"
+        : ". <em>" + ({ rest: "Recover well.", sick: "Feel better.", travel: "Safe travels.", away: "Back soon." })[offK.t] + "</em>");
+  }
+  else if (past) {
     var pk = w.log[K] || {}, pn = Object.keys(pk).length, ps = 0;
     Object.keys(pk).forEach(function(id){ ps += pk[id].n; });
     html = "Logging " + (K === shiftKey(TODAY, -1) ? "yesterday" : WD[now.getDay()] + " " + MSHORT[now.getMonth()] + " " + now.getDate()) + ". <em>" +
@@ -5323,18 +5490,30 @@ function woRenderToday(){
   }
 
   var hint = live.length && !past ? woPlanHint() : null;
-  document.getElementById("wo-hint").innerHTML = hint
+  var pill = offK ? '<button type="button" class="wo-offpill wo-off-' + offK.t + '" data-wo="off">' + WO_OFF[offK.t] +
+    (offK.note ? " \u00b7 " + esc(offK.note) : "") + " \u00b7 <u>Edit</u></button>" : "";
+  document.getElementById("wo-hint").innerHTML = pill + (hint
     ? '<div class="wo-hint"><p>Your logs don\u2019t match your plan: ' + hint.days.map(function(d){
         return "<b>" + WD[d] + "</b> is usually " + esc(hint.learned[d].join(" + ")) +
           (w.plan[d] ? " (plan: " + esc(w.plan[d].join(" + ")) + ")" : " (plan: rest)");
       }).join(", ") + '.</p><div class="confirm-actions"><button type="button" class="btn btn-ghost" data-hint="keep">Keep my plan</button>' +
       '<button type="button" class="btn btn-primary" data-hint="use">Use my real week</button></div></div>'
-    : "";
+    : "");
+  // a note for the day: sleep, energy, anything that hurt
+  var nb = document.getElementById("wo-notebox"), ta = document.getElementById("wo-note-in");
+  nb.hidden = !live.length || inGroup || woReorder;
+  if (!ta || ta.dataset.k !== K) {
+    nb.innerHTML = '<div class="wo-note"><label for="wo-note-in">Notes for ' + (past ? WD[now.getDay()] + " " + MSHORT[now.getMonth()] + " " + now.getDate() : "today") +
+      '</label><textarea id="wo-note-in" rows="2" maxlength="500" data-k="' + K + '" placeholder="How did it go? Sleep, energy, anything that hurt\u2026"></textarea></div>';
+    ta = document.getElementById("wo-note-in");
+    ta.value = w.notes[K] || "";
+  } else if (ta !== document.activeElement) ta.value = w.notes[K] || "";
   woFootEl.innerHTML = live.length
     ? '<div class="today-actions">' +
         '<button class="add-tile" data-wo="pick"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Exercises</button>' +
         '<button class="add-tile" data-wo="plan">Weekly plan</button>' +
         '<button class="add-tile" data-wo="reorder">' + (woReorder ? "Done rearranging" : "Rearrange") + "</button>" +
+        (offK ? "" : '<button class="add-tile" data-wo="off">Rest or away\u2026</button>') +
         '<button class="add-tile" data-wo="settings">Workout settings</button></div>' +
       '<p class="wo-tip">' + (woReorder
         ? (mobile ? "Use the arrows, or drag a row by its handle. On the group screen, the arrows on each card move the whole group."
@@ -5515,6 +5694,9 @@ document.getElementById("view-workout").addEventListener("click", function(e){
     else if (what === "settings") woOpenSettings();
     else if (what === "day") woOpenDay(shiftKey(TODAY, -1));
     else if (what === "reorder") { woReorder = !woReorder; woRenderToday(); }
+    else if (what === "off") woOpenOff(woK());
+    else if (what === "demo-exit") woExitDemo();
+    else if (what === "demo") woStartDemo();
     return;
   }
   var dt = e.target.closest("[data-detail]");
@@ -5522,6 +5704,15 @@ document.getElementById("view-workout").addEventListener("click", function(e){
   if (e.target.closest("[data-dback]")) { woDetail = null; woRenderProgress(); return; }
   var rg = e.target.closest("[data-range]");
   if (rg) { woRange = rg.dataset.range; woRenderProgress(); return; }
+  var rv = e.target.closest("[data-rev]");
+  if (rv) {
+    var cur = woRevMonth || TODAY.slice(0, 7), yy = +cur.slice(0, 4), mm = +cur.slice(5, 7) - 1 + (+rv.dataset.rev);
+    if (mm < 0) { mm = 11; yy--; } else if (mm > 11) { mm = 0; yy++; }
+    var nx = yy + "-" + pad(mm + 1);
+    woRevMonth = nx >= TODAY.slice(0, 7) ? null : nx;
+    woRenderProgress();
+    return;
+  }
   var mt = e.target.closest("[data-metric]");
   if (mt) { woMetricSel = mt.dataset.metric; woRenderProgress(); return; }
   var dn = e.target.closest("[data-dnav]");
@@ -5561,6 +5752,9 @@ document.getElementById("wo-tabs").addEventListener("click", function(e){
 });
 
 function renderWorkout(){
+  document.getElementById("wo-demo").innerHTML = woReal
+    ? '<div class="wo-demo"><p><b>Sample data.</b> Twelve made-up weeks to explore. Nothing you do here is saved.</p>' +
+      '<button type="button" class="btn btn-primary" data-wo="demo-exit">Back to my data</button></div>' : "";
   document.querySelectorAll("#wo-tabs button").forEach(function(b){
     b.setAttribute("aria-selected", String(b.dataset.wv === woView));
   });
@@ -5637,6 +5831,14 @@ function woRefreshQuick(){
   }
   var each = document.getElementById("wq-each-body");
   if (!each.contains(document.activeElement)) each.innerHTML = woEachHTML(ex);
+  var en = woEntry(ex.id);
+  document.getElementById("wq-effort").hidden = !en;
+  document.getElementById("wq-ef").innerHTML = [1, 2, 3, 4, 5].map(function(v){
+    return '<button type="button" data-ef="' + v + '" aria-pressed="' + (!!en && en.ef === v) + '">' + WO_EFFORT[v] + "</button>";
+  }).join("");
+  var pl = !woPast() && woPlateau(ex);
+  var pn = document.getElementById("wq-prog-note");
+  if (pl && pn) pn.textContent += " Stalled: no new best in " + pl.weeks + " weeks (" + pl.sessions + " sessions). Try a step back, more reps at this weight, or a variation.";
 }
 // One row per logged set, for when they weren't all the same.
 function woEachHTML(ex){
@@ -5691,6 +5893,10 @@ dlgQuick.addEventListener("click", function(e){
     if (i >= 0 && ex.groups.length > 1) ex.groups.splice(i, 1);
     else if (i < 0) ex.groups.push(g);
     dlgQuick.querySelectorAll("[data-qg]").forEach(function(x){ x.setAttribute("aria-pressed", String(ex.groups.indexOf(x.dataset.qg) >= 0)); });
+  } else if ((b = t.closest("[data-ef]"))) {
+    var en = woEntry(ex.id);
+    if (!en) return;
+    if (en.ef === +b.dataset.ef) delete en.ef; else en.ef = +b.dataset.ef;
   } else if ((b = t.closest("[data-qe]"))) {
     ex.emoji = b.dataset.qe;
     document.getElementById("wq-emo").textContent = ex.emoji;
@@ -6014,6 +6220,154 @@ dlgGuide.addEventListener("click", function(e){
   renderWorkout();
 });
 
+/* ---- days off: rest, sick, travel, away ---- */
+var dlgOff = document.getElementById("dlg-wo-off"), wfKind = "rest";
+var WO_OFF_HINT = {
+  rest: "A planned day off. It doesn't count against your plan, and nothing is highlighted that day.",
+  sick: "Excused: it doesn't count against your plan or your week streak, and exercises don't look more overdue because of it.",
+  travel: "Excused: it doesn't count against your plan or your week streak, and exercises don't look more overdue because of it.",
+  away: "Excused: it doesn't count against your plan or your week streak, and exercises don't look more overdue because of it."
+};
+function woOpenOff(k){
+  var o = woOff(k);
+  wfKind = o ? o.t : "rest";
+  document.getElementById("wf-title").textContent = "Mark " + (k === TODAY ? "today" : k === shiftKey(TODAY, -1) ? "yesterday" : fmtDay(k));
+  document.getElementById("wf-from").value = k;
+  document.getElementById("wf-to").value = k;
+  document.getElementById("wf-note").value = o ? o.note : "";
+  document.getElementById("wf-clear").hidden = !o;
+  woOffKind();
+  dlgOff.showModal();
+}
+function woOffKind(){
+  dlgOff.querySelectorAll("[data-wf]").forEach(function(b){ b.setAttribute("aria-pressed", String(b.dataset.wf === wfKind)); });
+  document.getElementById("wf-hint").textContent = WO_OFF_HINT[wfKind];
+}
+function woOffRange(){
+  var a = document.getElementById("wf-from").value, b = document.getElementById("wf-to").value || a, out = [];
+  if (!DAY_RE.test(a)) return out;
+  if (!DAY_RE.test(b) || b < a) b = a;
+  for (var k = a, g = 0; k <= b && g < 60; k = shiftKey(k, 1), g++) out.push(k);
+  return out;
+}
+dlgOff.addEventListener("click", function(e){
+  var b = e.target.closest("[data-wf]"), w = state.workout;
+  if (b) { wfKind = b.dataset.wf; woOffKind(); return; }
+  if (e.target.closest("#wf-cancel")) { dlgOff.close(); return; }
+  var save = e.target.closest("#wf-save"), clear = e.target.closest("#wf-clear");
+  if (!save && !clear) return;
+  var note = document.getElementById("wf-note").value.trim().slice(0, 80);
+  woOffRange().forEach(function(k){
+    if (clear) delete w.off[k]; else w.off[k] = { t: wfKind, note: note };
+  });
+  scheduleSave();
+  dlgOff.close();
+  renderWorkout();
+});
+var woNoteTimer = null;
+document.getElementById("wo-notebox").addEventListener("input", function(e){
+  var ta = e.target.closest("#wo-note-in");
+  if (!ta) return;
+  clearTimeout(woNoteTimer);
+  woNoteTimer = setTimeout(function(){
+    var v = ta.value.trim(), k = ta.dataset.k;
+    if (v) state.workout.notes[k] = v.slice(0, 500); else delete state.workout.notes[k];
+    scheduleSave();
+  }, 500);
+});
+
+/* ---- sample data: a made-up twelve weeks to explore, never saved ---- */
+var woReal = null;
+// What gets saved: your real workout data, even while sample data is on screen.
+function woPersist(){
+  if (!woReal) return state;
+  var c = {};
+  Object.keys(state).forEach(function(k){ c[k] = state[k]; });
+  c.workout = woReal;
+  return c;
+}
+function woStartDemo(){
+  if (woReal) return;
+  woReal = state.workout;
+  state.workout = woMakeDemo();
+  woDay = null; woDetail = null; woGroup = null; woReorder = false;
+  woView = "progress";
+  renderWorkout();
+  window.scrollTo(0, 0);
+}
+function woExitDemo(){
+  if (!woReal) return;
+  state.workout = woReal;
+  woReal = null;
+  woDay = null; woDetail = null; woGroup = null; woReorder = false;
+  woStopRest();
+  renderWorkout();
+  window.scrollTo(0, 0);
+}
+function woMakeDemo(){
+  var seed = 11;
+  function rnd(){ seed = (seed * 16807) % 2147483647; return seed / 2147483647; }
+  // key: [sets, reps or time, starting weight, weight added every two weeks]
+  var spec = { bench: [3, 8, 115, 5], incline: [3, 10, 40, 5], curl: [3, 10, 25, 0], pushdown: [3, 12, 40, 2.5],
+               squat: [3, 6, 135, 10], rdl: [3, 8, 115, 5], plank: [3, 45, 0, 0], crunch: [3, 15, 0, 0],
+               row: [3, 10, 95, 5], pullup: [3, 6, 0, 0], deadlift: [3, 5, 185, 10], ohp: [3, 8, 65, 2.5], lateral: [3, 12, 15, 0],
+               legpress: [3, 10, 180, 10], calf: [3, 12, 90, 5], run: [1, 20, 0, 0], bike: [1, 30, 0, 0] };
+  var byDay = { 1: ["bench", "incline", "curl", "pushdown"], 2: ["squat", "rdl", "plank", "crunch"],
+                4: ["row", "pullup", "deadlift", "ohp", "lateral"], 6: ["legpress", "calf", "run"], 3: ["bike"] };
+  var exs = {}, start = shiftKey(TODAY, -84), log = {}, off = {}, notes = {};
+  Object.keys(spec).forEach(function(key){
+    var ex = woNewEx(WO_LIB.filter(function(l){ return l.key === key; })[0]);
+    ex.id = "demo-" + key;
+    ex.created = start;
+    ex.steps = [];
+    ex.weight = 0;
+    ex.prog.since = start;
+    exs[key] = ex;
+  });
+  var noteText = ["Slept badly, felt slow.", "Squats felt easy today.", "Left shoulder a little sore, went lighter.",
+                  "Short on time, skipped the accessories.", "Great energy. New best on deadlift.", "Gym was packed, waited for the rack."];
+  for (var i = 0; i < 84; i++) {
+    var k = shiftKey(start, i), d = parseKey(k).getDay(), wk = Math.floor(i / 7);
+    if (i >= 42 && i <= 47) { off[k] = { t: "sick", note: i === 42 ? "Flu" : "" }; continue; }
+    if (i === 64 || i === 65) { off[k] = { t: "travel", note: "Work trip" }; continue; }
+    if (d === 0 && rnd() < 0.5) { off[k] = { t: "rest", note: "" }; continue; }
+    var list = byDay[d];
+    if (!list || (d === 3 && rnd() < 0.5) || rnd() < 0.08) continue;
+    var day = {};
+    list.forEach(function(key){
+      if (key === "lateral" && rnd() < 0.3) return;
+      var sp = spec[key], ex = exs[key], step = Math.floor(wk / 2);
+      var weight = sp[2] ? sp[2] + sp[3] * step : 0;
+      var amt = key === "pullup" ? sp[1] + Math.floor(wk / 3) : key === "plank" ? sp[1] + 5 * Math.floor(wk / 2) :
+                key === "run" ? sp[1] + 2 * Math.floor(wk / 2) : key === "crunch" ? sp[1] + Math.floor(wk / 3) : sp[1];
+      if (ex.kind === "w" && weight !== ex.weight && Object.keys(log).length && ex.weight) {
+        ex.steps.push({ k: k, f: "weight", a: ex.weight, b: weight, how: "up", u: "lb" });
+        ex.prog.since = k;
+      }
+      ex.sets = sp[0];
+      if (ex.kind === "t") ex.dur = amt; else ex.reps = amt;
+      ex.weight = weight;
+      // the occasional short session, more often right after a step up
+      var short = rnd() < (weight && step && wk % 2 === 0 ? 0.3 : 0.1);
+      var e = { n: short ? sp[0] - 1 : sp[0], sets: sp[0], reps: ex.kind === "t" ? 10 : amt, weight: weight, dur: ex.kind === "t" ? amt : 20, u: "lb" };
+      e.ef = short ? 4 : 2 + Math.floor(rnd() * 2);
+      day[ex.id] = e;
+    });
+    if (Object.keys(day).length) {
+      log[k] = day;
+      if (rnd() < 0.12) notes[k] = noteText[Math.floor(rnd() * noteText.length)];
+    }
+  }
+  var demo = {
+    on: true, setup: true, unit: "lb", tap: "set", rest: 90, perGroup: 2,
+    exercises: Object.keys(exs).map(function(k){ return exs[k]; }),
+    log: log, off: off, notes: notes,
+    plan: { 1: ["Chest", "Arms"], 2: ["Legs", "Core"], 4: ["Back", "Shoulders"], 6: ["Legs", "Cardio"] },
+    templates: [{ id: "demo-pull", name: "Pull day", ex: ["demo-row", "demo-pullup", "demo-deadlift"] }], planT: { 4: "demo-pull" }
+  };
+  return normalizeWorkout(JSON.parse(JSON.stringify(demo)));
+}
+
 /* ---- rest timer between sets ---- */
 var woRestEl = document.getElementById("wo-rest"), woRestT = null, woRestIv = null;
 function woStartRest(ex, n){
@@ -6153,6 +6507,9 @@ function woRenderSettings(){
   dlgWoSet.querySelectorAll("[data-rest]").forEach(function(b){ b.setAttribute("aria-pressed", String(+b.dataset.rest === w.rest)); });
   document.getElementById("ws-groupc").setAttribute("aria-pressed", String(w.groupColors));
   document.getElementById("ws-planfirst").setAttribute("aria-pressed", String(w.planFirst));
+  document.getElementById("ws-tmin").value = w.target[0];
+  document.getElementById("ws-tmax").value = w.target[1];
+  document.getElementById("ws-demo").textContent = woReal ? "Back to my data" : "Try with sample data";
   document.getElementById("ws-size").value = w.size;
   document.getElementById("ws-size-val").textContent = Math.round(w.size * 100) + "%";
 }
@@ -6166,10 +6523,19 @@ dlgWoSet.addEventListener("click", function(e){
   else if ((b = t.closest("[data-rest]"))) { w.rest = +b.dataset.rest; if (!w.rest) woStopRest(); }
   else if (t.closest("#ws-groupc")) w.groupColors = !w.groupColors;
   else if (t.closest("#ws-planfirst")) w.planFirst = !w.planFirst;
+  else if (t.closest("#ws-demo")) { dlgWoSet.close(); if (woReal) woExitDemo(); else woStartDemo(); return; }
   else if ((b = t.closest("[data-export]"))) { woExport(b.dataset.export); return; }
   else if (t.closest("#ws-guide")) { dlgWoSet.close(); woOpenGuide(WO_FULL_GUIDE); return; }
   else if (t.closest("#ws-close")) { dlgWoSet.close(); return; }
   else return;
+  scheduleSave();
+  woRenderSettings();
+  renderWorkout();
+});
+dlgWoSet.addEventListener("change", function(e){
+  if (e.target.id !== "ws-tmin" && e.target.id !== "ws-tmax") return;
+  var w = state.workout, a = woNum(document.getElementById("ws-tmin").value, 0, 60, 1), b = woNum(document.getElementById("ws-tmax").value, 1, 80, 1);
+  w.target = [Math.min(a, b), Math.max(a, b)];
   scheduleSave();
   woRenderSettings();
   renderWorkout();
@@ -6210,7 +6576,7 @@ function woCard(ex){
     : "Holding at " + woFmtNum(last) + " " + unit + " since " + since;
   return '<div class="card wo-cardlink" data-detail="' + ex.id + '" style="--glaze:var(' + woChartColor(ex.groups[0]) + ')" role="link" tabindex="0">' +
     '<div class="card-head"><span class="wo-card-emo">' + ex.emoji + "</span><h3>" + esc(ex.name) + '<span class="go">Details \u203a</span></h3>' +
-    (ex.retired ? '<span class="badge">Put away</span>' : (woDue(ex) ? '<span class="badge">↑ Due</span>' : "")) +
+    (ex.retired ? '<span class="badge">Put away</span>' : woDue(ex) ? '<span class="badge">↑ Due</span>' : woPlateau(ex) ? '<span class="badge wo-stall">Stalled</span>' : "") +
     '<div class="facts"><span><b>' + pts.length + "</b> day" + (pts.length === 1 ? "" : "s") + "</span>" +
     "<span><b>" + sets + "</b> sets</span><span>best <b>" + woFmtNum(best) + " " + unit + "</b>" +
     (prs.length ? " \u00b7 \u2605 " + fmtRange(prs[prs.length - 1].k, prs[prs.length - 1].k) : "") + "</span>" +
@@ -6415,20 +6781,23 @@ function woRenderProgress(){
     });
     perDay[k] = n;
   });
-  var streak = 0, m = weeks[wk] ? wk : prevWk;
-  while (weeks[m]) { streak++; m = shiftKey(m, -7); }
+  // a week with no workout but four or more days marked off is skipped, not a break
+  function offWeek(mon){ var c = 0; for (var j = 0; j < 7; j++) if (woOff(shiftKey(mon, j))) c++; return c >= 4; }
+  var streak = 0, m = weeks[wk] ? wk : prevWk, guard = 0;
+  while (guard++ < 520 && (weeks[m] || offWeek(m))) { if (weeks[m]) streak++; m = shiftKey(m, -7); }
   function delta(a, b){
     if (!a && !b) return "";
     var d = Math.round(a - b);
     return ' <span class="delta' + (d > 0 ? "" : " flat") + '">' + (d > 0 ? "+" : "") + woBig(d) + "</span> vs last week";
   }
+  var attention = woAttentionHTML();
   var html = '<div class="stat-row">' +
     '<div class="stat"><div class="bignum">' + monthDays + "</div><label>Workout days in " + MONTHS[parseKey(TODAY).getMonth()] + "</label></div>" +
     '<div class="stat"><div class="bignum">' + cur.sets + "</div><label>Sets this week" + delta(cur.sets, prev.sets) + "</label></div>" +
     '<div class="stat"><div class="bignum">' + woBig(cur.vol) + "</div><label>" + w.unit + " moved this week" + delta(cur.vol, prev.vol) + "</label></div>" +
     (cur.reps || prev.reps ? '<div class="stat"><div class="bignum">' + woBig(cur.reps) + "</div><label>Bodyweight reps this week" +
       delta(cur.reps, prev.reps) + "</label></div>" : "") +
-    '<div class="stat"><div class="bignum">' + streak + "</div><label>Week streak</label></div></div>";
+    '<div class="stat"><div class="bignum">' + streak + "</div><label>Week streak</label></div></div>" + attention;
 
   // sets per week by muscle group, last 12 weeks
   var wks = [];
@@ -6454,14 +6823,15 @@ function woRenderProgress(){
       }).join("") + "</tbody></table></div></details></div>";
 
   html += '<div class="card-grid">' + woConsistencyHTML(days, perDay) + woBalanceHTML(days) + "</div>";
+  html += woReviewHTML();
 
   // last 16 weeks, a column per week
   var start = shiftKey(wk, -15 * 7), heat = "", active = 0;
   for (var i = 0; i < 16 * 7; i++) {
-    var k = shiftKey(start, i), n = perDay[k] || 0;
+    var k = shiftKey(start, i), n = perDay[k] || 0, ok = woOff(k);
     if (n) active++;
-    heat += '<i class="' + (k > TODAY ? "future" : "") + '" data-n="' + (n ? (n < 7 ? 1 : n < 15 ? 2 : 3) : 0) +
-      '" title="' + fmtDay(k) + ": " + n + " set" + (n === 1 ? "" : "s") + '"></i>';
+    heat += '<i class="' + (k > TODAY ? "future" : !n && ok ? "off" : "") + '" data-n="' + (n ? (n < 7 ? 1 : n < 15 ? 2 : 3) : 0) +
+      '" title="' + fmtDay(k) + ": " + (n ? n + " set" + (n === 1 ? "" : "s") : ok ? WO_OFF[ok.t] : "no workout") + '"></i>';
   }
   html += '<div class="card" style="--glaze:var(--g-' + w.doneGlaze + ')"><div class="card-head"><h3>Last 16 weeks</h3>' +
     '<div class="facts"><span><b>' + active + "</b> workout days</span></div></div>" + '<div class="wo-heat">' + heat + "</div></div>";
@@ -6474,15 +6844,103 @@ function woRenderProgress(){
     '<div class="wo-cards">' + withHistory.map(woCard).join("") + "</div>" + woExportHTML();
   el.innerHTML = html;
 }
+// What deserves a look: stalled lifts, and ones that keep stopping short.
+function woAttentionHTML(){
+  var rows = [];
+  woLive().forEach(function(ex){
+    var pl = woPlateau(ex);
+    if (pl) rows.push('<div class="wo-att-row" data-detail="' + ex.id + '"><span>' + ex.emoji + " <b>" + esc(ex.name) + "</b></span><span>No new best in " + pl.weeks +
+      " weeks (" + pl.sessions + " sessions). Try a step back, more reps at this weight, or a variation.</span></div>");
+    else if (woStruggle(ex)) rows.push('<div class="wo-att-row" data-detail="' + ex.id + '"><span>' + ex.emoji + " <b>" + esc(ex.name) + "</b></span><span>Stopped short in 2 of the last 3 sessions. " +
+      "Hold here or step back until every set goes in.</span></div>");
+  });
+  return rows.length ? '<div class="card wo-att"><div class="card-head"><h3>Worth a look</h3><div class="facts"><span>' + rows.length + " exercise" +
+    (rows.length === 1 ? "" : "s") + "</span></div></div>" + rows.join("") + "</div>" : "";
+}
+// A month at a glance, against the month before.
+var woRevMonth = null;
+function woReviewHTML(){
+  var w = state.workout, log = w.log, now = parseKey(TODAY);
+  var ym = woRevMonth || TODAY.slice(0, 7), y = +ym.slice(0, 4), mo = +ym.slice(5, 7) - 1;
+  var py = mo ? y : y - 1, pm = mo ? mo - 1 : 11, prevYm = py + "-" + pad(pm + 1);
+  // this month so far is compared with the same days of last month
+  var thisMonth = ym === TODAY.slice(0, 7), cap = thisMonth ? now.getDate() : 31;
+  function stats(yym){
+    var o = { days: 0, sets: 0, vol: 0, efs: [], prs: [], off: {}, groups: {}, notes: 0 };
+    Object.keys(log).forEach(function(k){
+      if (k.slice(0, 7) !== yym || k > TODAY || +k.slice(8) > cap) return;
+      o.days++;
+      Object.keys(log[k]).forEach(function(id){
+        var e = log[k][id], ex = woEx(id);
+        o.sets += e.n;
+        o.vol += woVol(e, ex);
+        if (e.ef) o.efs.push(e.ef);
+        if (ex) {
+          o.groups[ex.groups[0]] = (o.groups[ex.groups[0]] || 0) + e.n;
+          if (woPR(ex, k)) o.prs.push(ex.name);
+        }
+      });
+    });
+    Object.keys(w.off).forEach(function(k){ if (k.slice(0, 7) === yym && +k.slice(8) <= cap) o.off[w.off[k].t] = (o.off[w.off[k].t] || 0) + 1; });
+    Object.keys(w.notes).forEach(function(k){ if (k.slice(0, 7) === yym) o.notes++; });
+    return o;
+  }
+  var a = stats(ym), b = stats(prevYm);
+  function best(id, yym){
+    var ex = woEx(id), v = null;
+    Object.keys(log).forEach(function(k){
+      if (k.slice(0, 7) === yym && +k.slice(8) <= cap && log[k][id]) { var m = woMetric(ex, log[k][id]); if (v === null || m > v) v = m; }
+    });
+    return v;
+  }
+  var moves = w.exercises.map(function(ex){
+    var x = best(ex.id, ym), z = best(ex.id, prevYm);
+    return x !== null && z ? { ex: ex, pct: (x - z) / z * 100, x: x, z: z } : null;
+  }).filter(Boolean).sort(function(p, q){ return q.pct - p.pct; });
+  function dl(x, z){ var d = Math.round(x - z); return z || x ? ' <span class="delta' + (d > 0 ? "" : " flat") + '">' + (d > 0 ? "+" : "") + woBig(d) + "</span>" : ""; }
+  var gs = Object.keys(a.groups).sort(function(p, q){ return a.groups[q] - a.groups[p]; });
+  var effA = a.efs.length ? a.efs.reduce(function(s, v){ return s + v; }, 0) / a.efs.length : 0;
+  var effB = b.efs.length ? b.efs.reduce(function(s, v){ return s + v; }, 0) / b.efs.length : 0;
+  var offTxt = Object.keys(a.off).map(function(t){ return a.off[t] + " " + (t === "rest" ? "rest" : WO_OFF[t].toLowerCase()); }).join(", ");
+  var prCount = {};
+  a.prs.forEach(function(n){ prCount[n] = (prCount[n] || 0) + 1; });
+  var noteDays = Object.keys(w.notes).filter(function(k){ return k.slice(0, 7) === ym; }).sort().reverse();
+  return '<div class="card wo-review"><div class="card-head"><div class="stepper">' +
+      '<button type="button" data-rev="-1" aria-label="Previous month">&#8249;</button>' +
+      '<button type="button" data-rev="1" aria-label="Next month"' + (thisMonth ? " disabled" : "") + ">&#8250;</button></div>" +
+      "<h3>" + MONTHS[mo] + " " + y + " review</h3><div class=\"facts\"><span>vs " + MSHORT[pm] + (thisMonth ? " 1\u2013" + cap + ", day for day" : "") + "</span></div></div>" +
+    '<div class="wo-rev-figs">' +
+      '<div><b>' + a.days + "</b><span>workout days" + dl(a.days, b.days) + "</span></div>" +
+      '<div><b>' + woBig(a.sets) + "</b><span>sets" + dl(a.sets, b.sets) + "</span></div>" +
+      '<div><b>' + woBig(a.vol) + "</b><span>" + w.unit + " moved" + dl(a.vol, b.vol) + "</span></div>" +
+      '<div><b>' + a.prs.length + "</b><span>new records</span></div>" +
+      (effA ? '<div><b>' + WO_EFFORT[Math.round(effA)] + "</b><span>average effort" + (effB ? " (was " + WO_EFFORT[Math.round(effB)].toLowerCase() + ")" : "") + "</span></div>" : "") +
+    "</div>" +
+    '<ul class="wo-rev-list">' +
+      (moves.length ? "<li><b>Most improved:</b> " + moves.slice(0, 3).filter(function(mv){ return mv.pct > 0; }).map(function(mv){
+          return esc(mv.ex.name) + " +" + Math.round(mv.pct) + "%";
+        }).join(", ") + (moves.some(function(mv){ return mv.pct > 0; }) ? "" : "nothing beat last month") + "</li>" : "") +
+      (moves.some(function(mv){ return mv.pct < 0; }) ? "<li><b>Slipped:</b> " + moves.filter(function(mv){ return mv.pct < 0; }).slice(-3).map(function(mv){
+          return esc(mv.ex.name) + " " + Math.round(mv.pct) + "%";
+        }).join(", ") + "</li>" : "") +
+      (a.prs.length ? "<li><b>Records:</b> " + Object.keys(prCount).map(function(n){ return esc(n) + (prCount[n] > 1 ? " \u00d7" + prCount[n] : ""); }).join(", ") + "</li>" : "") +
+      (gs.length ? "<li><b>Most trained:</b> " + gs.slice(0, 2).join(", ") + (gs.length > 2 ? " \u00b7 <b>least:</b> " + gs[gs.length - 1] : "") + "</li>" : "") +
+      (offTxt ? "<li><b>Days off:</b> " + offTxt + "</li>" : "") +
+    "</ul>" +
+    (noteDays.length ? '<details class="wo-more"><summary>' + noteDays.length + " note" + (noteDays.length === 1 ? "" : "s") + " this month</summary>" +
+      '<div class="wo-rev-notes">' + noteDays.map(function(k){ return "<p><b>" + woShortDay(k) + ":</b> " + esc(w.notes[k]) + "</p>"; }).join("") + "</div></details>" : "") +
+    "</div>";
+}
 // How steady: workouts a week, how often planned days happened, which weekdays you train.
 function woConsistencyHTML(days, perDay){
   var from8 = shiftKey(woMonday(TODAY), -56), recent = days.filter(function(k){ return k >= from8 && k < woMonday(TODAY); });
   var perWeek = recent.length / 8;
-  var planned = 0, hit = 0, d, k;
+  var planned = 0, hit = 0, offDays = 0, d, k;
   for (var i = 1; i <= 56; i++) {
     k = shiftKey(TODAY, -i);
     d = parseKey(k).getDay();
     var tpl = woHasPlan() ? woTemplate(state.workout.planT[d]) : null;
+    if (woOff(k)) { offDays++; continue; }   // marked rest or away: not a missed day
     if (woPlanFor(d).length || tpl) { planned++; if (perDay[k]) hit++; }
   }
   var counts = [0, 0, 0, 0, 0, 0, 0], from12 = shiftKey(TODAY, -84);
@@ -6492,6 +6950,7 @@ function woConsistencyHTML(days, perDay){
   return '<div class="card wo-chartvars"><div class="card-head"><h3>Consistency</h3><div class="facts"><span>last 8 weeks</span></div></div>' +
     '<div class="wo-cons-figs"><div class="fig"><b>' + woFmtNum(+perWeek.toFixed(1)) + "</b><span>workouts a week</span></div>" +
     (planned ? '<div class="fig"><b>' + Math.round(hit / planned * 100) + "%</b><span>" + hit + " of " + planned + " days on " + src + "</span></div>" : "") +
+    (offDays ? '<div class="fig"><b>' + offDays + "</b><span>days marked off</span></div>" : "") +
     "</div>" +
     '<div class="card-head" style="margin-bottom:4px"><h3 style="font-size:14px">Days you train</h3><div class="facts"><span>workout days, last 12 weeks \u00b7 bold = planned</span></div></div>' +
     '<div class="wo-wk">' + [1, 2, 3, 4, 5, 6, 0].map(function(dd){
@@ -6517,16 +6976,22 @@ function woBalanceHTML(days){
   var groups = MUSCLES.filter(function(g){
     return byGroup[g] || lastGroup[g] || planned[g] || woLive().some(function(ex){ return ex.groups.indexOf(g) >= 0; });
   });
-  var top = Math.max.apply(null, groups.map(function(g){ return byGroup[g] || 0; }).concat([1]));
+  // sets a week, averaged over the last four, against the target range
+  var tg = w.target, top = Math.max.apply(null, groups.map(function(g){ return (byGroup[g] || 0) / 4; }).concat([tg[1] * 1.25, 1]));
   var bars = groups.map(function(g){
-    var ago = lastGroup[g] ? daysApart(lastGroup[g], TODAY) : null;
-    return '<div class="bar-row"><span class="wk">' + g + '</span><span class="bar-track"><i style="width:' +
-      ((byGroup[g] || 0) / top * 100) + "%; background:var(" + woChartColor(g) + ')"></i></span>' +
-      '<span class="n">' + (byGroup[g] || 0) + '</span><span class="ago' + (ago === null || ago > WO_STALE ? " late" : "") + '">' +
-      woAgo(ago) + "</span></div>";
+    var ago = lastGroup[g] ? woGap(lastGroup[g], TODAY) : null, wkv = (byGroup[g] || 0) / 4, cardio = g === "Cardio";
+    var st = cardio ? "" : wkv < tg[0] ? "under" : wkv > tg[1] ? "over" : "on";
+    return '<div class="bar-row wo-trow"><span class="wk">' + g + '</span><span class="bar-track wo-ttrack">' +
+      (cardio ? "" : '<b class="band" style="left:' + (tg[0] / top * 100).toFixed(1) + "%;width:" + ((tg[1] - tg[0]) / top * 100).toFixed(1) + '%"></b>') +
+      '<i style="width:' + (wkv / top * 100).toFixed(1) + "%; background:var(" + woChartColor(g) + ')"></i></span>' +
+      '<span class="n">' + woFmtNum(+wkv.toFixed(1)) + "</span>" +
+      '<span class="wo-tst ' + st + '">' + (st === "under" ? "\u25BC under" : st === "over" ? "\u25B2 over" : st === "on" ? "\u2713 on target" : "") + "</span>" +
+      '<span class="ago' + (ago === null || ago > WO_STALE ? " late" : "") + '">' + woAgo(ago) + "</span></div>";
   }).join("");
-  return '<div class="card wo-chartvars"><div class="card-head"><h3>Muscle balance</h3><div class="facts"><span>sets, last 4 weeks \u00b7 last trained</span></div></div>' +
-    '<div class="bars wo-bars">' + bars + "</div></div>";
+  return '<div class="card wo-chartvars"><div class="card-head"><h3>Weekly sets vs target</h3><div class="facts"><span>average a week, last 4 weeks \u00b7 target ' +
+    tg[0] + "\u2013" + tg[1] + " \u00b7 last trained</span></div></div>" +
+    '<div class="bars wo-bars">' + bars + "</div>" +
+    '<p class="note" style="margin-top:12px">The shaded band is your target. Every muscle group an exercise works counts toward it. Change the range in Workout settings.</p></div>';
 }
 // One exercise up close: a chosen measure over a chosen range, records, every session.
 function woRenderDetail(ex){
@@ -6567,7 +7032,9 @@ function woRenderDetail(ex){
     return;
   }
   var vals = pts.map(function(p){ return p.v; }), best = Math.max.apply(null, vals), first = vals[0], last = vals[vals.length - 1];
-  var change = last - first, pct = first ? Math.round(change / first * 100) : 0, rhythm = woRhythm(ex.id);
+  var change = last - first, pct = first ? Math.round(change / first * 100) : 0, rhythm = woRhythm(ex.id), pl = woPlateau(ex);
+  if (pl) html += '<div class="wo-hint wo-stallnote"><p><b>Stalled:</b> no new best in ' + pl.weeks + " weeks (" + pl.sessions +
+    " sessions since " + fmtDay(pl.since) + "). Options: step back and build up again, add reps at this weight before adding weight, or swap in a variation for a few weeks.</p></div>";
   html += '<div class="stat-row">' +
     '<div class="stat"><div class="bignum">' + woFmtNum(+last.toFixed(1)) + "</div><label>Latest \u00b7 " + unit + "</label></div>" +
     '<div class="stat"><div class="bignum">' + woFmtNum(+best.toFixed(1)) + "</div><label>Best in range</label></div>" +
@@ -6585,17 +7052,25 @@ function woRenderDetail(ex){
         return "<div><span>\u2605 " + fmtDay(k) + "</span><b>" + woFmtNum(+woMetric(ex, log[k][ex.id]).toFixed(1)) + " " + woMetricUnit(ex) + "</b></div>";
       }).join("") + "</div>" : '<p class="note" style="margin:0">No records yet. Beat your first session and one lands here.</p>') + "</div>" +
     '<div class="card"><div class="card-head"><h3>Sessions</h3><div class="facts"><span>' + r[2] + "</span></div></div>" +
-      '<div class="wo-tablewrap"><table class="wo-table"><thead><tr><th>Day</th><th>Sets</th><th>What</th><th>' + esc(unit) + "</th></tr></thead><tbody>" +
+      '<div class="wo-tablewrap"><table class="wo-table"><thead><tr><th>Day</th><th>Sets</th><th>What</th><th>' + esc(unit) + "</th><th>Effort</th></tr></thead><tbody>" +
       pts.slice().reverse().slice(0, 40).map(function(p){
         var e = log[p.k][ex.id];
         return "<tr><td>" + woShortDay(p.k) + (woPR(ex, p.k) ? " \u2605" : "") + "</td><td>" + e.n + "/" + e.sets + "</td><td>" + esc(woSummary(e, ex)) +
-          "</td><td>" + woFmtNum(+p.v.toFixed(1)) + "</td></tr>";
+          "</td><td>" + woFmtNum(+p.v.toFixed(1)) + "</td><td>" + (e.ef ? WO_EFFORT[e.ef] : "") + "</td></tr>";
       }).join("") + "</tbody></table></div></div></div>";
+  var steps = (ex.steps || []).slice().reverse();
+  html += '<div class="card"><div class="card-head"><h3>Progression history</h3><div class="facts"><span>every change to its numbers</span></div></div>' +
+    (steps.length ? '<div class="wo-recs">' + steps.slice(0, 30).map(function(st){
+      var u = st.f === "weight" ? " " + st.u : st.f === "dur" ? (ex.tu === "s" ? " s" : " min") : " " + WO_FIELD_NAME[st.f];
+      return "<div><span>" + fmtDay(st.k) + " \u00b7 " + WO_FIELD_NAME[st.f] + " " + woFmtNum(st.a) + " \u2192 " + woFmtNum(st.b) + u + "</span><b>" +
+        (st.how === "up" ? "\u2191 stepped up" : st.how === "back" ? "\u2193 stepped back" : st.b > st.a ? "raised" : "lowered") + "</b></div>";
+    }).join("") + "</div>" : '<p class="note" style="margin:0">No changes yet. Going up, stepping back or editing its numbers is listed here.</p>') + "</div>";
   el.innerHTML = html;
 }
 function woRenderHistory(){
-  var log = state.workout.log, el = document.getElementById("wo-history");
-  var days = Object.keys(log).sort().reverse().slice(0, 90);
+  var w = state.workout, log = w.log, el = document.getElementById("wo-history");
+  var days = Object.keys(log).concat(Object.keys(w.off).filter(function(k){ return !log[k] && k <= TODAY; }))
+    .sort().reverse().slice(0, 90);
   var add = '<div class="today-actions wo-hist-top"><button class="add-tile" data-eday="' + shiftKey(TODAY, -1) + '">+ Log an earlier day</button>' +
     '<button class="add-tile" data-wtable="' + shiftKey(TODAY, -1) + '">Type it in a table</button></div>';
   if (!days.length) {
@@ -6603,7 +7078,13 @@ function woRenderHistory(){
     return;
   }
   el.innerHTML = add + days.map(function(k){
-    var ids = Object.keys(log[k]), sets = 0, vol = 0, reps = 0, d = parseKey(k);
+    var ids = Object.keys(log[k] || {}), sets = 0, vol = 0, reps = 0, d = parseKey(k), ok = w.off[k];
+    var label0 = k === TODAY ? "Today" : (k === shiftKey(TODAY, -1) ? "Yesterday" : WD[d.getDay()] + ", " + MSHORT[d.getMonth()] + " " + d.getDate());
+    var noteHTML = w.notes[k] ? '<p class="wo-hnote">' + esc(w.notes[k]) + "</p>" : "";
+    if (!ids.length) {
+      return '<div class="log-day"><h3>' + label0 + "<span>" + WO_OFF[ok.t] + (ok.note ? " \u00b7 " + esc(ok.note) : "") + "</span>" +
+        '<button type="button" class="wo-edit" data-eday="' + k + '">Edit</button></h3>' + noteHTML + "</div>";
+    }
     var rows = ids.map(function(id){
       var e = log[k][id], ex = woEx(id);
       sets += e.n;
@@ -6611,13 +7092,13 @@ function woRenderHistory(){
       reps += woRepsOf(e, ex);
       return '<div class="log-row' + (e.n < e.sets ? " partial" : "") + '"><span class="at">' + ex.emoji + "</span>" +
         '<span class="what">' + esc(ex.name) + (woPR(ex, k) ? ' <b class="wo-star" title="New best">\u2605</b>' : "") + "</span>" +
-        '<span class="len">' + (e.n < e.sets ? e.n + " of " : "") + esc(woSummary(e, ex)) + "</span></div>";
+        '<span class="len">' + (e.n < e.sets ? e.n + " of " : "") + esc(woSummary(e, ex)) + (e.ef ? " \u00b7 " + WO_EFFORT[e.ef] : "") + "</span></div>";
     }).join("");
     var label = k === TODAY ? "Today" : (k === shiftKey(TODAY, -1) ? "Yesterday" : WD[d.getDay()] + ", " + MSHORT[d.getMonth()] + " " + d.getDate());
     return '<div class="log-day"><h3>' + label + "<span>" + ids.length + " exercise" + (ids.length === 1 ? "" : "s") +
       " \u00b7 " + sets + " sets" + (vol ? " \u00b7 " + woBig(vol) + " " + state.workout.unit : "") +
-      (reps ? " \u00b7 " + woBig(reps) + " bodyweight reps" : "") + "</span>" +
-      '<button type="button" class="wo-edit" data-eday="' + k + '">Edit</button></h3>' + rows + "</div>";
+      (reps ? " \u00b7 " + woBig(reps) + " bodyweight reps" : "") + (ok ? " \u00b7 " + WO_OFF[ok.t] : "") + "</span>" +
+      '<button type="button" class="wo-edit" data-eday="' + k + '">Edit</button></h3>' + noteHTML + rows + "</div>";
   }).join("") + woExportHTML();
 }
 
@@ -6627,16 +7108,18 @@ function woExport(kind){
   var w = state.workout, log = w.log, text, name;
   if (kind === "json") {
     text = JSON.stringify({ app: "groundwork-workout", exportedAt: new Date().toISOString(), unit: w.unit,
-                            exercises: w.exercises, plan: w.plan, templates: w.templates, planTemplates: w.planT, log: log }, null, 2);
+                            exercises: w.exercises, plan: w.plan, templates: w.templates, planTemplates: w.planT, log: log,
+                            daysOff: w.off, notes: w.notes, weeklyTarget: w.target }, null, 2);
     name = "groundwork-workouts-" + TODAY + ".json";
   } else {
-    var rows = [["date", "exercise", "muscle_groups", "sets_done", "sets_planned", "reps", "weight", "weight_unit", "time", "time_unit", "volume", "each_set"]];
+    var rows = [["date", "exercise", "muscle_groups", "sets_done", "sets_planned", "reps", "weight", "weight_unit", "time", "time_unit", "volume", "each_set", "effort", "day_note"]];
     Object.keys(log).sort().forEach(function(k){
       Object.keys(log[k]).forEach(function(id){
         var e = log[k][id], ex = woEx(id), t = ex.kind === "t", wt = ex.kind === "w";
         rows.push([k, ex.name, ex.groups.join(" + "), e.n, e.sets, t ? "" : e.reps, wt ? e.weight : "", wt ? e.u : "",
                    t ? e.dur : "", t ? ex.tu : "", wt ? Math.round(e.ps ? e.ps.reduce(function(a, x){ return a + x.reps * x.weight; }, 0) : e.n * e.reps * e.weight) : "",
-                   e.ps ? e.ps.map(function(x){ return t ? x.dur : (wt ? x.reps + "x" + x.weight : x.reps); }).join("; ") : ""]);
+                   e.ps ? e.ps.map(function(x){ return t ? x.dur : (wt ? x.reps + "x" + x.weight : x.reps); }).join("; ") : "",
+                   e.ef ? WO_EFFORT[e.ef] : "", w.notes[k] || ""]);
       });
     });
     text = rows.map(function(r){ return r.map(csvCell).join(","); }).join("\n") + "\n";
@@ -6648,6 +7131,7 @@ function woExport(kind){
 /* ---- switching it on and off (Settings) ---- */
 var swWorkout = document.getElementById("s-workout");
 swWorkout.addEventListener("click", function(){
+  woExitDemo();
   var w = state.workout;
   w.on = !w.on;
   swWorkout.setAttribute("aria-pressed", String(w.on));

@@ -2020,6 +2020,7 @@ b{font-weight:650}
 section.band{padding-block:56px; border-bottom:1px solid var(--hairline); display:flex; flex-direction:column; gap:28px}
 .head{display:flex; flex-direction:column; gap:10px; max-width:720px}
 .grid2{display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:28px; align-items:start}
+.grid2.stack{grid-template-columns:minmax(0, 1fr)}
 .grid3{display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:16px}
 .grid4{display:grid; grid-template-columns:repeat(4, minmax(0, 1fr)); gap:16px}
 .cell{display:flex; flex-direction:column; gap:8px; min-width:0}
@@ -2168,7 +2169,7 @@ footer{padding-top:36px; display:flex; flex-wrap:wrap; gap:10px 24px; color:var(
 }
 </style>
 
-<div class="wrap">
+<div class="wrap" lang="en">
 
 <header class="hero">
   <div class="copy">
@@ -2342,7 +2343,7 @@ footer{padding-top:36px; display:flex; flex-wrap:wrap; gap:10px 24px; color:var(
 </section>
 
 <section class="band" aria-labelledby="h-plan">
-  <div class="grid2">
+  <div class="grid2 stack">
     <div class="head">
       <span class="eyebrow">Planning</span>
       <h2 id="h-plan">A weekly plan, and highlights for today</h2>
@@ -2368,8 +2369,7 @@ footer{padding-top:36px; display:flex; flex-wrap:wrap; gap:10px 24px; color:var(
     <p class="muted">Two more tabs in the header while you're in Workout. Logging an earlier day, from the ‹ beside the date, updates all of it.</p>
   </div>
   <div class="feat">
-    <div><div class="minibars" aria-hidden="true"><i style="height:40%"></i><i style="height:55%"></i><i style="height:48%"></i><i style="height:70%"></i><i style="height:66%"></i><i style="height:90%"></i></div>
-      <b>Weekly sets</b><span>Stacked by muscle group, with a target band (10–20 sets a group by default).</span></div>
+    <div><b>Weekly sets</b><span>Stacked by muscle group, with a target band (10–20 sets a group by default).</span></div>
     <div><b>Worth a look</b><span>Lifts with no new best in 3+ weeks, and groups you've let slip.</span></div>
     <div><b>Consistency</b><span>Week streak, sessions per week, and a heat grid. Days off don't break it.</span></div>
     <div><b>Exercise page</b><span>Tap any exercise: its weight or reps over time, records, every session with effort, and each step up or back.</span></div>

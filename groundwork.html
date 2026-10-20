@@ -667,7 +667,128 @@ dialog h2{font-size:20px; font-stretch:112%; margin-bottom:18px}
 #wo-tiles{flex-direction:row; flex-wrap:wrap; gap:26px 44px; align-items:flex-start}
 #wo-tiles > section{flex:0 1 auto; min-width:0; max-width:100%}
 #wo-tiles .tiles{display:flex; flex-wrap:wrap; gap:14px}
-#wo-tiles .tile{width:calc(190px * var(--tile, 1)); flex:none}
+#wo-tiles .tile{width:calc(210px * var(--tile, 1)); flex:none}
+/* text grows with the circle: cqw is a percent of the tile's own width */
+#wo-tiles .wo-tile .hit{padding:9%}
+#wo-tiles .wo-tile .hit .emo{font-size:clamp(18px, 14cqw, 40px)}
+#wo-tiles .wo-tile .hit .nm{font-size:clamp(12.5px, 8.6cqw, 21px); line-height:1.15; white-space:normal; text-wrap:balance;
+  display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden}
+#wo-tiles .wo-tile .hit .sub{font-size:clamp(11px, 6.4cqw, 15.5px); color:var(--ink-2)}
+#wo-tiles .wo-tile.done .hit .sub{color:var(--on-glaze)}
+#wo-tiles .wo-tile .wo-why, #wo-tiles .wo-tile .wo-pr{font-size:clamp(10.5px, 5.8cqw, 14px)}
+#wo-tiles .wo-dots i{width:clamp(6px, 3.4cqw, 9px); height:clamp(6px, 3.4cqw, 9px)}
+/* rearranging */
+.wo-reorder .wo-tile .hit{pointer-events:none}
+.wo-reorder .wo-tile{cursor:grab; touch-action:none}
+.wo-reorder .wo-tile .ring{opacity:.35}
+.wo-dragging{opacity:.3}
+.wo-ghost{position:fixed; z-index:100; pointer-events:none; margin:0; transform:translate(-50%, -50%) scale(1.04); opacity:.95}
+.wo-over-before{box-shadow:-4px 0 0 -1px var(--ink); border-radius:50%}
+.wo-over-after{box-shadow:4px 0 0 -1px var(--ink); border-radius:50%}
+.wo-row.wo-over-before{box-shadow:0 -4px 0 -1px var(--ink); border-radius:16px}
+.wo-row.wo-over-after{box-shadow:0 4px 0 -1px var(--ink); border-radius:16px}
+.wo-gmove{display:inline-flex; gap:4px}
+.wo-gmove button{width:26px; height:26px; border-radius:8px; border:1px solid var(--hairline); background:var(--surface);
+  color:var(--ink-2); display:grid; place-items:center}
+.wo-gmove button:hover:not(:disabled){color:var(--ink); border-color:var(--hairline-2)}
+.wo-gmove button:disabled{opacity:.3; cursor:default}
+/* phones: muscle-group cards, then big rows */
+#wo-tiles.wo-m{display:block}
+.wo-cats{display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:12px}
+.wo-cat{position:relative; display:flex; flex-direction:column; align-items:flex-start; gap:4px; padding:14px; min-height:132px;
+  border-radius:16px; background:var(--surface); border:1px solid var(--hairline); box-shadow:var(--shadow)}
+.wo-cat.has-due{border-color:var(--rec); background:color-mix(in srgb, var(--rec) 8%, var(--surface))}
+.wo-cat-open{position:absolute; inset:0; border-radius:16px; z-index:1}
+.wo-cat-open:active{background:color-mix(in srgb, var(--ink) 5%, transparent)}
+.wo-cat svg{display:block; margin-bottom:6px}
+.wo-cat h3{font-size:18px; font-stretch:110%; letter-spacing:-.01em}
+.wo-cat .cnt{font-size:13.5px; color:var(--ink-2); font-variant-numeric:tabular-nums}
+.wo-cat .due{font-size:12.5px; font-weight:700; color:var(--rec)}
+.wo-cat .emos{font-size:15px; letter-spacing:1px; margin-top:auto; padding-top:6px; opacity:.85; white-space:nowrap; overflow:hidden; max-width:100%}
+.wo-cat .badge{position:absolute; top:14px; right:12px}
+.wo-cat .wo-gmove{position:absolute; top:10px; right:10px; z-index:2}
+.wo-gh{display:flex; align-items:center; gap:12px; margin:-4px 0 16px; flex-wrap:wrap}
+.wo-back{display:inline-flex; align-items:center; gap:4px; padding:7px 12px 7px 8px; border-radius:999px; border:1px solid var(--hairline);
+  background:var(--surface); font-size:14px; font-weight:600; color:var(--ink-2)}
+.wo-gh h2{font-size:24px; font-stretch:112%; letter-spacing:-.02em}
+.wo-rows{display:flex; flex-direction:column; gap:10px}
+.wo-row{display:flex; align-items:center; gap:12px; padding:12px; border-radius:16px; background:var(--surface);
+  border:1px solid var(--hairline); box-shadow:var(--shadow); -webkit-touch-callout:none; -webkit-user-select:none; user-select:none}
+.wo-row.rec{border:2px solid var(--rec); background:color-mix(in srgb, var(--rec) 9%, var(--surface))}
+.wo-row .rm-emo{width:46px; height:46px; border-radius:50%; flex:none; display:grid; place-items:center; font-size:22px;
+  background:conic-gradient(color-mix(in srgb, var(--glaze) 50%, var(--surface)) 0 var(--pct), var(--surface-2) 0)}
+.wo-row.done .rm-emo{background:var(--glaze)}
+.wo-row .rm-main{flex:1; min-width:0}
+.wo-row .rm-nm{font-size:16px; font-weight:600; line-height:1.25}
+.wo-row .rm-sub{font-size:14px; color:var(--ink-2); font-variant-numeric:tabular-nums; margin-top:1px}
+.wo-row .rm-why{font-size:12.5px; font-weight:700; color:var(--rec); margin-top:2px}
+.wo-row .rm-pr{font-size:12.5px; font-weight:700; color:var(--g-ochre); margin-top:2px}
+.wo-row .rm-dots{display:flex; flex-wrap:wrap; gap:6px; margin-top:9px}
+.wo-row .rm-dots button{width:26px; height:26px; border-radius:50%; border:2px solid var(--hairline-2); background:var(--surface)}
+.wo-row .rm-dots button.on{background:var(--glaze); border-color:var(--glaze)}
+.wo-row .rm-check{width:52px; height:52px; border-radius:50%; flex:none; display:grid; place-items:center;
+  border:2px solid var(--hairline-2); color:var(--ink-3); background:var(--surface); transition:background .16s, border-color .16s, transform .14s}
+.wo-row .rm-check:active{transform:scale(.94)}
+.wo-row.done .rm-check{background:var(--glaze); border-color:var(--glaze); color:var(--on-glaze)}
+.wo-row.just .rm-check{animation:pop .42s cubic-bezier(.3,1.4,.4,1)}
+.wo-row .rm-more{width:32px; height:32px; border-radius:50%; flex:none; display:grid; place-items:center; color:var(--ink-3)}
+.wo-row .rm-move{display:flex; flex-direction:column; gap:4px}
+.wo-row .rm-move button{width:34px; height:30px; border-radius:9px; border:1px solid var(--hairline); display:grid; place-items:center; color:var(--ink-2)}
+.wo-row .rm-move button:disabled{opacity:.3}
+.wo-row .rm-handle{width:30px; align-self:stretch; display:grid; place-items:center; color:var(--ink-3); cursor:grab; touch-action:none; font-size:18px}
+/* charts: a validated categorical set (dataviz reference slots 1-7), one per muscle group */
+.wo-chartvars{--c1:#2a78d6; --c2:#eb6834; --c3:#1baf7a; --c4:#eda100; --c5:#e87ba4; --c6:#008300; --c7:#6250d6}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]) .wo-chartvars{--c1:#3987e5; --c2:#d95926; --c3:#199e70; --c4:#c98500; --c5:#d55181; --c6:#008300; --c7:#9085e9}
+}
+:root[data-theme="dark"] .wo-chartvars{--c1:#3987e5; --c2:#d95926; --c3:#199e70; --c4:#c98500; --c5:#d55181; --c6:#008300; --c7:#9085e9}
+.wo-chart{display:block; width:100%; height:auto; overflow:visible}
+.wo-chart text{fill:var(--ink-3); font-family:var(--body); font-size:11px; font-variant-numeric:tabular-nums}
+.wo-chart .grid{stroke:var(--hairline); stroke-width:1}
+.wo-chart .line{fill:none; stroke-width:2; stroke-linejoin:round; stroke-linecap:round}
+.wo-chart .pt{stroke:var(--surface); stroke-width:2}
+.wo-chart .hair{stroke:var(--ink-3); stroke-width:1}
+.wo-chart .col:hover rect.seg, .wo-chart .col:focus rect.seg, .wo-chart .col.hl rect.seg{filter:brightness(1.12) saturate(1.1)}
+.wo-chart .col:focus{outline:none}
+.wo-chart .col:focus-visible rect.hitbox{stroke:var(--ink); stroke-width:1.5}
+.wo-chart .endlbl{fill:var(--ink); font-weight:600; font-size:12px}
+.wo-legend{display:flex; flex-wrap:wrap; gap:6px 14px; font-size:12px; color:var(--ink-2); margin:0 0 12px}
+.wo-legend span{display:inline-flex; align-items:center; gap:6px}
+.wo-legend i{width:10px; height:10px; border-radius:3px; display:block}
+.wo-tt{position:fixed; z-index:95; pointer-events:none; background:var(--surface); color:var(--ink); border:1px solid var(--hairline);
+  box-shadow:var(--shadow-lift); border-radius:10px; padding:8px 11px; font-size:12.5px; min-width:120px; max-width:260px}
+.wo-tt .h{color:var(--ink-3); font-size:11.5px; margin-bottom:4px}
+.wo-tt .r{display:flex; align-items:center; gap:8px; line-height:1.55}
+.wo-tt .r i{width:12px; height:2.5px; border-radius:2px; flex:none}
+.wo-tt .r b{font-variant-numeric:tabular-nums; min-width:22px}
+.wo-tt .r span{color:var(--ink-2)}
+.wo-table{width:100%; border-collapse:collapse; font-size:13px; font-variant-numeric:tabular-nums; margin-top:8px}
+.wo-table th, .wo-table td{text-align:right; padding:5px 6px; border-bottom:1px solid var(--hairline); white-space:nowrap}
+.wo-table th:first-child, .wo-table td:first-child{text-align:left}
+.wo-table th{font-weight:600; color:var(--ink-3); font-size:11.5px}
+.wo-tablewrap{overflow-x:auto}
+.wo-more{margin-top:12px}
+.wo-more summary{cursor:pointer; font-size:12.5px; font-weight:600; color:var(--ink-3)}
+.wo-cardlink{cursor:pointer; transition:border-color .14s, box-shadow .14s}
+.wo-cardlink:hover{border-color:var(--hairline-2); box-shadow:var(--shadow-lift)}
+.wo-cardlink .go{margin-left:6px; color:var(--ink-3); font-size:12.5px; font-weight:600}
+.wo-seg{display:flex; flex-wrap:wrap; gap:8px 14px; align-items:center; margin:0 0 18px}
+.wo-wk{display:grid; grid-template-columns:repeat(7, 1fr); gap:8px; align-items:end; height:120px; margin-top:6px}
+.wo-wk div{display:flex; flex-direction:column; align-items:center; justify-content:flex-end; height:100%; gap:5px; position:relative}
+.wo-wk i{display:block; width:min(24px, 70%); border-radius:4px 4px 0 0; background:var(--c1); min-height:2px}
+.wo-wk span{font-size:11px; color:var(--ink-3)}
+.wo-wk div.plan span{color:var(--ink); font-weight:700}
+.wo-wk b{font-size:11.5px; color:var(--ink-2); font-variant-numeric:tabular-nums}
+.wo-cons-figs{display:flex; flex-wrap:wrap; gap:14px 30px; margin-bottom:16px}
+.wo-cons-figs .fig b{display:block; font-family:var(--display); font-stretch:115%; font-size:30px; letter-spacing:-.02em; line-height:1}
+.wo-cons-figs .fig span{display:block; font-size:12px; color:var(--ink-3); margin-top:4px}
+.wo-recs{display:flex; flex-direction:column; gap:6px}
+.wo-recs div{display:flex; justify-content:space-between; gap:10px; font-size:13.5px; padding:7px 0; border-bottom:1px solid var(--hairline)}
+.wo-recs div b{font-variant-numeric:tabular-nums}
+@media (max-width:640px){
+  .wo-cats{gap:10px}
+  .card{padding:16px}
+}
 @media (max-width:520px){
   #wo-tiles .tiles{gap:10px}
   #wo-tiles .tile{width:calc(150px * var(--tile, 1))}
@@ -1287,6 +1408,7 @@ dialog.wide.xwide{width:min(940px, calc(100vw - 32px))}
   </details>
   <div class="dlg-actions">
     <button type="button" class="btn btn-danger" id="wq-remove">Remove</button>
+    <button type="button" class="btn btn-ghost" id="wq-progress">Progress</button>
     <button type="button" class="btn btn-primary" id="wq-done">Done</button>
   </div>
   <div class="confirm" id="wq-confirm" hidden>
@@ -1339,6 +1461,10 @@ dialog.wide.xwide{width:min(940px, calc(100vw - 32px))}
   <div class="toggle-row" style="margin-bottom:14px">
     <p>Color circles by muscle group<small>Each group gets its own color instead of one done color</small></p>
     <button class="sw" id="ws-groupc" aria-pressed="false" aria-label="Color circles by muscle group"></button>
+  </div>
+  <div class="toggle-row" style="margin-bottom:14px">
+    <p>Today's groups first<small>Planned muscle groups jump to the top; off keeps your own order</small></p>
+    <button class="sw" id="ws-planfirst" aria-pressed="true" aria-label="Put today's muscle groups first"></button>
   </div>
   <div class="field">
     <label>Highlights per muscle group</label>
@@ -1973,17 +2099,16 @@ function applyTileSize(){ document.documentElement.style.setProperty("--tile", c
 var FIT_MQ = window.matchMedia ? window.matchMedia("(min-width: 900px)") : null;
 function fitToScreen(){
   tilesEl.style.removeProperty("--tile");
-  // workout circles have their own size, set in Workout settings
-  var wo = section === "workout" && woView === "today";
-  if (wo) woTilesEl.style.setProperty("--tile", state.workout.size);
-  var el = wo ? woTilesEl : tilesEl;
-  if (!wo && (arranging || section !== "habits" || view !== "today")) return;
+  // workout circles keep their own size (Workout settings) and the page scrolls:
+  // shrinking them to fit made the text too small to read on laptops
+  if (section === "workout") { woTilesEl.style.setProperty("--tile", state.workout.size); return; }
+  var el = tilesEl;
+  if (arranging || section !== "habits" || view !== "today") return;
   if (!FIT_MQ || !FIT_MQ.matches) return;
   var root = document.documentElement;
   function fits(){ return root.scrollHeight <= window.innerHeight + 1; }
   if (fits()) return;
-  // workout circles carry more text, so they stop shrinking sooner and the page scrolls
-  var lo = wo ? 0.6 : 0.3, hi = wo ? state.workout.size : curLayout().size, best = lo;
+  var lo = 0.3, hi = curLayout().size, best = lo;
   for (var i = 0; i < 9; i++) {
     var mid = (lo + hi) / 2;
     el.style.setProperty("--tile", mid);
@@ -4395,7 +4520,7 @@ var WO_ICONS = ["\u{1F3CB}\uFE0F", "\u{1F4AA}", "\u{1F9B5}", "\u{1F9B6}", "\u{1F
   "\u2B07\uFE0F", "\u2B06\uFE0F", "\u{1F504}", "\u{1F6DE}", "\u{1FAB2}", "\u{1F480}", "\u{1F3C6}", "\u{1F937}"];
 function woDefaults(){
   return { on: false, setup: false, unit: "lb", tap: "all", size: 1, doneGlaze: "moss", recGlaze: "clay",
-           perGroup: 2, groupColors: false, rest: 90,
+           perGroup: 2, groupColors: false, rest: 90, groupOrder: MUSCLES.slice(), planFirst: true,
            exercises: [], log: {}, plan: {}, planT: {}, templates: [], recLog: {}, planHint: "" };
 }
 function woNum(v, lo, hi, step){
@@ -4482,6 +4607,11 @@ function normalizeWorkout(raw){
     }
   }
   w.perGroup = woNum(raw.perGroup || 2, 1, 3, 1);
+  w.planFirst = raw.planFirst !== false;
+  w.groupOrder = (Array.isArray(raw.groupOrder) ? raw.groupOrder : []).filter(function(g, i, a){
+    return MUSCLES.indexOf(g) >= 0 && a.indexOf(g) === i;
+  });
+  MUSCLES.forEach(function(g){ if (w.groupOrder.indexOf(g) < 0) w.groupOrder.push(g); });
   w.groupColors = !!raw.groupColors;
   w.rest = WO_RESTS.indexOf(raw.rest) >= 0 ? raw.rest : 90;
   w.planHint = typeof raw.planHint === "string" ? raw.planHint.slice(0, 400) : "";
@@ -4568,11 +4698,21 @@ function woSetN(ex, n, k){
 // Whole-circle taps fill every set, and a second tap clears it like a habit.
 // One-set taps add a set and stop at full, so a stray extra tap never wipes
 // sets already logged; changing them is a long press away.
-function woTap(ex){
+function woNextTap(ex){
   var e = woEntry(ex.id), n = e ? e.n : 0, mode = ex.tap || state.workout.tap;
-  var next = mode === "set" ? Math.min(ex.sets, n + 1) : (n >= ex.sets ? 0 : ex.sets);
-  if (next !== n) woSetN(ex, next);
-  return next;
+  return mode === "set" ? Math.min(ex.sets, n + 1) : (n >= ex.sets ? 0 : ex.sets);
+}
+// Log a new set count for today, with the sound, rest timer and record check.
+function woLog(ex, was, next, perSet){
+  var recs = woRecs(), before = woRecsDone(recs);
+  woSetN(ex, next);
+  scheduleSave();
+  if (next < was) sndUndo();
+  else if (!before && woRecsDone(recs)) sndWin();
+  else sndCheck();
+  if (next > was && next < ex.sets && (perSet || (ex.tap || state.workout.tap) === "set")) woStartRest(ex, next);
+  else if (woRestT && woRestT.id === ex.id) woStopRest();
+  if (next) woCheckPR(ex);
 }
 function woGet(ex, f){
   if (f === "n") { var e = woEntry(ex.id); return e ? e.n : 0; }
@@ -4967,9 +5107,9 @@ function woRingSVG(ex){
   return '<svg class="ring" viewBox="0 0 100 100" aria-hidden="true">' + parts + "</svg>";
 }
 function woTileHTML(ex, recs){
-  var e = woEntry(ex.id), n = e ? e.n : 0, full = n > 0 && n >= ex.sets;
+  var e = woEntry(ex.id), n = e ? e.n : 0, full = n > 0 && n >= ex.sets, pos = woPos(ex);
   var rec = !full && recs.hasOwnProperty(ex.id), due = woDue(ex), mode = ex.tap || state.workout.tap, pr = n && woPR(ex);
-  var why = rec && !n ? (recs[ex.id] >= 9999 ? "not done yet" : recs[ex.id] + (recs[ex.id] === 1 ? " day" : " days") + " ago") : "";
+  var why = rec && !n ? woWhy(ex, recs) : "";
   var color = state.workout.groupColors ? "--glaze:var(--g-" + MUSCLE_GLAZE[ex.groups[0]] + ");" : "";
   var dots = "";
   if (ex.sets > 1 && ex.sets <= 10 && (mode === "set" || (n && !full))) {
@@ -4986,9 +5126,69 @@ function woTileHTML(ex, recs){
       (dots ? '<span class="wo-dots">' + dots + "</span>" : "") +
       (pr ? '<span class="wo-pr">\u2605 New best</span>' : why ? '<span class="wo-why">' + why + "</span>" : "") +
     "</button>" +
-    '<button class="tile-menu" data-act="more" aria-label="Adjust ' + esc(ex.name) + '">' +
-      '<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="1.9"/><circle cx="12" cy="12" r="1.9"/><circle cx="19" cy="12" r="1.9"/></svg></button>' +
+    (woReorder
+      ? '<button class="move-btn l" data-act="left" aria-label="Move ' + esc(ex.name) + ' earlier"' + (pos.first ? " disabled" : "") + ">" + WO_CHEV_L + "</button>" +
+        '<button class="move-btn r" data-act="right" aria-label="Move ' + esc(ex.name) + ' later"' + (pos.last ? " disabled" : "") + ">" + WO_CHEV_R + "</button>"
+      : '<button class="tile-menu" data-act="more" aria-label="Adjust ' + esc(ex.name) + '">' + WO_DOTS + "</button>") +
     "</div>";
+}
+var WO_CHEV_L = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>';
+var WO_CHEV_R = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>';
+var WO_DOTS = '<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="1.9"/><circle cx="12" cy="12" r="1.9"/><circle cx="19" cy="12" r="1.9"/></svg>';
+var WO_CHECK = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>';
+// first/last within its muscle group, for disabling move buttons
+function woPos(ex){
+  var hs = woLive().filter(function(x){ return x.groups[0] === ex.groups[0]; }), i = hs.indexOf(ex);
+  return { first: i === 0, last: i === hs.length - 1 };
+}
+function woWhy(ex, recs){
+  var d = recs[ex.id];
+  return d >= 9999 ? "not done yet" : d + (d === 1 ? " day" : " days") + " ago";
+}
+// A full-width row for phones: name, numbers, set dots to tap, and a big check.
+function woLogRowHTML(ex, recs){
+  var e = woEntry(ex.id), n = e ? e.n : 0, full = n > 0 && n >= ex.sets, pos = woPos(ex);
+  var rec = !full && recs.hasOwnProperty(ex.id), due = woDue(ex), pr = n && woPR(ex);
+  var color = state.workout.groupColors ? "--glaze:var(--g-" + MUSCLE_GLAZE[ex.groups[0]] + ");" : "";
+  var dots = "";
+  if (ex.sets > 1 && ex.sets <= 10) {
+    for (var i = 0; i < ex.sets; i++) {
+      dots += '<button type="button" data-act="dot" data-i="' + i + '"' + (i < n ? ' class="on"' : "") +
+        ' aria-label="Set ' + (i + 1) + (i < n ? ", done" : "") + '"></button>';
+    }
+  }
+  return '<div class="wo-row' + (full ? " done" : "") + (n && !full ? " part" : "") + (rec ? " rec" : "") + '" data-id="' + ex.id +
+    '" style="' + color + "--pct:" + (full ? 100 : n / ex.sets * 100).toFixed(1) + '%">' +
+    '<span class="rm-emo" aria-hidden="true">' + ex.emoji + "</span>" +
+    '<div class="rm-main"><div class="rm-nm">' + esc(ex.name) + "</div>" +
+      '<div class="rm-sub">' + (due ? '<b class="wo-up" title="Time to go up">\u2191</b> ' : "") + esc(woSummary(ex, ex)) +
+        (n && !full ? " \u00b7 " + n + " of " + ex.sets + " sets" : "") + "</div>" +
+      (pr ? '<div class="rm-pr">\u2605 New best</div>' : rec && !n ? '<div class="rm-why">Due \u00b7 ' + woWhy(ex, recs) + "</div>" : "") +
+      (dots && !woReorder ? '<div class="rm-dots">' + dots + "</div>" : "") +
+    "</div>" +
+    (woReorder
+      ? '<div class="rm-move"><button type="button" data-act="up" aria-label="Move ' + esc(ex.name) + ' up"' + (pos.first ? " disabled" : "") + ">" +
+          '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/></svg></button>' +
+          '<button type="button" data-act="down" aria-label="Move ' + esc(ex.name) + ' down"' + (pos.last ? " disabled" : "") + ">" +
+          '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button></div>' +
+        '<span class="rm-handle" aria-hidden="true">\u2807</span>'
+      : '<button type="button" class="rm-more" data-act="more" aria-label="Adjust ' + esc(ex.name) + '">' + WO_DOTS + "</button>" +
+        '<button type="button" class="rm-check" data-act="tap" aria-pressed="' + full + '" aria-label="' + esc(ex.name) + ", " + n + " of " +
+          ex.sets + ' sets done. Log">' + WO_CHECK + "</button>") +
+    "</div>";
+}
+// A muscle group's progress as a small ring for the phone cards.
+function woMiniRing(done, total){
+  var C = 2 * Math.PI * 16, f = total ? done / total : 0;
+  return '<svg width="40" height="40" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="16" fill="none" stroke="var(--sunk)" stroke-width="5"/>' +
+    (f ? '<circle cx="20" cy="20" r="16" fill="none" stroke="var(--glaze)" stroke-width="5" stroke-linecap="round" stroke-dasharray="' +
+      (C * f).toFixed(1) + " " + C.toFixed(1) + '" transform="rotate(-90 20 20)"/>' : "") + "</svg>";
+}
+// Muscle groups in your order; today's planned ones first unless that's off.
+function woGroupOrder(plan){
+  var w = state.workout, base = w.groupOrder.slice();
+  if (!w.planFirst) return base;
+  return base.filter(function(g){ return plan.indexOf(g) >= 0; }).concat(base.filter(function(g){ return plan.indexOf(g) < 0; }));
 }
 function woRecsDone(recs){
   var ids = Object.keys(recs);
@@ -5024,17 +5224,52 @@ function woRenderToday(){
     : "Ready when you are. <em>Tap a circle.</em>";
   line.innerHTML = html;
 
-  var order = plan.concat(MUSCLES.filter(function(g){ return plan.indexOf(g) < 0; }));
-  woTilesEl.innerHTML = live.length ? order.map(function(g){
-    var hs = live.filter(function(ex){ return ex.groups[0] === g; });
-    if (!hs.length) return "";
-    var done = hs.filter(function(ex){ return woFull(ex.id, TODAY); }).length;
-    return '<section><div class="sec-head"><h2>' + g + "</h2>" +
-      (plan.indexOf(g) >= 0 ? '<span class="badge"' + (learned ? ' title="From the days you usually train it"' : "") + ">" +
-        (learned ? "Usual today" : "Today") + "</span>" : "") +
-      '<span class="sec-stat">' + done + " of " + hs.length + '</span><span class="sec-rule"></span></div>' +
-      '<div class="tiles">' + hs.map(function(ex){ return woTileHTML(ex, recs); }).join("") + "</div></section>";
-  }).join("") : "";
+  var order = woGroupOrder(plan).filter(function(g){ return live.some(function(ex){ return ex.groups[0] === g; }); });
+  var mobile = woMobile();
+  if (woGroup && order.indexOf(woGroup) < 0) woGroup = null;
+  var inGroup = mobile && !!woGroup;
+  document.querySelector("#wo-today .today-head").hidden = inGroup;
+  document.getElementById("wo-hint").hidden = inGroup;
+  woTilesEl.className = "sections" + (mobile ? " wo-m" : "") + (woReorder ? " wo-reorder" : "");
+  function badge(g){
+    return plan.indexOf(g) >= 0 ? '<span class="badge"' + (learned ? ' title="From the days you usually train it"' : "") + ">" +
+      (learned ? "Usual today" : "Today") + "</span>" : "";
+  }
+  function gmove(g){
+    var i = order.indexOf(g);
+    return woReorder ? '<span class="wo-gmove"><button type="button" data-gmove="-1" aria-label="Move ' + g + ' earlier"' + (i === 0 ? " disabled" : "") + ">" +
+      WO_CHEV_L + '</button><button type="button" data-gmove="1" aria-label="Move ' + g + ' later"' + (i === order.length - 1 ? " disabled" : "") + ">" +
+      WO_CHEV_R + "</button></span>" : "";
+  }
+  function inG(g){ return live.filter(function(ex){ return ex.groups[0] === g; }); }
+  if (!live.length) woTilesEl.innerHTML = "";
+  else if (inGroup) {
+    var hs = inG(woGroup), dn = hs.filter(function(ex){ return woFull(ex.id, TODAY); }).length;
+    woTilesEl.innerHTML = '<div class="wo-gh"><button type="button" class="wo-back" data-act="back">' + WO_CHEV_L + " All groups</button>" +
+      "<h2>" + woGroup + "</h2>" + badge(woGroup) + '<span class="sec-stat">' + dn + " of " + hs.length + " done</span></div>" +
+      '<div class="wo-rows">' + hs.map(function(ex){ return woLogRowHTML(ex, recs); }).join("") + "</div>";
+  } else if (mobile) {
+    woTilesEl.innerHTML = '<div class="wo-cats">' + order.map(function(g){
+      var hs = inG(g), dn = hs.filter(function(ex){ return woFull(ex.id, TODAY); }).length;
+      var due = hs.filter(function(ex){ return recs.hasOwnProperty(ex.id) && !woFull(ex.id, TODAY); }).length;
+      // the ring counts sets, so a half-done exercise already shows
+      var setsIn = 0, setsAll = 0;
+      hs.forEach(function(ex){ var en = woEntry(ex.id); setsIn += en ? Math.min(en.n, ex.sets) : 0; setsAll += ex.sets; });
+      return '<div class="wo-cat' + (due ? " has-due" : "") + '" data-g="' + g + '">' +
+        (woReorder ? gmove(g) : '<button type="button" class="wo-cat-open" data-cat="' + g + '" aria-label="' + g + ", " + dn + " of " + hs.length +
+          " done" + (due ? ", " + due + " due" : "") + '"></button>' + (due ? "" : badge(g))) +
+        woMiniRing(setsIn, setsAll) + "<h3>" + g + '</h3><span class="cnt">' + dn + " of " + hs.length + " done</span>" +
+        (due ? '<span class="due">' + due + " due today</span>" : "") +
+        '<span class="emos" aria-hidden="true">' + hs.slice(0, 6).map(function(ex){ return ex.emoji; }).join("") + "</span></div>";
+    }).join("") + "</div>";
+  } else {
+    woTilesEl.innerHTML = order.map(function(g){
+      var hs = inG(g), dn = hs.filter(function(ex){ return woFull(ex.id, TODAY); }).length;
+      return '<section data-g="' + g + '"><div class="sec-head"><h2>' + g + "</h2>" + badge(g) +
+        '<span class="sec-stat">' + dn + " of " + hs.length + "</span>" + gmove(g) + '<span class="sec-rule"></span></div>' +
+        '<div class="tiles">' + hs.map(function(ex){ return woTileHTML(ex, recs); }).join("") + "</div></section>";
+    }).join("");
+  }
 
   var hint = live.length ? woPlanHint() : null;
   document.getElementById("wo-hint").innerHTML = hint
@@ -5048,9 +5283,14 @@ function woRenderToday(){
     ? '<div class="today-actions">' +
         '<button class="add-tile" data-wo="pick"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Exercises</button>' +
         '<button class="add-tile" data-wo="plan">Weekly plan</button>' +
+        '<button class="add-tile" data-wo="reorder">' + (woReorder ? "Done rearranging" : "Rearrange") + "</button>" +
         '<button class="add-tile" data-wo="settings">Workout settings</button></div>' +
-      '<p class="wo-tip">' + ((w.tap === "set") ? "Each tap logs one set." : "A tap logs every set.") +
-        " Press and hold a circle (or right-click it) to change sets, reps or weight.</p>"
+      '<p class="wo-tip">' + (woReorder
+        ? (mobile ? "Use the arrows, or drag a row by its handle. On the group screen, the arrows on each card move the whole group."
+                  : "Drag circles within a group, or use the arrows. The arrows beside a group's name move the whole group.")
+        : ((w.tap === "set") ? "Each tap logs one set." : "A tap logs every set.") +
+          (mobile ? " Tap a set dot to log that set. Press and hold a row to change sets, reps or weight."
+                  : " Press and hold a circle (or right-click it) to change sets, reps or weight.")) + "</p>"
     : '<div class="empty"><h2>' + (w.setup ? "No exercises yet" : "Set up workout mode") + "</h2>" +
       "<p>Pick the exercises you do and where you are starting from. Each one becomes a circle you tap after your sets.</p>" +
       '<button class="btn btn-primary" data-wo="' + (w.setup ? "pick" : "guide") + '">' + (w.setup ? "Choose exercises" : "Start setup") + "</button></div>";
@@ -5062,9 +5302,10 @@ var woPress = null, woLong = false;
 function woCancelPress(){ if (woPress) { clearTimeout(woPress.t); woPress = null; } }
 woTilesEl.addEventListener("pointerdown", function(e){
   woLong = false;
-  var hit = e.target.closest(".wo-tile .hit");
+  if (woReorder) { woDragStart(e); return; }
+  var hit = e.target.closest(".wo-tile .hit, .wo-row");
   if (!hit || e.button !== 0) return;
-  var id = hit.closest(".tile").dataset.id;
+  var id = hit.closest("[data-id]").dataset.id;
   woCancelPress();
   woPress = { x: e.clientX, y: e.clientY, t: setTimeout(function(){
     woPress = null;
@@ -5078,44 +5319,141 @@ woTilesEl.addEventListener("pointermove", function(e){
 });
 ["pointerup", "pointercancel"].forEach(function(t){ woTilesEl.addEventListener(t, woCancelPress); });
 woTilesEl.addEventListener("contextmenu", function(e){
-  var tile = e.target.closest(".wo-tile");
+  var tile = e.target.closest(".wo-tile, .wo-row");
+  if (woReorder) { if (tile) e.preventDefault(); return; }
   if (!tile) return;
   e.preventDefault();
   woCancelPress();
   if (!dlgQuick.open) woOpenQuick(tile.dataset.id);
 });
 woTilesEl.addEventListener("click", function(e){
-  var btn = e.target.closest("button"), tile = btn && btn.closest(".wo-tile");
-  if (!tile) return;
-  var ex = woEx(tile.dataset.id);
+  var btn = e.target.closest("button");
+  if (!btn || woNoClick) return;
+  if (btn.dataset.cat) { woGroup = btn.dataset.cat; woRenderToday(); window.scrollTo(0, 0); return; }
+  if (btn.dataset.act === "back") { woGroup = null; woRenderToday(); window.scrollTo(0, 0); return; }
+  if (btn.dataset.gmove) { woMoveGroup(btn.closest("[data-g]").dataset.g, +btn.dataset.gmove); return; }
+  var host = btn.closest("[data-id]"), ex = host && woEx(host.dataset.id), act = btn.dataset.act;
   if (!ex) return;
-  if (btn.dataset.act === "more") { woOpenQuick(ex.id); return; }
+  if (act === "more") { woOpenQuick(ex.id); return; }
+  if (act === "left" || act === "up") { woMoveEx(ex.id, -1, act); return; }
+  if (act === "right" || act === "down") { woMoveEx(ex.id, 1, act); return; }
   if (woLong) { woLong = false; return; }
-  var recs = woRecs(), before = woRecsDone(recs), was = woEntry(ex.id) ? woEntry(ex.id).n : 0;
-  var n = woTap(ex);
-  if (n === was) { flashNote("All " + ex.sets + " sets are in. Press and hold to change them."); return; }
-  scheduleSave();
-  if (!n) sndUndo();
-  else if (!before && woRecsDone(recs)) sndWin();
-  else sndCheck();
-  if (n > was && n < ex.sets && (ex.tap || state.workout.tap) === "set") woStartRest(ex, n);
-  else if (woRestT && woRestT.id === ex.id) woStopRest();
-  if (n) woCheckPR(ex);
+  var was = woEntry(ex.id) ? woEntry(ex.id).n : 0, next, i;
+  if (act === "dot") { i = +btn.dataset.i; next = was === i + 1 ? i : i + 1; }
+  else if (act === "tap") {
+    next = woNextTap(ex);
+    if (next === was) { flashNote("All " + ex.sets + " sets are in. Press and hold to change them."); return; }
+  } else return;
+  woLog(ex, was, next, act === "dot");
   woRenderToday();
-  var fresh = woTilesEl.querySelector('.tile[data-id="' + ex.id + '"]');
+  var fresh = woTilesEl.querySelector('[data-id="' + ex.id + '"]');
   if (!fresh) return;
-  if (n) {
+  if (next > was) {
     fresh.classList.add("just");
     setTimeout(function(){ fresh.classList.remove("just"); }, 460);
   }
-  if (n >= ex.sets) {
+  if (next >= ex.sets && fresh.classList.contains("tile")) {
     var bloom = document.createElement("div");
     bloom.className = "bloom";
     fresh.appendChild(bloom);
     setTimeout(function(){ bloom.remove(); }, 700);
   }
-  fresh.querySelector(".hit").focus({ preventScroll: true });
+  var again = act === "dot" ? fresh.querySelector('[data-act="dot"][data-i="' + i + '"]') : fresh.querySelector('[data-act="tap"]');
+  if (again) again.focus({ preventScroll: true });
 });
+
+/* ---- rearranging: exercises within a group, and the groups themselves ---- */
+var woReorder = false, woGroup = null, woDrag = null, woNoClick = false;
+var WO_MQ = window.matchMedia ? window.matchMedia("(max-width: 640px)") : null;
+function woMobile(){ return !!WO_MQ && WO_MQ.matches; }
+if (WO_MQ) {
+  var woMQChange = function(){ if (section === "workout") renderWorkout(); };
+  if (WO_MQ.addEventListener) WO_MQ.addEventListener("change", woMQChange); else if (WO_MQ.addListener) WO_MQ.addListener(woMQChange);
+}
+// Swap with the next exercise of the same group, leaving everything else in place.
+function woMoveEx(id, dir, act){
+  var ex = woEx(id), hs = woLive().filter(function(x){ return x.groups[0] === ex.groups[0]; });
+  var other = hs[hs.indexOf(ex) + dir];
+  if (!other) return;
+  woDropEx(id, other.id, dir > 0);
+  var again = woTilesEl.querySelector('[data-id="' + id + '"] [data-act="' + act + '"]');
+  if (again && !again.disabled) again.focus({ preventScroll: true });
+}
+// Move an exercise just before (or after) another one.
+function woDropEx(id, targetId, after){
+  var a = state.workout.exercises, ex = woEx(id);
+  if (!ex || id === targetId) return;
+  a.splice(a.indexOf(ex), 1);
+  var t = a.indexOf(woEx(targetId));
+  a.splice(after ? t + 1 : t, 0, ex);
+  scheduleSave();
+  woRenderToday();
+}
+function woMoveGroup(g, dir){
+  var w = state.workout, plan = woPlanToday(), live = woLive();
+  var shown = woGroupOrder(plan).filter(function(x){ return live.some(function(ex){ return ex.groups[0] === x; }); });
+  var other = shown[shown.indexOf(g) + dir];
+  if (!other) return;
+  var o = w.groupOrder, i = o.indexOf(g), j = o.indexOf(other);
+  o[i] = other; o[j] = g;
+  scheduleSave();
+  woRenderToday();
+  var again = woTilesEl.querySelector('[data-g="' + g + '"] [data-gmove="' + dir + '"]');
+  if (again && !again.disabled) again.focus({ preventScroll: true });
+}
+// Drag: circles from anywhere, rows by their handle; drops land within the same group.
+function woDragStart(e){
+  if (e.button !== 0 || e.target.closest("button")) return;
+  var el = e.target.closest(".wo-tile, .wo-row");
+  if (!el || (el.classList.contains("wo-row") && !e.target.closest(".rm-handle"))) return;
+  e.preventDefault();
+  woDrag = { id: el.dataset.id, el: el, row: el.classList.contains("wo-row"), x0: e.clientX, y0: e.clientY, ghost: null, over: null, after: false };
+}
+function woDragClear(){
+  if (woDrag && woDrag.over) woDrag.over.classList.remove("wo-over-before", "wo-over-after");
+}
+document.addEventListener("pointermove", function(e){
+  var d = woDrag;
+  if (!d) return;
+  if (!d.ghost) {
+    if (Math.abs(e.clientX - d.x0) + Math.abs(e.clientY - d.y0) < 6) return;
+    var r = d.el.getBoundingClientRect(), g = d.el.cloneNode(true);
+    g.classList.add("wo-ghost");
+    g.setAttribute("aria-hidden", "true");
+    g.style.width = r.width + "px";
+    g.style.height = r.height + "px";
+    document.body.appendChild(g);
+    d.ghost = g;
+    d.el.classList.add("wo-dragging");
+  }
+  d.ghost.style.left = e.clientX + "px";
+  d.ghost.style.top = e.clientY + "px";
+  var under = document.elementFromPoint(e.clientX, e.clientY);
+  var t = under && under.closest(d.row ? ".wo-row" : ".wo-tile");
+  var me = woEx(d.id), tex = t && woEx(t.dataset.id);
+  if (!tex || tex === me || tex.groups[0] !== me.groups[0]) t = null;
+  woDragClear();
+  d.over = t;
+  if (t) {
+    var tr = t.getBoundingClientRect();
+    d.after = d.row ? e.clientY > tr.top + tr.height / 2 : e.clientX > tr.left + tr.width / 2;
+    t.classList.add(d.after ? "wo-over-after" : "wo-over-before");
+  }
+});
+function woDragEnd(drop){
+  var d = woDrag;
+  if (!d) return;
+  woDragClear();
+  woDrag = null;
+  if (!d.ghost) return;
+  d.ghost.remove();
+  d.el.classList.remove("wo-dragging");
+  woNoClick = true;
+  setTimeout(function(){ woNoClick = false; }, 0);
+  if (drop && d.over) woDropEx(d.id, d.over.dataset.id, d.after);
+}
+document.addEventListener("pointerup", function(){ woDragEnd(true); });
+document.addEventListener("pointercancel", function(){ woDragEnd(false); });
 document.getElementById("view-workout").addEventListener("click", function(e){
   var b = e.target.closest("[data-wo]");
   if (b) {
@@ -5125,8 +5463,16 @@ document.getElementById("view-workout").addEventListener("click", function(e){
     else if (what === "plan") woOpenGuide(["plan"]);
     else if (what === "settings") woOpenSettings();
     else if (what === "day") woOpenDay(shiftKey(TODAY, -1));
+    else if (what === "reorder") { woReorder = !woReorder; woRenderToday(); }
     return;
   }
+  var dt = e.target.closest("[data-detail]");
+  if (dt) { woDetail = dt.dataset.detail; woRenderProgress(); window.scrollTo(0, 0); return; }
+  if (e.target.closest("[data-dback]")) { woDetail = null; woRenderProgress(); return; }
+  var rg = e.target.closest("[data-range]");
+  if (rg) { woRange = rg.dataset.range; woRenderProgress(); return; }
+  var mt = e.target.closest("[data-metric]");
+  if (mt) { woMetricSel = mt.dataset.metric; woRenderProgress(); return; }
   var ed = e.target.closest("[data-eday]");
   if (ed) { woOpenDay(ed.dataset.eday); return; }
   var hb = e.target.closest("[data-hint]");
@@ -5145,6 +5491,7 @@ document.getElementById("wo-tabs").addEventListener("click", function(e){
   var b = e.target.closest("button");
   if (!b) return;
   woView = b.dataset.wv;
+  woDetail = null;
   renderWorkout();
 });
 
@@ -5308,6 +5655,13 @@ dlgQuick.addEventListener("click", function(e){
     return;
   } else if (t.closest("#wq-done")) {
     dlgQuick.close();
+    return;
+  } else if (t.closest("#wq-progress")) {
+    dlgQuick.close();
+    woView = "progress";
+    woDetail = ex.id;
+    renderWorkout();
+    window.scrollTo(0, 0);
     return;
   } else return;
   scheduleSave();
@@ -5733,6 +6087,7 @@ function woRenderSettings(){
   dlgWoSet.querySelectorAll("[data-per]").forEach(function(b){ b.setAttribute("aria-pressed", String(+b.dataset.per === w.perGroup)); });
   dlgWoSet.querySelectorAll("[data-rest]").forEach(function(b){ b.setAttribute("aria-pressed", String(+b.dataset.rest === w.rest)); });
   document.getElementById("ws-groupc").setAttribute("aria-pressed", String(w.groupColors));
+  document.getElementById("ws-planfirst").setAttribute("aria-pressed", String(w.planFirst));
   document.getElementById("ws-size").value = w.size;
   document.getElementById("ws-size-val").textContent = Math.round(w.size * 100) + "%";
 }
@@ -5745,6 +6100,7 @@ dlgWoSet.addEventListener("click", function(e){
   else if ((b = t.closest("[data-per]"))) w.perGroup = +b.dataset.per;
   else if ((b = t.closest("[data-rest]"))) { w.rest = +b.dataset.rest; if (!w.rest) woStopRest(); }
   else if (t.closest("#ws-groupc")) w.groupColors = !w.groupColors;
+  else if (t.closest("#ws-planfirst")) w.planFirst = !w.planFirst;
   else if ((b = t.closest("[data-export]"))) { woExport(b.dataset.export); return; }
   else if (t.closest("#ws-guide")) { dlgWoSet.close(); woOpenGuide(WO_FULL_GUIDE); return; }
   else if (t.closest("#ws-close")) { dlgWoSet.close(); return; }
@@ -5787,8 +6143,8 @@ function woCard(ex){
     : diff > 0 ? "<b>+" + woFmtNum(diff) + " " + unit + "</b> since " + since
     : diff < 0 ? woFmtNum(diff) + " " + unit + " since " + since
     : "Holding at " + woFmtNum(last) + " " + unit + " since " + since;
-  return '<div class="card" style="--glaze:var(--g-' + MUSCLE_GLAZE[ex.groups[0]] + ')">' +
-    '<div class="card-head"><span class="wo-card-emo">' + ex.emoji + "</span><h3>" + esc(ex.name) + "</h3>" +
+  return '<div class="card wo-cardlink" data-detail="' + ex.id + '" style="--glaze:var(' + woChartColor(ex.groups[0]) + ')" role="link" tabindex="0">' +
+    '<div class="card-head"><span class="wo-card-emo">' + ex.emoji + "</span><h3>" + esc(ex.name) + '<span class="go">Details \u203a</span></h3>' +
     (ex.retired ? '<span class="badge">Put away</span>' : (woDue(ex) ? '<span class="badge">↑ Due</span>' : "")) +
     '<div class="facts"><span><b>' + pts.length + "</b> day" + (pts.length === 1 ? "" : "s") + "</span>" +
     "<span><b>" + sets + "</b> sets</span><span>best <b>" + woFmtNum(best) + " " + unit + "</b>" +
@@ -5801,8 +6157,180 @@ function woExportHTML(){
     '<button type="button" class="btn btn-soft" data-export="csv">Download CSV</button>' +
     '<button type="button" class="btn btn-soft" data-export="json">Download JSON</button></div>';
 }
+var woDetail = null, woRange = "12w", woMetricSel = "best";
+var WO_CHART = { Chest: "--c1", Back: "--c2", Shoulders: "--c3", Arms: "--c4", Legs: "--c5", Core: "--c6", Cardio: "--c7" };
+function woChartColor(g){ return WO_CHART[g] || "--c1"; }
+function woChartW(){ var el = document.getElementById("wo-progress"); return Math.max(280, Math.min(1100, (el.clientWidth || 640) - 42)); }
+// Round numbers for an axis: 0 to a tidy max in about four steps.
+function woTicks(max){
+  if (max <= 0) return [0, 1];
+  var raw = max / 4, mag = Math.pow(10, Math.floor(Math.log(raw) / Math.LN10)), step;
+  [1, 2, 2.5, 5, 10].some(function(m){ step = m * mag; return step >= raw; });
+  var out = [];
+  for (var v = 0; v <= max + step * 0.001; v += step) out.push(+v.toFixed(6));
+  if (out[out.length - 1] < max) out.push(+(out[out.length - 1] + step).toFixed(6));
+  return out;
+}
+function woShortDay(k){ var d = parseKey(k); return MSHORT[d.getMonth()] + " " + d.getDate(); }
+
+/* one shared tooltip; names go in with textContent, never as HTML */
+var woTT = document.createElement("div");
+woTT.className = "wo-tt";
+woTT.hidden = true;
+document.body.appendChild(woTT);
+var woCharts = {};
+function woShowTT(x, y, head, rows){
+  woTT.textContent = "";
+  var h = document.createElement("div");
+  h.className = "h";
+  h.textContent = head;
+  woTT.appendChild(h);
+  rows.forEach(function(r){
+    var row = document.createElement("div"), key = document.createElement("i"), b = document.createElement("b"), l = document.createElement("span");
+    row.className = "r";
+    key.style.background = r.c || "var(--ink-3)";
+    b.textContent = r.v;
+    l.textContent = r.l;
+    row.appendChild(key); row.appendChild(b); row.appendChild(l);
+    woTT.appendChild(row);
+  });
+  woTT.hidden = false;
+  var w = woTT.offsetWidth, hh = woTT.offsetHeight;
+  woTT.style.left = Math.max(8, Math.min(window.innerWidth - w - 8, x + 14)) + "px";
+  woTT.style.top = Math.max(8, Math.min(window.innerHeight - hh - 8, y - hh - 12)) + "px";
+}
+function woHideTT(){ woTT.hidden = true; }
+(function(){
+  var root = document.getElementById("wo-progress");
+  function colAt(t){ var c = t.closest && t.closest("[data-col]"); return c && c.closest("svg[data-chart]") ? c : null; }
+  function show(col, x, y){
+    var ch = woCharts[col.closest("svg").dataset.chart];
+    if (!ch) return;
+    root.querySelectorAll(".col.hl").forEach(function(g){ g.classList.remove("hl"); });
+    col.classList.add("hl");
+    var tip = ch.tip(+col.dataset.col);
+    woShowTT(x, y, tip.head, tip.rows);
+  }
+  root.addEventListener("pointermove", function(e){
+    var col = colAt(e.target);
+    if (col) { show(col, e.clientX, e.clientY); return; }
+    var ov = e.target.closest && e.target.closest("[data-line]");
+    if (ov) {
+      var svg = ov.closest("svg"), ch = woCharts[svg.dataset.chart], r = svg.getBoundingClientRect();
+      var x = (e.clientX - r.left) / r.width * ch.W, best = 0;
+      ch.xs.forEach(function(px, i){ if (Math.abs(px - x) < Math.abs(ch.xs[best] - x)) best = i; });
+      var hair = svg.querySelector(".hair");
+      hair.setAttribute("x1", ch.xs[best]); hair.setAttribute("x2", ch.xs[best]);
+      hair.style.display = "";
+      var tip = ch.tip(best);
+      woShowTT(e.clientX, e.clientY, tip.head, tip.rows);
+      return;
+    }
+    woHideTT();
+  });
+  root.addEventListener("pointerleave", function(){
+    woHideTT();
+    root.querySelectorAll(".col.hl").forEach(function(g){ g.classList.remove("hl"); });
+    root.querySelectorAll(".hair").forEach(function(h){ h.style.display = "none"; });
+  });
+  root.addEventListener("focusin", function(e){
+    var col = colAt(e.target);
+    if (!col) return;
+    var r = col.getBoundingClientRect();
+    show(col, r.left + r.width / 2, r.top + 10);
+  });
+  root.addEventListener("focusout", woHideTT);
+  root.addEventListener("keydown", function(e){
+    var card = e.target.closest && e.target.closest(".wo-cardlink");
+    if (card && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); card.click(); }
+  });
+  var rt = null;
+  window.addEventListener("resize", function(){
+    clearTimeout(rt);
+    rt = setTimeout(function(){ if (section === "workout" && woView === "progress") woRenderProgress(); }, 150);
+  });
+})();
+
+// Stacked columns: sets per week, one segment per muscle group, 2px surface gaps.
+function woWeeklyChart(weeks){
+  var W = woChartW(), H = 200, L = 34, B = 24, T = 8, plotW = W - L - 4, plotH = H - B - T;
+  var max = Math.max.apply(null, weeks.map(function(wk){ return wk.total; }).concat([1])), ticks = woTicks(max), top = ticks[ticks.length - 1];
+  var band = plotW / weeks.length, bw = Math.min(24, band * 0.62), y = function(v){ return T + plotH - v / top * plotH; };
+  var out = '<svg class="wo-chart" data-chart="weekly" viewBox="0 0 ' + W + " " + H + '" role="img" aria-label="Sets per week by muscle group, last ' + weeks.length + ' weeks">';
+  ticks.forEach(function(t){
+    out += '<line class="grid" x1="' + L + '" x2="' + (W - 4) + '" y1="' + y(t).toFixed(1) + '" y2="' + y(t).toFixed(1) + '"/>' +
+      '<text x="' + (L - 6) + '" y="' + (y(t) + 3.5).toFixed(1) + '" text-anchor="end">' + t + "</text>";
+  });
+  weeks.forEach(function(wk, i){
+    var cx = L + band * i + band / 2, x = cx - bw / 2, base = T + plotH, segs = MUSCLES.filter(function(g){ return wk.g[g]; });
+    out += '<g class="col" data-col="' + i + '" tabindex="0" aria-label="Week of ' + woShortDay(wk.k) + ": " + wk.total + ' sets">' +
+      '<rect class="hitbox" x="' + (L + band * i).toFixed(1) + '" y="' + T + '" width="' + band.toFixed(1) + '" height="' + plotH + '" fill="transparent"/>';
+    segs.forEach(function(g, si){
+      var h = wk.g[g] / top * plotH, yTop = base - h, last = si === segs.length - 1, gap = si ? 2 : 0;
+      var hh = Math.max(0, h - gap), c = "var(" + woChartColor(g) + ")";
+      if (last && hh > 4) {
+        out += '<path class="seg" fill="' + c + '" d="M' + x.toFixed(1) + " " + (base - gap).toFixed(1) + "V" + (yTop + 4).toFixed(1) +
+          "Q" + x.toFixed(1) + " " + yTop.toFixed(1) + " " + (x + 4).toFixed(1) + " " + yTop.toFixed(1) + "H" + (x + bw - 4).toFixed(1) +
+          "Q" + (x + bw).toFixed(1) + " " + yTop.toFixed(1) + " " + (x + bw).toFixed(1) + " " + (yTop + 4).toFixed(1) + "V" + (base - gap).toFixed(1) + 'Z"/>';
+      } else if (hh > 0) {
+        out += '<rect class="seg" x="' + x.toFixed(1) + '" y="' + yTop.toFixed(1) + '" width="' + bw.toFixed(1) + '" height="' + hh.toFixed(1) + '" fill="' + c + '"/>';
+      }
+      base -= h;
+    });
+    out += "</g>";
+    if (i % Math.ceil(weeks.length / (W < 480 ? 4 : 6)) === 0 || i === weeks.length - 1) {
+      out += '<text x="' + cx.toFixed(1) + '" y="' + (H - 6) + '" text-anchor="middle">' + woShortDay(wk.k) + "</text>";
+    }
+  });
+  out += '<line class="grid" x1="' + L + '" x2="' + (W - 4) + '" y1="' + (T + plotH) + '" y2="' + (T + plotH) + '"/></svg>';
+  woCharts.weekly = { tip: function(i){
+    var wk = weeks[i];
+    return { head: "Week of " + woShortDay(wk.k) + " \u00b7 " + wk.total + " sets",
+             rows: MUSCLES.filter(function(g){ return wk.g[g]; }).reverse().map(function(g){ return { c: "var(" + woChartColor(g) + ")", v: String(wk.g[g]), l: g }; }) };
+  } };
+  return out;
+}
+// One series over time: 2px line, ringed dots, the last value labeled, a crosshair on hover.
+function woLineChart(id, pts, unit, color){
+  var W = woChartW(), H = 220, L = 44, B = 24, T = 14, R = 56, plotW = W - L - R, plotH = H - B - T;
+  var vals = pts.map(function(p){ return p.v; }), hi = Math.max.apply(null, vals), lo = Math.min.apply(null, vals);
+  var pad = (hi - lo) * 0.15 || Math.max(1, hi * 0.1), y0 = Math.max(0, lo - pad), y1 = hi + pad;
+  // snap the axis to round steps, so labels read 140, 150, 160 rather than 140.8
+  var step = woTicks(y1 - y0)[1], ticks = [];
+  y0 = Math.floor(y0 / step) * step;
+  y1 = Math.ceil(y1 / step) * step;
+  for (var tv = y0; tv <= y1 + step * 0.001; tv += step) ticks.push(+tv.toFixed(6));
+  var t0 = parseKey(pts[0].k).getTime(), t1 = parseKey(pts[pts.length - 1].k).getTime(), span = t1 - t0 || 1;
+  var xs = pts.map(function(p){ return pts.length === 1 ? L + plotW / 2 : L + (parseKey(p.k).getTime() - t0) / span * plotW; });
+  var ys = vals.map(function(v){ return T + plotH - (v - y0) / (y1 - y0) * plotH; });
+  var out = '<svg class="wo-chart" data-chart="' + id + '" viewBox="0 0 ' + W + " " + H + '" role="img" aria-label="Trend over ' + pts.length + ' sessions">';
+  ticks.forEach(function(t){
+    var yy = T + plotH - (t - y0) / (y1 - y0) * plotH;
+    out += '<line class="grid" x1="' + L + '" x2="' + (L + plotW) + '" y1="' + yy.toFixed(1) + '" y2="' + yy.toFixed(1) + '"/>' +
+      '<text x="' + (L - 6) + '" y="' + (yy + 3.5).toFixed(1) + '" text-anchor="end">' + woFmtNum(+t.toFixed(1)) + "</text>";
+  });
+  [0, Math.floor((pts.length - 1) / 2), pts.length - 1].filter(function(v, i, a){ return a.indexOf(v) === i; }).forEach(function(i){
+    out += '<text x="' + xs[i].toFixed(1) + '" y="' + (H - 6) + '" text-anchor="middle">' + woShortDay(pts[i].k) + "</text>";
+  });
+  out += '<line class="hair" x1="0" x2="0" y1="' + T + '" y2="' + (T + plotH) + '" style="display:none"/>';
+  if (pts.length > 1) out += '<polyline class="line" stroke="' + color + '" points="' + xs.map(function(x, i){ return x.toFixed(1) + "," + ys[i].toFixed(1); }).join(" ") + '"/>';
+  xs.forEach(function(x, i){
+    out += '<circle class="pt" cx="' + x.toFixed(1) + '" cy="' + ys[i].toFixed(1) + '" r="' + (pts.length > 40 ? 3 : 4) + '" fill="' + color + '"/>';
+  });
+  var li = pts.length - 1;
+  out += '<text class="endlbl" x="' + (xs[li] + 9).toFixed(1) + '" y="' + (ys[li] + 4).toFixed(1) + '">' + woFmtNum(+vals[li].toFixed(1)) + " " + unit + "</text>";
+  out += '<rect data-line x="' + L + '" y="' + T + '" width="' + plotW + '" height="' + plotH + '" fill="transparent"/></svg>';
+  woCharts[id] = { W: W, xs: xs, tip: function(i){
+    return { head: fmtDay(pts[i].k), rows: [{ c: color, v: woFmtNum(+vals[i].toFixed(1)) + " " + unit, l: pts[i].note || "" }] };
+  } };
+  return out;
+}
 function woRenderProgress(){
   var w = state.workout, log = w.log, el = document.getElementById("wo-progress");
+  el.classList.add("wo-chartvars");
+  woHideTT();
+  if (woDetail && woEx(woDetail)) { woRenderDetail(woEx(woDetail)); return; }
+  woDetail = null;
   var days = Object.keys(log).sort();
   if (!days.length) {
     el.innerHTML = '<div class="empty"><h2>Nothing logged yet</h2><p>Tap a circle on Today after your sets and your progress starts filling in here.</p></div>' + woExportHTML();
@@ -5837,6 +6365,31 @@ function woRenderProgress(){
       delta(cur.reps, prev.reps) + "</label></div>" : "") +
     '<div class="stat"><div class="bignum">' + streak + "</div><label>Week streak</label></div></div>";
 
+  // sets per week by muscle group, last 12 weeks
+  var wks = [];
+  for (var wi = 11; wi >= 0; wi--) wks.push({ k: shiftKey(wk, -7 * wi), g: {}, total: 0 });
+  days.forEach(function(k){
+    var idx = Math.round(daysApart(wks[0].k, woMonday(k)) / 7);
+    if (idx < 0 || idx > 11) return;
+    Object.keys(log[k]).forEach(function(id){
+      var ex = woEx(id), g = ex && ex.groups[0];
+      if (!g) return;
+      wks[idx].g[g] = (wks[idx].g[g] || 0) + log[k][id].n;
+      wks[idx].total += log[k][id].n;
+    });
+  });
+  var used = MUSCLES.filter(function(g){ return wks.some(function(x){ return x.g[g]; }); });
+  html += '<div class="card"><div class="card-head"><h3>Sets per week, by muscle group</h3><div class="facts"><span>last 12 weeks</span></div></div>' +
+    '<div class="wo-legend">' + used.map(function(g){ return '<span><i style="background:var(' + woChartColor(g) + ')"></i>' + g + "</span>"; }).join("") + "</div>" +
+    woWeeklyChart(wks) +
+    '<details class="wo-more"><summary>Show as a table</summary><div class="wo-tablewrap"><table class="wo-table"><thead><tr><th>Week of</th>' +
+      used.map(function(g){ return "<th>" + g + "</th>"; }).join("") + "<th>Total</th></tr></thead><tbody>" +
+      wks.slice().reverse().map(function(x){
+        return "<tr><td>" + woShortDay(x.k) + "</td>" + used.map(function(g){ return "<td>" + (x.g[g] || "") + "</td>"; }).join("") + "<td>" + x.total + "</td></tr>";
+      }).join("") + "</tbody></table></div></details></div>";
+
+  html += '<div class="card-grid">' + woConsistencyHTML(days, perDay) + woBalanceHTML(days) + "</div>";
+
   // last 16 weeks, a column per week
   var start = shiftKey(wk, -15 * 7), heat = "", active = 0;
   for (var i = 0; i < 16 * 7; i++) {
@@ -5845,8 +6398,45 @@ function woRenderProgress(){
     heat += '<i class="' + (k > TODAY ? "future" : "") + '" data-n="' + (n ? (n < 7 ? 1 : n < 15 ? 2 : 3) : 0) +
       '" title="' + fmtDay(k) + ": " + n + " set" + (n === 1 ? "" : "s") + '"></i>';
   }
-  // sets per muscle group over the last four weeks; an exercise counts toward each of its groups
-  var from = shiftKey(TODAY, -27), byGroup = {}, lastGroup = {};
+  html += '<div class="card" style="--glaze:var(--g-' + w.doneGlaze + ')"><div class="card-head"><h3>Last 16 weeks</h3>' +
+    '<div class="facts"><span><b>' + active + "</b> workout days</span></div></div>" + '<div class="wo-heat">' + heat + "</div></div>";
+
+  var withHistory = w.exercises.filter(function(ex){ return woHasHistory(ex.id); });
+  withHistory.sort(function(a, b){ return (a.retired ? 1 : 0) - (b.retired ? 1 : 0); });
+  var waiting = woLive().filter(function(ex){ return !woHasHistory(ex.id); });
+  html += '<div class="mile-head"><h2>Exercises</h2><span class="sec-rule"></span></div>' +
+    (waiting.length ? '<p class="wo-not-yet">Not logged yet: ' + waiting.map(function(ex){ return esc(ex.name); }).join(", ") + "</p>" : "") +
+    '<div class="wo-cards">' + withHistory.map(woCard).join("") + "</div>" + woExportHTML();
+  el.innerHTML = html;
+}
+// How steady: workouts a week, how often planned days happened, which weekdays you train.
+function woConsistencyHTML(days, perDay){
+  var from8 = shiftKey(woMonday(TODAY), -56), recent = days.filter(function(k){ return k >= from8 && k < woMonday(TODAY); });
+  var perWeek = recent.length / 8;
+  var planned = 0, hit = 0, d, k;
+  for (var i = 1; i <= 56; i++) {
+    k = shiftKey(TODAY, -i);
+    d = parseKey(k).getDay();
+    var tpl = woHasPlan() ? woTemplate(state.workout.planT[d]) : null;
+    if (woPlanFor(d).length || tpl) { planned++; if (perDay[k]) hit++; }
+  }
+  var counts = [0, 0, 0, 0, 0, 0, 0], from12 = shiftKey(TODAY, -84);
+  days.forEach(function(x){ if (x >= from12) counts[parseKey(x).getDay()]++; });
+  var top = Math.max.apply(null, counts.concat([1]));
+  var src = woHasPlan() ? "your plan" : "your usual week";
+  return '<div class="card wo-chartvars"><div class="card-head"><h3>Consistency</h3><div class="facts"><span>last 8 weeks</span></div></div>' +
+    '<div class="wo-cons-figs"><div class="fig"><b>' + woFmtNum(+perWeek.toFixed(1)) + "</b><span>workouts a week</span></div>" +
+    (planned ? '<div class="fig"><b>' + Math.round(hit / planned * 100) + "%</b><span>" + hit + " of " + planned + " days on " + src + "</span></div>" : "") +
+    "</div>" +
+    '<div class="card-head" style="margin-bottom:4px"><h3 style="font-size:14px">Days you train</h3><div class="facts"><span>workout days, last 12 weeks \u00b7 bold = planned</span></div></div>' +
+    '<div class="wo-wk">' + [1, 2, 3, 4, 5, 6, 0].map(function(dd){
+      var isPlan = woPlanFor(dd).length > 0;
+      return '<div class="' + (isPlan ? "plan" : "") + '" title="' + WDFULL[dd] + ": " + counts[dd] + ' workout days"><b>' + (counts[dd] || "") + "</b>" +
+        '<i style="height:' + (counts[dd] / top * 80).toFixed(1) + '%"></i><span>' + WD[dd] + "</span></div>";
+    }).join("") + "</div></div>";
+}
+function woBalanceHTML(days){
+  var w = state.workout, log = w.log, from = shiftKey(TODAY, -27), byGroup = {}, lastGroup = {};
   days.forEach(function(k){
     Object.keys(log[k]).forEach(function(id){
       var ex = woEx(id);
@@ -5866,24 +6456,76 @@ function woRenderProgress(){
   var bars = groups.map(function(g){
     var ago = lastGroup[g] ? daysApart(lastGroup[g], TODAY) : null;
     return '<div class="bar-row"><span class="wk">' + g + '</span><span class="bar-track"><i style="width:' +
-      ((byGroup[g] || 0) / top * 100) + "%; background:var(--g-" + MUSCLE_GLAZE[g] + ')"></i></span>' +
+      ((byGroup[g] || 0) / top * 100) + "%; background:var(" + woChartColor(g) + ')"></i></span>' +
       '<span class="n">' + (byGroup[g] || 0) + '</span><span class="ago' + (ago === null || ago > WO_STALE ? " late" : "") + '">' +
       woAgo(ago) + "</span></div>";
   }).join("");
-
+  return '<div class="card wo-chartvars"><div class="card-head"><h3>Muscle balance</h3><div class="facts"><span>sets, last 4 weeks \u00b7 last trained</span></div></div>' +
+    '<div class="bars wo-bars">' + bars + "</div></div>";
+}
+// One exercise up close: a chosen measure over a chosen range, records, every session.
+function woRenderDetail(ex){
+  var el = document.getElementById("wo-progress"), log = state.workout.log, unitW = state.workout.unit;
+  var ranges = [["4w", 28, "4 weeks"], ["12w", 84, "12 weeks"], ["6m", 182, "6 months"], ["1y", 365, "1 year"], ["all", 0, "All"]];
+  var metrics = ex.kind === "w"
+    ? [["best", "Best set"], ["e1rm", "Est. 1-rep max"], ["vol", "Volume"]]
+    : ex.kind === "b" ? [["best", "Best set"], ["reps", "Total reps"]] : [["best", "Longest set"], ["total", "Total time"]];
+  if (!metrics.some(function(x){ return x[0] === woMetricSel; })) woMetricSel = "best";
+  var useW = woUsesWeight(ex), tu = ex.tu === "s" ? "s" : "min";
+  function sets(e){ return e.ps && e.ps.length ? e.ps.map(function(x){ return { reps: x.reps, weight: x.weight, dur: x.dur }; }) : Array.apply(null, Array(e.n)).map(function(){ return { reps: e.reps, weight: e.weight, dur: e.dur }; }); }
+  function measure(e){
+    var ss = sets(e);
+    if (woMetricSel === "e1rm") return Math.max.apply(null, ss.map(function(x){ return woConv(x.weight, e.u) * (1 + x.reps / 30); }));
+    if (woMetricSel === "vol") return woVol(e, ex);
+    if (woMetricSel === "reps") return ss.reduce(function(a, x){ return a + x.reps; }, 0);
+    if (woMetricSel === "total") return ss.reduce(function(a, x){ return a + x.dur; }, 0);
+    return woMetric(ex, e);
+  }
+  var unit = woMetricSel === "e1rm" || woMetricSel === "vol" ? unitW : woMetricSel === "reps" ? "reps" : woMetricSel === "total" ? tu : woMetricUnit(ex);
+  var r = ranges.filter(function(x){ return x[0] === woRange; })[0] || ranges[1], from = r[1] ? shiftKey(TODAY, -r[1]) : "";
+  var all = woDays(ex.id), inRange = all.filter(function(k){ return k >= from; });
+  var pts = inRange.map(function(k){
+    var e = log[k][ex.id];
+    return { k: k, v: measure(e), note: (e.n < e.sets ? e.n + " of " : "") + woSummary(e, ex) };
+  });
+  var color = "var(" + woChartColor(ex.groups[0]) + ")";
+  var html = '<div class="wo-gh"><button type="button" class="wo-back" data-dback>' + WO_CHEV_L + " All progress</button>" +
+    "<h2>" + ex.emoji + " " + esc(ex.name) + "</h2>" + '<span class="sec-stat">' + esc(ex.groups.join(" \u00b7 ")) + "</span></div>" +
+    '<div class="wo-seg"><div class="tabs" role="tablist" aria-label="Range">' + ranges.map(function(x){
+      return '<button role="tab" type="button" data-range="' + x[0] + '" aria-selected="' + (x[0] === r[0]) + '">' + x[2] + "</button>";
+    }).join("") + '</div><div class="tabs" role="tablist" aria-label="Measure">' + metrics.map(function(x){
+      return '<button role="tab" type="button" data-metric="' + x[0] + '" aria-selected="' + (x[0] === woMetricSel) + '">' + x[1] + "</button>";
+    }).join("") + "</div></div>";
+  if (!pts.length) {
+    html += '<div class="empty"><h2>Nothing in this range</h2><p>' + (all.length ? "Try a longer range." : "Log it on Today and its history starts here.") + "</p></div>";
+    el.innerHTML = html;
+    return;
+  }
+  var vals = pts.map(function(p){ return p.v; }), best = Math.max.apply(null, vals), first = vals[0], last = vals[vals.length - 1];
+  var change = last - first, pct = first ? Math.round(change / first * 100) : 0, rhythm = woRhythm(ex.id);
+  html += '<div class="stat-row">' +
+    '<div class="stat"><div class="bignum">' + woFmtNum(+last.toFixed(1)) + "</div><label>Latest \u00b7 " + unit + "</label></div>" +
+    '<div class="stat"><div class="bignum">' + woFmtNum(+best.toFixed(1)) + "</div><label>Best in range</label></div>" +
+    (pts.length > 1 ? '<div class="stat"><div class="bignum">' + (change > 0 ? "+" : "") + woFmtNum(+change.toFixed(1)) + "</div><label>Change" +
+      (first ? " (" + (pct > 0 ? "+" : "") + pct + "%)" : "") + "</label></div>" : "") +
+    '<div class="stat"><div class="bignum">' + pts.length + "</div><label>Sessions</label></div>" +
+    (rhythm ? '<div class="stat"><div class="bignum">' + rhythm + "</div><label>Usual gap (days)</label></div>" : "") + "</div>";
+  html += '<div class="card"><div class="card-head"><h3>' + esc(metrics.filter(function(x){ return x[0] === woMetricSel; })[0][1]) + "</h3>" +
+    '<div class="facts"><span>' + r[2] + (woMetricSel === "e1rm" ? " \u00b7 Epley estimate from your best set" : "") + "</span></div></div>" +
+    woLineChart("detail", pts, unit, color) + "</div>";
+  var prs = all.filter(function(k){ return woPR(ex, k); }).reverse();
   html += '<div class="card-grid">' +
-    '<div class="card" style="--glaze:var(--g-' + w.doneGlaze + ')"><div class="card-head"><h3>Last 16 weeks</h3>' +
-      '<div class="facts"><span><b>' + active + "</b> workout days</span></div></div>" +
-      '<div class="wo-heat">' + heat + "</div></div>" +
-    '<div class="card"><div class="card-head"><h3>Muscle balance</h3><div class="facts"><span>sets, last 4 weeks · last trained</span></div></div>' +
-      '<div class="bars wo-bars">' + bars + "</div></div></div>";
-
-  var withHistory = w.exercises.filter(function(ex){ return woHasHistory(ex.id); });
-  withHistory.sort(function(a, b){ return (a.retired ? 1 : 0) - (b.retired ? 1 : 0); });
-  var waiting = woLive().filter(function(ex){ return !woHasHistory(ex.id); });
-  html += '<div class="mile-head"><h2>Exercises</h2><span class="sec-rule"></span></div>' +
-    (waiting.length ? '<p class="wo-not-yet">Not logged yet: ' + waiting.map(function(ex){ return esc(ex.name); }).join(", ") + "</p>" : "") +
-    '<div class="wo-cards">' + withHistory.map(woCard).join("") + "</div>" + woExportHTML();
+    '<div class="card"><div class="card-head"><h3>Records</h3><div class="facts"><span>each time you beat your best</span></div></div>' +
+      (prs.length ? '<div class="wo-recs">' + prs.slice(0, 12).map(function(k){
+        return "<div><span>\u2605 " + fmtDay(k) + "</span><b>" + woFmtNum(+woMetric(ex, log[k][ex.id]).toFixed(1)) + " " + woMetricUnit(ex) + "</b></div>";
+      }).join("") + "</div>" : '<p class="note" style="margin:0">No records yet. Beat your first session and one lands here.</p>') + "</div>" +
+    '<div class="card"><div class="card-head"><h3>Sessions</h3><div class="facts"><span>' + r[2] + "</span></div></div>" +
+      '<div class="wo-tablewrap"><table class="wo-table"><thead><tr><th>Day</th><th>Sets</th><th>What</th><th>' + esc(unit) + "</th></tr></thead><tbody>" +
+      pts.slice().reverse().slice(0, 40).map(function(p){
+        var e = log[p.k][ex.id];
+        return "<tr><td>" + woShortDay(p.k) + (woPR(ex, p.k) ? " \u2605" : "") + "</td><td>" + e.n + "/" + e.sets + "</td><td>" + esc(woSummary(e, ex)) +
+          "</td><td>" + woFmtNum(+p.v.toFixed(1)) + "</td></tr>";
+      }).join("") + "</tbody></table></div></div></div>";
   el.innerHTML = html;
 }
 function woRenderHistory(){

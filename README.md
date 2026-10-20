@@ -89,8 +89,20 @@ It lives in its own slice of the data, `workout`, and never touches habits or ta
   group's color if you turn that on.
 - **Records.** Beating your best weight (or reps or time) shows ★ New best on the circle
   and a star in History and Progress.
+- **Phones** (640px wide and under) get their own Today: a card per muscle group (sets
+  logged, how many are due), and tapping one opens big rows with a set dot per set and a
+  check button. Wider screens keep the circles, which no longer shrink to fit the window;
+  the text grows with each circle and names wrap rather than cut off.
+- **Rearrange** (on Today) orders exercises within a group: drag circles, or rows by their
+  handle on a phone, or use the arrows. Arrows beside a group's name (or on its card) move
+  the whole group. Workout settings decide whether today's planned groups jump to the top.
 - **Progress** tab: workout days, sets and volume vs the same days last week, week streak,
-  a 16-week activity grid, sets per muscle group, and a trend line per exercise.
+  sets per week by muscle group (12 weeks, hover for the split, or show it as a table),
+  consistency (workouts a week, share of planned days you trained, which weekdays you
+  train), muscle balance, a 16-week activity grid, and a card per exercise. A card opens
+  its detail page: best set, estimated 1-rep max (Epley), volume, total reps or time over
+  4 weeks to all time, with records and every session. Charts use their own validated
+  color set (one color per muscle group), separate from the circle colors.
   **History** lists each day's sessions; **Log or fix another day** (or a day's **Edit**)
   opens a typed table for any past date. Bodyweight work counts reps alongside volume.
 - **Export:** Download CSV (one row per exercise per day) or JSON from Progress, History

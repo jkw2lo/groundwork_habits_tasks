@@ -64,19 +64,35 @@ It lives in its own slice of the data, `workout`, and never touches habits or ta
 
 - **Logging.** Each exercise is a circle. A tap logs every set at once, or one set per
   tap (4 sets → each tap fills a quarter); set the default in Workout settings and
-  override it per exercise. Tapping a full circle clears it.
+  override it per exercise. In every-set mode a second tap clears the circle; in one-set
+  mode taps stop at full, so a stray tap never wipes logged sets.
+- **Rest timer.** In one-set mode, logging a set that isn't the last starts a rest
+  countdown (Off, 1:00, 1:30, 2:00 or 3:00 in Workout settings), with +30s and Skip.
 - **Adjusting.** Press and hold a circle (or right-click it, or use its ⋯ button) for
   ▲ ▼ steppers on sets done today, sets, reps and weight (or time). Numbers can be
-  typed too. They carry forward to the next session until changed.
+  typed too. They carry forward to the next session until changed. **Sets weren't all
+  the same?** gives each logged set its own reps and weight. Exercise settings there
+  also pick the circle's icon.
 - **Progression.** Per exercise: go up by an amount every N weeks (weight, reps, sets or
-  time). When it is due, the circle shows ↑ and the long-press sheet offers **Go up**
-  or **Not yet** (asks again in a week). Raising the number by hand also restarts the clock.
-- **Recommendations.** With a weekly plan, each planned muscle group highlights the two
-  exercises you have gone longest without (color set in Workout settings). With no plan,
-  anything untouched for 10+ days is highlighted. Done circles take the done color.
+  time, chosen in the starting-point table or the long-press sheet). It is due once the
+  weeks have passed *and* the last two sessions had every set done; then the circle
+  shows ↑ and the sheet offers **Go up** or **Not yet** (asks again in a week). If two of
+  the last three sessions stopped short, the sheet offers **Step back** or **Hold here**.
+  Raising the number by hand also restarts the clock.
+- **Recommendations.** With a weekly plan, each planned muscle group highlights its
+  most overdue exercises (1–3 per group, in Workout settings). "Overdue" is measured
+  against each exercise's own usual gap, learned from your logs, and an exercise that
+  keeps getting passed over drops in priority. With no plan, your week is learned from
+  the last eight weeks of logs; with a plan, Today points out weekdays where your logs
+  regularly differ and offers to update it. **Day templates** (e.g. "Leg day A") put
+  specific exercises on a day. Done circles take the done color, or each muscle
+  group's color if you turn that on.
+- **Records.** Beating your best weight (or reps or time) shows ★ New best on the circle
+  and a star in History and Progress.
 - **Progress** tab: workout days, sets and volume vs the same days last week, week streak,
   a 16-week activity grid, sets per muscle group, and a trend line per exercise.
-  **History** lists each day's sessions.
+  **History** lists each day's sessions; **Log or fix another day** (or a day's **Edit**)
+  opens a typed table for any past date. Bodyweight work counts reps alongside volume.
 - **Export:** Download CSV (one row per exercise per day) or JSON from Progress, History
   or Workout settings. The regular backup includes workouts as well.
 

@@ -89,8 +89,10 @@ It lives in its own slice of the data, `workout`, and never touches habits or ta
   group's color if you turn that on.
 - **Records.** Beating your best weight (or reps or time) shows ★ New best on the circle
   and a star in History and Progress.
-- **Phones** (640px wide and under) get their own Today: a card per muscle group (sets
-  logged, how many are due), and tapping one opens one-line rows: icon, name, numbers and
+- **Phones** (640px wide and under) get their own Today: a plain list of muscle-group
+  buttons (with a count once something in the group is logged) under an **In progress**
+  button that gathers every half-done exercise from any group. Tapping a group opens
+  one-line rows: icon, name, numbers and
   a check button that shows 2/3 while an exercise is part done. Wider screens keep the
   circles, which no longer shrink to fit the window; the text grows with each circle and
   every line stays inside the round edge. The circle and row size setting works
@@ -107,7 +109,7 @@ It lives in its own slice of the data, `workout`, and never touches habits or ta
 - **Layouts.** Exercises show as circles or a compact list (Auto: circles on a computer,
   a list on a phone). On a phone, Today can show muscle-group cards, only what's due today,
   or one group at a time with left/right swipes in a fixed-height box (switch with the
-  Groups · Due · Swipe tabs). Beside them, **All · Recommended** filters any view down to
+  Groups · Recommended · Swipe tabs). Beside them, **All · Recommended** filters any view down to
   what's highlighted today.
   Both are asked in the setup guide and live in Workout settings, as does the number of
   highlights per muscle group (1–10).
@@ -122,6 +124,9 @@ It lives in its own slice of the data, `workout`, and never touches habits or ta
   exercise's effort for the day is their average. The setup guide and Workout settings
   choose every set, the last set only, or off. Two full sessions in a row that felt easy
   bring a step up forward (once a week has passed at the current numbers).
+- **Add from inside a group.** On a phone, the end of a group's list (or a dashed circle)
+  adds an exercise: the picker opens on just that group, with your own exercise's group
+  already set to it.
 - **Workout settings** are a section of the main Settings (the gear), opened already
   expanded when you're on the Workout tab.
 - **Rearrange** (on Today) orders exercises within a group: drag circles, or rows by their
@@ -146,7 +151,8 @@ It lives in its own slice of the data, `workout`, and never touches habits or ta
   away days don't make exercises look more overdue; and a week with four or more days
   marked off is skipped by the week streak instead of breaking it.
 - **Effort and notes.** The long-press sheet rates how hard an exercise was (Easy to All
-  out), and Today has a note box per day. Both show in History, the exercise page and
+  out), and Today has a note box: **Save** adds the note as a line under that day, notes
+  saved the same day build up, and × deletes one. Both show in History, the exercise page and
   the monthly review, and go into the CSV.
 - **Self-assessment.** Progress opens with **Worth a look**: lifts with no new best in 3+
   weeks (4+ sessions, no step up) and lifts that keep stopping short. **Weekly sets vs

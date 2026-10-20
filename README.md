@@ -114,7 +114,7 @@ It lives in its own slice of the data, `workout`, and never touches habits or ta
   Both are asked in the setup guide and live in Workout settings, as does the number of
   highlights per muscle group (1–10).
 - **On a phone, Today starts with two choices:** **Deal me a workout** (or Resume your
-  deal) and **Pick my own**, with **Log a rest day** under them (it becomes "Rest day logged"
+  deal) and **Pick my own**, side by side as two tall cards, with **Log a rest day** under them (it becomes "Rest day logged"
   once set, and replaces the Rest or away button there). Pick my own opens the Groups · Recommended · Swipe views in a focus
   mode (no header, plan text, notes or buttons) until **Done workout**, which reports the
   sets logged in that workout and returns to the two choices. On a computer, **Start

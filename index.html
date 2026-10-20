@@ -127,6 +127,18 @@ header.top{
 }
 .headline{font-size:clamp(30px,6vw,46px); font-stretch:118%; letter-spacing:-.03em; line-height:1.02}
 .headline em{font-style:normal; color:var(--ink-3)}
+.wx{display:flex; flex-wrap:wrap; align-items:center; gap:4px 12px; margin:0 0 12px;
+  font-size:13.5px; color:var(--ink-2); font-variant-numeric:tabular-nums}
+.wx[hidden]{display:none}
+.wx .wx-t{font-size:15px; font-weight:700; color:var(--ink); padding:2px 9px; margin-left:-9px;
+  border-radius:99px; transition:background .14s}
+.wx .wx-t:hover{background:var(--surface-2)}
+.wx .wx-m{color:var(--ink-3)}
+.wx .wx-add{font-size:13px; color:var(--ink-3); text-decoration:underline; text-underline-offset:3px}
+.wx .wx-add:hover{color:var(--ink)}
+.wx-set{display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-top:9px}
+.wx-set input{flex:1 1 140px; min-width:0}
+.wx-set .btn{flex:none; white-space:nowrap}
 .meter{height:6px; border-radius:99px; background:var(--sunk); margin-top:18px; overflow:hidden; max-width:420px}
 .meter i{display:block; height:100%; border-radius:99px; background:var(--ink);
   transition:width .5s cubic-bezier(.2,.7,.2,1)}
@@ -1393,6 +1405,7 @@ dialog.wide.xwide{width:min(940px, calc(100vw - 32px))}
   <section class="view on" id="view-today">
     <div class="today-head">
       <p class="eyebrow" id="today-date">—</p>
+      <div class="wx" id="today-wx" hidden></div>
       <h1 class="headline" id="today-line">—</h1>
       <div class="meter" id="today-meter"><i style="width:0%"></i></div>
     </div>
@@ -1812,6 +1825,20 @@ dialog.wide.xwide{width:min(940px, calc(100vw - 32px))}
     <button class="sw" id="s-notif" aria-pressed="false" aria-label="Enable notifications"></button>
   </div>
   <p class="note" id="s-note">Nudges arrive while this page is open in a tab — keep it pinned and it will find you.</p>
+  <div class="field" style="margin-top:18px">
+    <label>Weather on Today</label>
+    <div class="cat-picks" id="s-wx-unit">
+      <button type="button" data-wxu="c">°C</button>
+      <button type="button" data-wxu="f">°F</button>
+      <button type="button" data-wxu="off">Off</button>
+    </div>
+    <div class="wx-set">
+      <input type="text" id="s-wx-city" maxlength="60" placeholder="City, e.g. Toronto" aria-label="Weather city">
+      <button type="button" class="btn btn-ghost" id="s-wx-find">Set city</button>
+      <button type="button" class="btn btn-ghost" id="s-wx-here">Use my location</button>
+    </div>
+    <p class="note" id="s-wx-note">Wind is shown in km/h. Kept on this device only.</p>
+  </div>
   <div class="toggle-row" style="margin-top:14px">
     <p>Workout mode<small>A Workout tab for logging sets, kept apart from habits and tasks</small></p>
     <button class="sw" id="s-workout" aria-pressed="false" aria-label="Enable workout mode"></button>
@@ -3039,6 +3066,8 @@ function renderToday(){
   var now = parseKey(TODAY);
   document.getElementById("today-date").textContent =
     WDFULL[now.getDay()] + ", " + MONTHS[now.getMonth()] + " " + now.getDate();
+  wxPaint();
+  wxMaybeRefresh();
 
   var counted = tally(countedToday());
   var total = counted.total, done = counted.done;
@@ -4792,6 +4821,148 @@ document.getElementById("sp-save").addEventListener("click", function(){
   render();
 });
 
+/* ---------------- weather ---------------- */
+// Today's weather from Open-Meteo (free, no key). Per device: the place and unit live in
+// this browser's localStorage, never in the shared data. Wind is always km/h.
+var WX_KEY = LS_KEY + ":weather", WX_CACHE = LS_KEY + ":wx-cache", WX_TTL = 30 * 60 * 1000;
+var wxPrefs = { unit: /^en-(US|LR|MM)\b/.test(navigator.language || "") ? "f" : "c", place: null };
+try { var wxRaw = JSON.parse(localStorage.getItem(WX_KEY)); if (wxRaw) {
+  if (wxRaw.unit === "c" || wxRaw.unit === "f" || wxRaw.unit === "off") wxPrefs.unit = wxRaw.unit;
+  if (wxRaw.place && isFinite(wxRaw.place.lat) && isFinite(wxRaw.place.lon)) wxPrefs.place = wxRaw.place;
+} } catch (e) {}
+var wxData = null, wxBusy = false, wxErr = "";
+try { wxData = JSON.parse(localStorage.getItem(WX_CACHE)); } catch (e) {}
+
+function wxSavePrefs(){ try { localStorage.setItem(WX_KEY, JSON.stringify(wxPrefs)); } catch (e) {} }
+
+var WX_CODES = { 0: "Clear", 1: "Mostly clear", 2: "Partly cloudy", 3: "Overcast", 45: "Fog", 48: "Freezing fog",
+  51: "Light drizzle", 53: "Drizzle", 55: "Heavy drizzle", 56: "Freezing drizzle", 57: "Freezing drizzle",
+  61: "Light rain", 63: "Rain", 65: "Heavy rain", 66: "Freezing rain", 67: "Freezing rain",
+  71: "Light snow", 73: "Snow", 75: "Heavy snow", 77: "Snow grains", 80: "Showers", 81: "Showers",
+  82: "Heavy showers", 85: "Snow showers", 86: "Snow showers", 95: "Thunderstorm", 96: "Thunderstorm, hail", 99: "Thunderstorm, hail" };
+
+function wxDeg(c){ return Math.round(wxPrefs.unit === "f" ? c * 9 / 5 + 32 : c) + "°"; }
+
+function wxFresh(){
+  var p = wxPrefs.place;
+  return wxData && p && wxData.lat === p.lat && wxData.lon === p.lon && wxData.day === TODAY &&
+    Date.now() - wxData.at < WX_TTL;
+}
+
+function wxPaint(){
+  var el = document.getElementById("today-wx");
+  if (!el) return;
+  if (wxPrefs.unit === "off") { el.hidden = true; el.innerHTML = ""; return; }
+  el.hidden = false;
+  var p = wxPrefs.place, d = wxData;
+  if (!p) { el.innerHTML = '<button type="button" class="wx-add" data-wx="add">Add today’s weather</button>'; return; }
+  if (!d || d.lat !== p.lat || d.lon !== p.lon) {
+    el.innerHTML = '<span class="wx-m">' + (wxErr ? esc(wxErr) : "Weather loading…") + "</span>";
+    return;
+  }
+  var u = wxPrefs.unit === "f" ? "F" : "C";
+  el.innerHTML =
+    '<button type="button" class="wx-t" data-wx="unit" title="Switch to °' + (u === "F" ? "C" : "F") + '">' +
+      wxDeg(d.temp) + u + "</button>" +
+    "<span>" + esc(WX_CODES[d.code] || "—") + "</span>" +
+    (d.hi != null ? '<span class="wx-m">H ' + wxDeg(d.hi) + " · L " + wxDeg(d.lo) + "</span>" : "") +
+    (d.feels != null && Math.abs(d.feels - d.temp) >= 2 ? '<span class="wx-m">Feels ' + wxDeg(d.feels) + "</span>" : "") +
+    "<span>Wind " + Math.round(d.wind) + " km/h</span>" +
+    '<span class="wx-m">' + esc(p.name) + (d.day !== TODAY || Date.now() - d.at > 3 * WX_TTL ? " · not updated lately" : "") + "</span>";
+}
+
+function wxMaybeRefresh(force){
+  if (wxPrefs.unit === "off" || !wxPrefs.place || wxBusy) return;
+  if (!force && wxFresh()) return;
+  if (!force && wxErr && wxData && wxData.failedAt && Date.now() - wxData.failedAt < 5 * 60 * 1000) return;
+  var p = wxPrefs.place;
+  wxBusy = true;
+  fetch("https://api.open-meteo.com/v1/forecast?latitude=" + p.lat + "&longitude=" + p.lon +
+    "&current=temperature_2m,apparent_temperature,weather_code,wind_speed_10m" +
+    "&daily=temperature_2m_max,temperature_2m_min&wind_speed_unit=kmh&timezone=auto&forecast_days=1")
+    .then(function(r){ if (!r.ok) throw new Error(r.status); return r.json(); })
+    .then(function(j){
+      var c = j.current || {}, dy = j.daily || {};
+      wxData = { at: Date.now(), day: TODAY, lat: p.lat, lon: p.lon, temp: c.temperature_2m,
+        feels: c.apparent_temperature, code: c.weather_code, wind: c.wind_speed_10m,
+        hi: dy.temperature_2m_max ? dy.temperature_2m_max[0] : null, lo: dy.temperature_2m_min ? dy.temperature_2m_min[0] : null };
+      wxErr = "";
+      try { localStorage.setItem(WX_CACHE, JSON.stringify(wxData)); } catch (e) {}
+    })
+    .catch(function(){
+      wxErr = "Weather couldn’t load";
+      if (wxData) wxData.failedAt = Date.now(); else wxData = { failedAt: Date.now() };
+    })
+    .then(function(){ wxBusy = false; wxPaint(); });
+}
+
+function wxSetPlace(place){
+  wxPrefs.place = place;
+  if (wxPrefs.unit === "off") wxPrefs.unit = /^en-(US|LR|MM)\b/.test(navigator.language || "") ? "f" : "c";
+  wxErr = "";
+  wxSavePrefs();
+  wxSyncSettings();
+  wxPaint();
+  wxMaybeRefresh(true);
+}
+
+function wxNote(t){ document.getElementById("s-wx-note").textContent = t; }
+
+function wxSyncSettings(){
+  document.querySelectorAll("#s-wx-unit button").forEach(function(b){
+    b.setAttribute("aria-pressed", String(b.dataset.wxu === wxPrefs.unit));
+  });
+  wxNote(wxPrefs.place ? "Showing weather for " + wxPrefs.place.name + ". Wind in km/h. Kept on this device only."
+    : "Type a city or use your location. Wind in km/h. Kept on this device only.");
+}
+
+function wxHere(){
+  if (!navigator.geolocation) { wxNote("Location isn’t available here. Type a city instead."); return; }
+  wxNote("Finding you…");
+  navigator.geolocation.getCurrentPosition(function(pos){
+    wxSetPlace({ name: "Your location", lat: +pos.coords.latitude.toFixed(3), lon: +pos.coords.longitude.toFixed(3) });
+  }, function(){
+    wxNote("Couldn’t get your location here. Type a city instead.");
+    if (!dlgSet.open) { wxSyncSettings(); dlgSet.showModal(); wxNote("Couldn’t get your location here. Type a city instead."); }
+    document.getElementById("s-wx-city").focus();
+  }, { timeout: 10000, maximumAge: 30 * 60 * 1000 });
+}
+
+function wxFind(){
+  var q = document.getElementById("s-wx-city").value.trim();
+  if (!q) return;
+  wxNote("Looking up " + q + "…");
+  fetch("https://geocoding-api.open-meteo.com/v1/search?count=1&language=en&format=json&name=" + encodeURIComponent(q.split(",")[0]))
+    .then(function(r){ if (!r.ok) throw new Error(r.status); return r.json(); })
+    .then(function(j){
+      var g = j.results && j.results[0];
+      if (!g) { wxNote("Couldn’t find “" + q + "”. Try another spelling."); return; }
+      document.getElementById("s-wx-city").value = "";
+      wxSetPlace({ name: g.name + (g.admin1 && g.admin1 !== g.name ? ", " + g.admin1 : g.country ? ", " + g.country : ""),
+        lat: +(+g.latitude).toFixed(3), lon: +(+g.longitude).toFixed(3) });
+    })
+    .catch(function(){ wxNote("Couldn’t reach the weather service. Check your connection."); });
+}
+
+document.getElementById("s-wx-unit").addEventListener("click", function(e){
+  var b = e.target.closest("button[data-wxu]"); if (!b) return;
+  wxPrefs.unit = b.dataset.wxu;
+  wxSavePrefs();
+  wxSyncSettings();
+  wxPaint();
+  wxMaybeRefresh();
+});
+document.getElementById("s-wx-find").addEventListener("click", wxFind);
+document.getElementById("s-wx-city").addEventListener("keydown", function(e){
+  if (e.key === "Enter") { e.preventDefault(); wxFind(); }
+});
+document.getElementById("s-wx-here").addEventListener("click", wxHere);
+document.getElementById("today-wx").addEventListener("click", function(e){
+  var b = e.target.closest("button[data-wx]"); if (!b) return;
+  if (b.dataset.wx === "unit") { wxPrefs.unit = wxPrefs.unit === "f" ? "c" : "f"; wxSavePrefs(); wxPaint(); }
+  else wxHere();
+});
+
 /* ---------------- settings ---------------- */
 var dlgSet = document.getElementById("dlg-settings");
 var swRemind = document.getElementById("s-remind"), swSound = document.getElementById("s-sound"),
@@ -4921,6 +5092,7 @@ function syncSettings(){
 }
 document.getElementById("btn-settings").addEventListener("click", function(){
   syncSettings();
+  wxSyncSettings();
   document.getElementById("s-wo-det").open = section === "workout";
   pendingImport = null;
   document.getElementById("s-import-confirm").hidden = true;
@@ -5299,6 +5471,7 @@ function showNudge(open){
 function tick(){
   var k = todayKey();
   if (k !== TODAY) { TODAY = k; render(); }
+  wxMaybeRefresh();
   if (firedDay !== TODAY) { firedDay = TODAY; fired = []; saveFired(); }
   if (!state || !state.reminder.on || !liveHabits().length) return;
 

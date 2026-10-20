@@ -50,6 +50,15 @@ tray onto spots — or tap a habit, then tap a spot. Empty spots stay empty on T
 Habits left in the tray show under the board, and new habits drop into the first free
 spot. Grouping by category takes precedence over the custom board while it is on.
 
+## Weather
+
+Today shows the current weather under the date: temperature, conditions, high/low, "feels
+like" when it differs by 2° or more, and wind (always km/h). Settings → **Weather on Today**
+picks °C, °F or Off, and the place: type a city (**Set city**) or **Use my location**.
+Clicking the temperature on Today also flips °C/°F. Data comes from Open-Meteo (free, no
+key), is refreshed every 30 minutes, and the place and unit are kept in this browser's
+localStorage only (`day-rings-v1:weather`), never in the shared data.
+
 ## Workout mode
 
 Off by default. Settings → **Workout mode** adds a **Workout** tab after Habits and Tasks

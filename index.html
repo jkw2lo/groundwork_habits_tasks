@@ -1015,6 +1015,14 @@ dialog h2{font-size:20px; font-stretch:112%; margin-bottom:18px}
 .s-wo[open] summary::after{transform:rotate(90deg)}
 .s-wo .ws-body{padding:16px 2px 4px}
 .wo-choice3{grid-template-columns:repeat(3, 1fr)}
+/* How it works: the illustrated guide, full size */
+#dlg-wo-help{width:min(1140px, calc(100vw - 24px)); height:calc(100vh - 24px); height:calc(100dvh - 24px); max-height:none;
+  padding:0; overflow:hidden; background:var(--ground)}
+#dlg-wo-help[open]{display:flex; flex-direction:column}
+.wh-top{display:flex; align-items:center; gap:12px; padding:10px 12px 10px 18px; border-bottom:1px solid var(--hairline); background:var(--surface)}
+.wh-top b{flex:1; min-width:0; font-family:var(--display); font-stretch:110%; font-size:16px}
+#wo-help-frame{flex:1; width:100%; border:0; background:var(--ground)}
+.link-btn{display:inline; padding:0; border:0; background:none; font:inherit; color:var(--ink); font-weight:600; text-decoration:underline; text-underline-offset:3px; cursor:pointer}
 /* phones: muscle groups as a plain list of buttons */
 .wo-glist{display:flex; flex-direction:column; gap:8px}
 .wo-gbtn{display:flex; align-items:center; gap:10px; width:100%; min-height:54px; padding:12px 12px 12px 16px; border-radius:14px;
@@ -1744,6 +1752,11 @@ dialog.wide.xwide{width:min(940px, calc(100vw - 32px))}
   </div>
 </dialog>
 
+<dialog id="dlg-wo-help" aria-label="How workout mode works">
+  <div class="wh-top"><b>How workout mode works</b><button type="button" class="btn btn-primary" id="wh-close">Close</button></div>
+  <iframe id="wo-help-frame" title="How workout mode works"></iframe>
+</dialog>
+
 <dialog id="dlg-settings">
   <h2>Settings</h2>
   <div class="field">
@@ -1889,7 +1902,8 @@ dialog.wide.xwide{width:min(940px, calc(100vw - 32px))}
       </div>
       <p class="note">The CSV has one row per exercise per day, ready for a spreadsheet.</p>
     </div>
-      <button type="button" class="btn btn-ghost" id="ws-guide">Replay setup guide</button>
+      <div class="data-row"><button type="button" class="btn btn-ghost" id="ws-guide">Replay setup guide</button>
+        <button type="button" class="btn btn-ghost" id="ws-help">How workout mode works</button></div>
       </div>
     </details>
   </div>
@@ -1922,6 +1936,501 @@ dialog.wide.xwide{width:min(940px, calc(100vw - 32px))}
     <button type="button" class="btn btn-primary" id="s-close">Done</button>
   </div>
 </dialog>
+
+<!-- How it works: a copy of workout-guide.html (kept in sync by README step), shown in an iframe -->
+<template id="wo-help-src">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=Public+Sans:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: a field manual. Wide-set headlines, the app's own circles and screens drawn as specimens, labelled like a diagram. */
+:root{
+  --ground:#F3F5F0; --surface:#FBFCF9; --surface-2:#EAEEE6; --sunk:#E3E8DE;
+  --ink:#182018; --ink-2:#5B675E; --ink-3:#8C978D;
+  --hairline:#DCE2D8; --hairline-2:#C9D1C4;
+  --moss:#527F35; --clay:#B44E3A; --ochre:#B8801B; --teal:#17827A; --indigo:#3A5BAB;
+  --moss-soft:color-mix(in srgb, var(--moss) 22%, var(--surface));
+  --clay-soft:color-mix(in srgb, var(--clay) 14%, var(--surface));
+  --on-accent:#FFFFFF;
+  --display:"Archivo","Helvetica Neue",Arial,sans-serif;
+  --body:"Public Sans","Helvetica Neue",Arial,sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#101412; --surface:#181E1B; --surface-2:#212823; --sunk:#0C100E;
+    --ink:#E9EEE8; --ink-2:#9DA99F; --ink-3:#6F7B73;
+    --hairline:#2A322D; --hairline-2:#3A443D;
+    --moss:#93CB6C; --clay:#E8836A; --ochre:#E5B255; --teal:#3FC0B0; --indigo:#7F9CE8;
+    --on-accent:#0D1210; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#101412; --surface:#181E1B; --surface-2:#212823; --sunk:#0C100E;
+  --ink:#E9EEE8; --ink-2:#9DA99F; --ink-3:#6F7B73;
+  --hairline:#2A322D; --hairline-2:#3A443D;
+  --moss:#93CB6C; --clay:#E8836A; --ochre:#E5B255; --teal:#3FC0B0; --indigo:#7F9CE8;
+  --on-accent:#0D1210; color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--ground); color:var(--ink); font-family:var(--body); font-size:15.5px; line-height:1.55;
+  padding-left:max(16px, env(safe-area-inset-left, 0px)); padding-right:max(16px, env(safe-area-inset-right, 0px)); padding-block:0 64px}
+.wrap{max-width:1080px; margin:0 auto}
+h1, h2, h3{font-family:var(--display); margin:0; text-wrap:balance}
+h1{font-size:clamp(40px, 8vw, 84px); font-stretch:125%; font-weight:800; letter-spacing:-.035em; line-height:.95}
+h2{font-size:clamp(26px, 4vw, 38px); font-stretch:118%; font-weight:750; letter-spacing:-.025em; line-height:1.05}
+h3{font-size:18px; font-stretch:110%; font-weight:700; letter-spacing:-.01em}
+p{margin:0}
+.eyebrow{font-size:11.5px; letter-spacing:.14em; text-transform:uppercase; font-weight:700; color:var(--ink-3)}
+.lede{font-size:clamp(16px, 2vw, 19px); color:var(--ink-2); max-width:60ch}
+.muted{color:var(--ink-2)}
+b{font-weight:650}
+
+/* hero */
+.hero{display:grid; grid-template-columns:minmax(0, 1.25fr) minmax(0, 1fr); gap:32px; align-items:center; padding-block:56px 40px;
+  border-bottom:1px solid var(--hairline)}
+.hero .copy{display:flex; flex-direction:column; gap:18px; min-width:0}
+.hero h1 em{font-style:normal; color:var(--moss)}
+.where{display:flex; flex-wrap:wrap; gap:8px; align-items:center; font-size:14px; color:var(--ink-2)}
+.where kbd{font-family:var(--body); font-size:13px; font-weight:600; color:var(--ink); background:var(--surface); border:1px solid var(--hairline-2);
+  border-bottom-width:2px; border-radius:7px; padding:2px 8px}
+.where .arr{color:var(--ink-3)}
+.specimens{display:flex; gap:14px; justify-content:center; flex-wrap:wrap}
+
+/* the circle, drawn like the app */
+.circ{position:relative; width:150px; aspect-ratio:1; flex:none}
+.circ svg.ring{position:absolute; inset:0; width:100%; height:100%}
+.circ .face{position:absolute; inset:12%; border-radius:50%; border:1.5px solid var(--hairline-2); display:flex; flex-direction:column;
+  align-items:center; justify-content:center; gap:2px; text-align:center; padding:10%;
+  background:conic-gradient(color-mix(in srgb, var(--moss) 42%, var(--surface)) 0 var(--pct, 0%), var(--surface) 0)}
+.circ.rec .face{border:2.5px solid var(--clay); background:conic-gradient(color-mix(in srgb, var(--moss) 42%, var(--surface)) 0 var(--pct, 0%), var(--clay-soft) 0)}
+.circ.done .face{background:var(--moss); border-color:var(--moss); color:var(--on-accent)}
+.circ .emo{font-size:24px; line-height:1}
+.circ .nm{font-weight:650; font-size:14px; line-height:1.15}
+.circ .sub{font-size:11.5px; color:var(--ink-2); font-variant-numeric:tabular-nums; white-space:nowrap}
+.circ.done .sub{color:var(--on-accent); opacity:.85}
+.circ .why{font-size:10.5px; font-weight:700; color:var(--clay)}
+.circ .pr{font-size:10.5px; font-weight:700; color:var(--on-accent)}
+.circ .up{color:var(--moss); font-weight:800}
+.circ.done .up{color:var(--on-accent)}
+.circ .dots{display:flex; gap:3px; margin-top:2px}
+.circ .dots i{width:6px; height:6px; border-radius:50%; background:var(--hairline-2)}
+.circ .dots i.on{background:var(--moss)}
+
+/* sections */
+section.band{padding-block:56px; border-bottom:1px solid var(--hairline); display:flex; flex-direction:column; gap:28px}
+.head{display:flex; flex-direction:column; gap:10px; max-width:720px}
+.grid2{display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:28px; align-items:start}
+.grid3{display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:16px}
+.grid4{display:grid; grid-template-columns:repeat(4, minmax(0, 1fr)); gap:16px}
+.cell{display:flex; flex-direction:column; gap:8px; min-width:0}
+.panel{background:var(--surface); border:1px solid var(--hairline); border-radius:18px; padding:20px; display:flex; flex-direction:column; gap:10px; min-width:0}
+.panel p{font-size:14.5px; color:var(--ink-2)}
+
+/* setup steps: a real sequence */
+.steps{display:grid; grid-template-columns:repeat(4, minmax(0, 1fr)); gap:0; counter-reset:s}
+.step{position:relative; padding:18px 18px 0 0; display:flex; flex-direction:column; gap:8px; min-width:0; border-top:2px solid var(--ink)}
+.step::before{counter-increment:s; content:counter(s); font-family:var(--display); font-stretch:120%; font-weight:800; font-size:44px;
+  line-height:1; color:var(--moss); letter-spacing:-.03em}
+.step p{font-size:14px; color:var(--ink-2)}
+.chips{display:flex; flex-wrap:wrap; gap:6px}
+.chip{font-size:12.5px; font-weight:600; padding:4px 10px; border-radius:99px; background:var(--surface-2); color:var(--ink); white-space:nowrap}
+.chip.on{background:var(--ink); color:var(--ground)}
+.chip.easy{background:var(--moss-soft)}
+.chip.hard{background:var(--clay-soft)}
+
+/* anatomy diagram */
+.anatomy{display:grid; grid-template-columns:minmax(0, 1fr) auto minmax(0, 1fr); gap:24px; align-items:center}
+.anatomy .big{width:260px}
+.anatomy .big .nm{font-size:21px}
+.anatomy .big .sub{font-size:14px}
+.anatomy .big .emo{font-size:38px}
+.anatomy .big .why{font-size:12.5px}
+.anatomy .big .dots i{width:9px; height:9px}
+.notes{display:flex; flex-direction:column; gap:18px; min-width:0}
+.note{display:grid; grid-template-columns:28px minmax(0, 1fr); gap:10px; align-items:start}
+.note .k{width:28px; height:28px; border-radius:50%; display:grid; place-items:center; font-weight:700; font-size:13px; font-family:var(--display);
+  border:1.5px solid var(--ink); background:var(--surface)}
+.note b{display:block; font-size:14.5px}
+.note span{font-size:13.5px; color:var(--ink-2)}
+.notes.l .note{text-align:right; grid-template-columns:minmax(0, 1fr) 28px}
+.notes.l .note .k{order:2}
+.gesture{display:flex; flex-wrap:wrap; gap:10px 28px; justify-content:center; padding-top:6px}
+.gesture div{display:flex; align-items:center; gap:10px; font-size:14px}
+.gesture i{font-style:normal; font-family:var(--display); font-weight:800; font-stretch:115%; font-size:13px; letter-spacing:.06em;
+  text-transform:uppercase; padding:5px 10px; border-radius:8px; background:var(--ink); color:var(--ground)}
+
+/* phone mock-ups */
+.phones{display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:22px; align-items:start}
+.phone{border:1.5px solid var(--hairline-2); border-radius:30px; padding:12px; background:var(--ground); box-shadow:0 18px 40px -24px rgba(0,0,0,.35);
+  display:flex; flex-direction:column; gap:8px; max-width:280px; width:100%; margin:0 auto; min-height:420px}
+.phone .bar{height:5px; width:36%; margin:0 auto 6px; border-radius:9px; background:var(--hairline-2)}
+.phone .t{font-family:var(--display); font-stretch:115%; font-weight:750; font-size:17px; letter-spacing:-.02em; line-height:1.1}
+.phone .t em{font-style:normal; color:var(--ink-3)}
+.phone .s{font-size:10px; letter-spacing:.12em; text-transform:uppercase; font-weight:700; color:var(--ink-3)}
+.pick2{display:grid; grid-template-columns:1fr 1fr; gap:7px}
+.pcard{border-radius:14px; padding:10px; min-height:140px; display:flex; flex-direction:column; gap:6px; border:1px solid var(--hairline); background:var(--surface)}
+.pcard.dark{background:var(--ink); color:var(--ground); border-color:var(--ink)}
+.pcard b{font-family:var(--display); font-stretch:110%; font-size:14px; line-height:1.1}
+.pcard small{font-size:10px; opacity:.72; line-height:1.3}
+.pcard .ic{width:26px; height:26px; border-radius:8px; background:color-mix(in srgb, currentColor 12%, transparent)}
+.rest{border:1px dashed var(--hairline-2); border-radius:12px; padding:9px 10px; font-size:12px; font-weight:650; display:flex; gap:8px; align-items:center}
+.rest small{display:block; font-weight:400; font-size:10px; color:var(--ink-2)}
+.mtabs{display:flex; flex-wrap:wrap; gap:4px}
+.mtabs span{font-size:10.5px; font-weight:600; padding:4px 8px; border-radius:99px; background:var(--surface-2); color:var(--ink-2)}
+.mtabs span.on{background:var(--surface); color:var(--ink); box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.gbtn{display:flex; align-items:center; gap:6px; padding:9px 10px; border-radius:10px; border:1px solid var(--hairline); background:var(--surface); font-size:12.5px; font-weight:650}
+.gbtn span{flex:1}
+.gbtn i{font-style:normal; font-size:9.5px; font-weight:650; padding:2px 7px; border-radius:99px; background:var(--moss-soft); color:var(--ink-2)}
+.gbtn.dark{background:var(--ink); color:var(--ground); border-color:var(--ink)}
+.gbtn.dark i{background:color-mix(in srgb, var(--ground) 20%, transparent); color:var(--ground)}
+.row{display:flex; align-items:center; gap:7px; padding:6px 7px; border-radius:9px; border:1px solid var(--hairline); background:var(--surface); font-size:11.5px}
+.row.rec{border:1.5px solid var(--clay); background:var(--clay-soft)}
+.row .e{width:20px; height:20px; border-radius:50%; background:var(--surface-2); display:grid; place-items:center; font-size:10px}
+.row .n{flex:1; font-weight:650; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; min-width:0}
+.row .v{color:var(--ink-2); font-size:10px; white-space:nowrap; font-variant-numeric:tabular-nums}
+.row .c{width:24px; height:24px; border-radius:50%; border:1.5px solid var(--hairline-2); display:grid; place-items:center; font-size:9px; font-weight:700; color:var(--ink-2)}
+.row .c.ok{background:var(--moss); border-color:var(--moss); color:var(--on-accent)}
+.fbar{display:flex; align-items:center; gap:6px; padding-bottom:6px; border-bottom:1px solid var(--hairline)}
+.fbar div{flex:1}
+.fbar b{display:block; font-size:12.5px}
+.fbar small{font-size:9.5px; color:var(--ink-3)}
+.fbar span{font-size:9px; font-weight:800; letter-spacing:.06em; padding:6px 8px; border-radius:8px; background:var(--ink); color:var(--ground)}
+.addrow{border:1.5px dashed var(--hairline-2); border-radius:9px; padding:7px; text-align:center; font-size:11px; font-weight:650; color:var(--ink-2)}
+.deck{display:flex; flex-direction:column; align-items:center; gap:8px; padding-top:4px}
+.pips{display:flex; gap:4px}
+.pips i{width:7px; height:7px; border-radius:50%; background:var(--hairline-2)}
+.pips i.d{background:var(--moss)} .pips i.c{background:var(--surface); box-shadow:0 0 0 1.5px var(--ink)}
+.deck .circ{width:150px}
+.deck .acts{display:flex; gap:6px}
+.deck .acts span{font-size:10.5px; font-weight:600; padding:5px 10px; border-radius:99px; border:1px solid var(--hairline-2)}
+.cap{text-align:center; font-size:13.5px; color:var(--ink-2); max-width:280px; margin:10px auto 0}
+.cap b{color:var(--ink); display:block; font-family:var(--display); font-stretch:112%; font-size:16px}
+
+/* feel + rest pills */
+.pills{display:flex; flex-direction:column; gap:10px; align-items:flex-start}
+.pill{display:inline-flex; align-items:center; gap:6px; padding:6px 6px 6px 14px; border-radius:99px; background:var(--surface); border:1px solid var(--hairline);
+  box-shadow:0 10px 24px -16px rgba(0,0,0,.4); font-size:13.5px; font-weight:600; max-width:100%; flex-wrap:wrap}
+.pill.dark{background:var(--ink); color:var(--ground); border-color:var(--ink)}
+.pill.dark .chip{background:color-mix(in srgb, var(--ground) 22%, transparent); color:var(--ground)}
+
+/* progression chart */
+.prog svg{width:100%; height:auto; display:block}
+.prog text{font-family:var(--body); font-size:11px; fill:var(--ink-3); font-variant-numeric:tabular-nums}
+.prog .lbl{fill:var(--ink); font-weight:600; font-size:12px}
+.rules{display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:16px}
+.rule{border-top:3px solid var(--tone, var(--moss)); padding-top:12px; display:flex; flex-direction:column; gap:6px}
+.rule h3{font-size:16px}
+.rule p{font-size:14px; color:var(--ink-2)}
+
+/* week strip */
+.week{display:grid; grid-template-columns:repeat(7, minmax(0, 1fr)); gap:6px}
+.day{border-radius:12px; padding:10px 8px; background:var(--surface); border:1px solid var(--hairline); min-height:96px; display:flex; flex-direction:column; gap:6px; min-width:0}
+.day.today{border:2px solid var(--ink)}
+.day.off{background:none; border-style:dashed}
+.day b{font-family:var(--display); font-stretch:115%; font-size:13px}
+.day span{font-size:11px; font-weight:600; padding:2px 6px; border-radius:6px; background:var(--surface-2); white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.day.off span{background:none; color:var(--ink-3); padding:0}
+
+/* analytics list */
+.feat{display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:0; border-top:1px solid var(--hairline)}
+.feat div{padding:16px 16px 16px 0; border-bottom:1px solid var(--hairline); display:flex; flex-direction:column; gap:4px; min-width:0}
+.feat b{font-size:15px}
+.feat span{font-size:13.5px; color:var(--ink-2)}
+.minibars{display:flex; align-items:flex-end; gap:4px; height:44px; margin-bottom:6px}
+.minibars i{flex:1; border-radius:3px 3px 0 0; background:var(--moss); min-height:3px}
+.minibars i.lo{background:var(--hairline-2)}
+
+.demo{display:flex; flex-direction:column; align-items:center; gap:12px}
+.demo button.circ{border:0; padding:0; background:none; cursor:pointer; font:inherit; color:inherit}
+.demo button.circ:focus-visible{outline:2px solid var(--ink); outline-offset:4px; border-radius:50%}
+.demo .feel{min-height:40px}
+.demo small{font-size:12.5px; color:var(--ink-3)}
+footer{padding-top:36px; display:flex; flex-wrap:wrap; gap:10px 24px; color:var(--ink-3); font-size:13px}
+
+@media (max-width:860px){
+  .hero{grid-template-columns:1fr; padding-top:36px}
+  .steps, .grid4{grid-template-columns:repeat(2, minmax(0, 1fr)); row-gap:24px}
+  .phones{grid-template-columns:1fr; gap:36px}
+  .anatomy{grid-template-columns:1fr; justify-items:center}
+  .notes.l .note{text-align:left; grid-template-columns:28px minmax(0, 1fr)}
+  .notes.l .note .k{order:0}
+  .grid2, .grid3, .rules, .feat{grid-template-columns:1fr}
+  .week{grid-template-columns:repeat(4, minmax(0, 1fr))}
+}
+@media (max-width:420px){
+  .steps, .grid4{grid-template-columns:1fr}
+  .anatomy .big{width:230px}
+}
+@media (prefers-reduced-motion: no-preference){
+  .demo .face{transition:background .25s}
+  .pop{animation:pop .35s cubic-bezier(.3,1.4,.4,1)}
+  @keyframes pop{from{transform:scale(.94)} to{transform:none}}
+}
+</style>
+
+<div class="wrap">
+
+<header class="hero">
+  <div class="copy">
+    <span class="eyebrow">Groundwork · Workout mode</span>
+    <h1>Every lift is a <em>circle</em>.</h1>
+    <p class="lede">Workout mode logs sets the way Groundwork logs habits: tap a circle when it's done. It plans your week, picks what's due, tells you when to go up in weight, and keeps your training apart from your habits and tasks.</p>
+    <div class="where"><span>Turn it on:</span><kbd>⚙ Settings</kbd><span class="arr">→</span><kbd>Workout mode</kbd><span class="arr">→</span><span>a Workout tab appears</span></div>
+  </div>
+  <div class="specimens" aria-hidden="true">
+    <div class="circ rec" style="--pct:0%"><svg class="ring" viewBox="0 0 100 100" data-ring="0"></svg>
+      <div class="face"><span class="emo">🦵</span><span class="nm">Back squat</span><span class="sub">3×8 · 150 lb</span><span class="why">4 days ago</span></div></div>
+    <div class="circ" style="--pct:66%"><svg class="ring" viewBox="0 0 100 100" data-ring="9"></svg>
+      <div class="face"><span class="emo">💪</span><span class="nm">Biceps curl</span><span class="sub">3×10 · 25 lb</span><span class="dots"><i class="on"></i><i class="on"></i><i></i></span></div></div>
+    <div class="circ done" style="--pct:100%"><svg class="ring" viewBox="0 0 100 100" data-ring="14"></svg>
+      <div class="face"><span class="emo">🏋️</span><span class="nm">Bench press</span><span class="sub"><b class="up">↑</b> 3×5 · 135 lb</span><span class="pr">★ New best</span></div></div>
+  </div>
+</header>
+
+<section class="band" aria-labelledby="h-setup">
+  <div class="head">
+    <span class="eyebrow">First time</span>
+    <h2 id="h-setup">The setup guide, four screens</h2>
+    <p class="muted">It opens the first time you turn workout mode on. Replay it any time from Settings → Workout settings.</p>
+  </div>
+  <div class="steps">
+    <div class="step"><h3>How you log</h3><p>One tap fills every set, or one tap per set. Pick lb or kg, circles or a list, your phone view, and whether to ask how each set felt.</p>
+      <div class="chips"><span class="chip on">Every set</span><span class="chip">One set</span></div></div>
+    <div class="step"><h3>Choose exercises</h3><p>47 to choose from, grouped by muscle: chest, back, shoulders, arms, legs, core and cardio. Select a whole group at once, or type your own.</p>
+      <div class="chips"><span class="chip on">Back squat</span><span class="chip on">Leg press</span><span class="chip">Lunges</span></div></div>
+    <div class="step"><h3>Your starting point</h3><p>A quick table: sets, reps or time, weight, and how much to go up and how often. Tab moves box to box.</p>
+      <div class="chips"><span class="chip">3 × 8</span><span class="chip">150 lb</span><span class="chip">+5 lb / 2 wk</span></div></div>
+    <div class="step"><h3>Your usual week</h3><p>Which muscle groups go on which days, and how many highlights per group (1 to 10). Or let it learn your week from what you log.</p>
+      <div class="chips"><span class="chip">Mon · Chest</span><span class="chip">Wed · Legs</span></div></div>
+  </div>
+</section>
+
+<section class="band" aria-labelledby="h-anatomy">
+  <div class="head">
+    <span class="eyebrow">Reading a circle</span>
+    <h2 id="h-anatomy">What everything on a circle means</h2>
+  </div>
+  <div class="anatomy">
+    <div class="notes l">
+      <div class="note"><span class="k">1</span><div><b>Ring of dots</b><span>One dot per day this month. Filled dots are days you did it; the larger outline is today.</span></div></div>
+      <div class="note"><span class="k">2</span><div><b>The fill</b><span>Sweeps round as sets go in: two of three sets is two-thirds full. Green when finished.</span></div></div>
+      <div class="note"><span class="k">3</span><div><b>Red border</b><span>Recommended today: on your plan, or overdue. Pick the colors in settings.</span></div></div>
+    </div>
+    <div class="circ rec big" style="--pct:66%"><svg class="ring" viewBox="0 0 100 100" data-ring="11"></svg>
+      <div class="face"><span class="emo">🦵</span><span class="nm">Back squat</span><span class="sub"><b class="up">↑</b> 3×8 · 150 lb</span><span class="dots"><i class="on"></i><i class="on"></i><i></i></span></div></div>
+    <div class="notes">
+      <div class="note"><span class="k">4</span><div><b>↑ Time to go up</b><span>The calendar says it's time and your last two sessions had every set done.</span></div></div>
+      <div class="note"><span class="k">5</span><div><b>Set dots</b><span>One per set, filled as you log them.</span></div></div>
+      <div class="note"><span class="k">6</span><div><b>★ New best</b><span>Shows the day you beat your best weight, reps or time.</span></div></div>
+    </div>
+  </div>
+  <div class="gesture">
+    <div><i>Tap</i> logs (a set, or all of them)</div>
+    <div><i>Hold</i> opens ▲▼ for sets, reps, weight, effort</div>
+    <div><i>Drag</i> rearranges, in Rearrange mode</div>
+  </div>
+</section>
+
+<section class="band" aria-labelledby="h-phone">
+  <div class="head">
+    <span class="eyebrow">On your phone</span>
+    <h2 id="h-phone">Two ways to start a workout</h2>
+    <p class="muted">The Workout tab opens on a choice. Both paths end the same way: the sets are logged and the start screen comes back.</p>
+  </div>
+  <div class="phones">
+    <div>
+      <div class="phone" aria-hidden="true">
+        <div class="bar"></div>
+        <span class="s">Today, October 20</span>
+        <div class="t">Leg day A · Legs + Core. <em>0 of 5 highlights done.</em></div>
+        <div class="pick2">
+          <div class="pcard dark"><span class="ic"></span><b>Deal me a workout</b><small>A short list from today's plan and what's overdue, one exercise at a time.</small></div>
+          <div class="pcard"><span class="ic"></span><b>Pick my own</b><small>Browse your muscle groups and log whatever you do.</small></div>
+        </div>
+        <div class="rest"><div>Log a rest day<small>Resting, sick, travelling or away.</small></div></div>
+        <span class="s" style="margin-top:6px">Notes for today</span>
+        <div class="row"><span class="n" style="font-weight:500">Knees felt good, slept 8h</span><span class="v">×</span></div>
+        <div class="row"><span class="n" style="font-weight:400; color:var(--ink-3)">How did it go?</span><span class="c ok" style="width:auto; border-radius:7px; padding:0 8px">Save</span></div>
+      </div>
+      <p class="cap"><b>Start here</b>Deal, pick your own, or mark the day off so it doesn't hurt your streak. Notes save line by line.</p>
+    </div>
+    <div>
+      <div class="phone" aria-hidden="true">
+        <div class="bar"></div>
+        <span class="s">Your deal · 3 of 6</span>
+        <div class="deck">
+          <div class="pips"><i class="d"></i><i class="d"></i><i class="c"></i><i></i><i></i><i></i></div>
+          <div class="circ rec" style="--pct:33%"><svg class="ring" viewBox="0 0 100 100" data-ring="6"></svg>
+            <div class="face"><span class="emo">🦵</span><span class="nm">Romanian deadlift</span><span class="sub">3×10 · 95 lb</span></div></div>
+          <div class="t" style="text-align:center">Romanian deadlift</div>
+          <span class="v muted" style="font-size:12px">Set 2 of 3 next</span>
+          <div class="acts"><span>‹ Back</span><span>Skip for now</span><span>Next ›</span></div>
+        </div>
+      </div>
+      <p class="cap"><b>Deal me a workout</b>Today's template first, then the highlights, then what's most overdue. Swap or drop any pick, then play it one circle at a time. Each tap is one set; a finished exercise leaves the deck.</p>
+    </div>
+    <div>
+      <div class="phone" aria-hidden="true">
+        <div class="bar"></div>
+        <div class="fbar"><div><b>Your workout</b><small>12 min · 7 sets this workout</small></div><span>DONE WORKOUT</span></div>
+        <div class="mtabs"><span class="on">Groups</span><span>Recommended</span><span>Swipe</span></div>
+        <div class="mtabs"><span class="on">All</span><span>Recommended</span></div>
+        <div class="gbtn dark"><span>In progress</span><i>2</i>›</div>
+        <div class="gbtn"><span>Legs</span><i>3 logged</i>›</div>
+        <div class="gbtn"><span>Core</span>›</div>
+        <span class="s" style="margin-top:4px">Legs</span>
+        <div class="row rec"><span class="e">🦵</span><span class="n">Back squat</span><span class="v">3×8 · 150 lb</span><span class="c">2/3</span></div>
+        <div class="row"><span class="e">🦵</span><span class="n">Leg press</span><span class="v">3×12 · 270</span><span class="c ok">✓</span></div>
+        <div class="addrow">+ Add an exercise to Legs</div>
+      </div>
+      <p class="cap"><b>Pick my own</b>Only your workout on screen until Done workout. Groups, Recommended or Swipe; In progress gathers half-done exercises from any group.</p>
+    </div>
+  </div>
+</section>
+
+<section class="band" aria-labelledby="h-sets">
+  <div class="grid2">
+    <div class="head">
+      <span class="eyebrow">Between sets</span>
+      <h2 id="h-sets">Rest, then a two-second check-in</h2>
+      <p class="muted">After a set the rest timer starts (1:00 to 3:00, or off), with +30s and Skip. A small bar asks how the set felt. Ignore it and it goes away on its own.</p>
+      <p class="muted">Each set keeps its rating, and the day's effort for that exercise is their average. Two easy sessions in a row can bring a step up forward.</p>
+    </div>
+    <div class="demo">
+      <button type="button" class="circ rec" id="demo" style="--pct:0%" aria-label="Try it: tap to log a set">
+        <svg class="ring" viewBox="0 0 100 100" data-ring="4"></svg>
+        <span class="face"><span class="emo">🏋️</span><span class="nm">Bench press</span><span class="sub" id="demo-sub">0 of 3 sets</span>
+          <span class="dots" id="demo-dots"><i></i><i></i><i></i></span></span>
+      </button>
+      <div class="pills feel" id="demo-feel">
+        <span class="pill">Set 1 of 3 felt <span class="chip easy">Easy</span><span class="chip">OK</span><span class="chip hard">Hard</span> ×</span>
+        <span class="pill dark">Rest 1:30 · then set 2 of 3 <span class="chip">+30s</span><span class="chip">Skip</span></span>
+      </div>
+      <small>Try it: tap the circle.</small>
+    </div>
+  </div>
+</section>
+
+<section class="band" aria-labelledby="h-prog">
+  <div class="head">
+    <span class="eyebrow">Getting stronger</span>
+    <h2 id="h-prog">It tells you when to go up, and when to back off</h2>
+    <p class="muted">Each exercise has its own step (say +5 lb) and timing (say every 2 weeks). Going up never happens on its own: you get an ↑ on the circle and a prompt in the hold sheet.</p>
+  </div>
+  <div class="panel prog">
+    <svg viewBox="0 0 720 220" role="img" aria-label="Back squat weight stepping from 135 to 150 pounds over eight weeks, one step every two weeks">
+      <line x1="60" y1="180" x2="700" y2="180" stroke="var(--hairline-2)"/>
+      <line x1="60" y1="130" x2="700" y2="130" stroke="var(--hairline)" stroke-dasharray="3 4"/>
+      <line x1="60" y1="80" x2="700" y2="80" stroke="var(--hairline)" stroke-dasharray="3 4"/>
+      <text x="50" y="184" text-anchor="end">135</text><text x="50" y="134" text-anchor="end">140</text>
+      <text x="50" y="84" text-anchor="end">145</text><text x="50" y="34" text-anchor="end">150</text>
+      <line x1="60" y1="30" x2="700" y2="30" stroke="var(--hairline)" stroke-dasharray="3 4"/>
+      <path d="M60 180 H220 V130 H380 V80 H540 V30 H700" fill="none" stroke="var(--moss)" stroke-width="2.5" stroke-linejoin="round"/>
+      <circle cx="220" cy="130" r="6" fill="var(--moss)" stroke="var(--surface)" stroke-width="2"/>
+      <circle cx="380" cy="80" r="6" fill="var(--moss)" stroke="var(--surface)" stroke-width="2"/>
+      <circle cx="540" cy="30" r="6" fill="var(--moss)" stroke="var(--surface)" stroke-width="2"/>
+      <text x="228" y="150" class="lbl">↑ +5 lb</text><text x="388" y="100" class="lbl">↑ +5 lb</text><text x="548" y="50" class="lbl">↑ +5 lb · two easy weeks</text>
+      <text x="60" y="206">Week 1</text><text x="220" y="206">Week 3</text><text x="380" y="206">Week 5</text><text x="540" y="206">Week 7</text>
+      <text x="700" y="206" text-anchor="end">lb, back squat</text>
+    </svg>
+  </div>
+  <div class="rules">
+    <div class="rule"><h3>Step up</h3><p>Due when the time is up <b>and</b> your last two sessions at these numbers had every set done.</p></div>
+    <div class="rule" style="--tone:var(--teal)"><h3>Sooner, if it's easy</h3><p>Two full sessions in a row rated Easy bring it forward, once you've had a week at the current numbers.</p></div>
+    <div class="rule" style="--tone:var(--clay)"><h3>Back off</h3><p>Two of your last three sessions stopped short? The hold sheet offers to step back down.</p></div>
+  </div>
+</section>
+
+<section class="band" aria-labelledby="h-plan">
+  <div class="grid2">
+    <div class="head">
+      <span class="eyebrow">Planning</span>
+      <h2 id="h-plan">A weekly plan, and highlights for today</h2>
+      <p class="muted">Set which muscle groups you train on which days. Each day, the exercises in those groups that you've gone longest without are highlighted in red, and turn green as you finish them.</p>
+      <p class="muted">No plan? It learns your usual week from what you log, and tells you when your logs and your plan disagree. Day templates (Leg day A, Push day) can fill a day with exact exercises.</p>
+    </div>
+    <div class="week" aria-label="Example week">
+      <div class="day"><b>Mon</b><span>Chest</span><span>Arms</span></div>
+      <div class="day today"><b>Tue</b><span>Legs</span><span>Core</span></div>
+      <div class="day off"><b>Wed</b><span>Rest</span></div>
+      <div class="day"><b>Thu</b><span>Back</span><span>Arms</span></div>
+      <div class="day"><b>Fri</b><span>Shoulders</span></div>
+      <div class="day"><b>Sat</b><span>Cardio</span></div>
+      <div class="day off"><b>Sun</b><span>Rest</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="band" aria-labelledby="h-stats">
+  <div class="head">
+    <span class="eyebrow">Progress and History</span>
+    <h2 id="h-stats">See what's working</h2>
+    <p class="muted">Two more tabs in the header while you're in Workout. Logging an earlier day, from the ‹ beside the date, updates all of it.</p>
+  </div>
+  <div class="feat">
+    <div><div class="minibars" aria-hidden="true"><i style="height:40%"></i><i style="height:55%"></i><i style="height:48%"></i><i style="height:70%"></i><i style="height:66%"></i><i style="height:90%"></i></div>
+      <b>Weekly sets</b><span>Stacked by muscle group, with a target band (10–20 sets a group by default).</span></div>
+    <div><b>Worth a look</b><span>Lifts with no new best in 3+ weeks, and groups you've let slip.</span></div>
+    <div><b>Consistency</b><span>Week streak, sessions per week, and a heat grid. Days off don't break it.</span></div>
+    <div><b>Exercise page</b><span>Tap any exercise: its weight or reps over time, records, every session with effort, and each step up or back.</span></div>
+    <div><b>Monthly review</b><span>This month against last, day for day: sets, records, average effort, most improved.</span></div>
+    <div><b>History</b><span>Every day logged, with notes, effort and days off.</span></div>
+  </div>
+</section>
+
+<section class="band" aria-labelledby="h-more">
+  <div class="head">
+    <span class="eyebrow">Good to know</span>
+    <h2 id="h-more">The rest of the toolkit</h2>
+  </div>
+  <div class="grid4">
+    <div class="cell"><h3>Days off</h3><p class="muted">Rest, sick, travel or away. They don't count as missed, and they don't make anything look overdue.</p></div>
+    <div class="cell"><h3>Sample data</h3><p class="muted">Twelve made-up weeks to explore Progress with. Nothing you do in it is saved.</p></div>
+    <div class="cell"><h3>Your data</h3><p class="muted">Download a CSV (one row per exercise per day) or JSON from Workout settings. Backups include workouts too.</p></div>
+    <div class="cell"><h3>On a computer</h3><p class="muted">Circles side by side by muscle group, Deal me a workout and Start workout above them, and right-click to adjust.</p></div>
+  </div>
+  <div class="panel" style="flex-direction:row; flex-wrap:wrap; gap:10px 28px; align-items:center">
+    <h3 style="flex:1 1 220px">Where the settings live</h3>
+    <p style="flex:3 1 320px">⚙ Settings → <b>Workout settings</b>: tap style, units, colors, highlights per group, circle size, rest timer, how-it-felt prompt, weekly set targets, sample data, export, and Replay setup guide.</p>
+  </div>
+</section>
+
+<footer><span>Groundwork · Workout mode</span><span>Habits and tasks are never touched by workouts.</span></footer>
+</div>
+
+<script>
+(function(){
+  // month rings drawn like the app: one dot per day, filled where done, today outlined
+  var N = 31, TODAY = 20;
+  document.querySelectorAll("svg[data-ring]").forEach(function(svg){
+    var seed = +svg.dataset.ring, out = "";
+    for (var d = 1; d <= N; d++) {
+      var a = (d - 1) / N * Math.PI * 2 - Math.PI / 2, x = (50 + Math.cos(a) * 45).toFixed(2), y = (50 + Math.sin(a) * 45).toFixed(2);
+      var on = d < TODAY && ((d * 7 + seed) % 5 === 0 || (d + seed) % 9 === 0);
+      out += '<circle cx="' + x + '" cy="' + y + '" r="' + (on ? 2.6 : 1.9) + '" fill="' + (on ? "var(--moss)" : d > TODAY ? "var(--surface-2)" : "var(--hairline-2)") + '"/>';
+      if (d === TODAY) out += '<circle cx="' + x + '" cy="' + y + '" r="4.4" fill="none" stroke="var(--ink)" stroke-width="1.2"/>';
+    }
+    svg.innerHTML = out;
+  });
+  // the try-it circle: each tap is one set; the third fills it
+  var btn = document.getElementById("demo"), sub = document.getElementById("demo-sub"), dots = document.querySelectorAll("#demo-dots i"),
+      feel = document.getElementById("demo-feel"), n = 0;
+  function show(){
+    btn.style.setProperty("--pct", (n / 3 * 100).toFixed(1) + "%");
+    btn.classList.toggle("done", n === 3);
+    btn.classList.toggle("rec", n < 3);
+    dots.forEach(function(d, i){ d.classList.toggle("on", i < n); });
+    sub.textContent = n === 3 ? "All 3 sets done" : n + " of 3 sets";
+    feel.innerHTML = n === 0 ? '<span class="pill">Set 1 of 3 felt <span class="chip easy">Easy</span><span class="chip">OK</span><span class="chip hard">Hard</span> ×</span>' +
+        '<span class="pill dark">Rest 1:30 · then set 2 of 3 <span class="chip">+30s</span><span class="chip">Skip</span></span>'
+      : '<span class="pill">Set ' + n + " of 3 felt " + '<span class="chip easy">Easy</span><span class="chip">OK</span><span class="chip hard">Hard</span> ×</span>' +
+        (n < 3 ? '<span class="pill dark">Rest 1:30 · then set ' + (n + 1) + ' of 3 <span class="chip">+30s</span><span class="chip">Skip</span></span>' : "");
+    btn.classList.remove("pop"); void btn.offsetWidth; btn.classList.add("pop");
+  }
+  btn.addEventListener("click", function(){ n = n === 3 ? 0 : n + 1; show(); });
+})();
+</script>
+</template>
 
 <script>
 (function(){
@@ -5920,7 +6429,8 @@ function woRenderToday(){
         '<button class="add-tile" data-wo="pick"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Exercises</button>' +
         '<button class="add-tile" data-wo="plan">Weekly plan</button>' +
         '<button class="add-tile" data-wo="reorder">' + (woReorder ? "Done rearranging" : "Rearrange") + "</button>" +
-        (offK || mobile ? "" : '<button class="add-tile" data-wo="off">Rest or away\u2026</button>') + "</div>" +
+        (offK || mobile ? "" : '<button class="add-tile" data-wo="off">Rest or away\u2026</button>') +
+        '<button class="add-tile" data-wo="help">How it works</button></div>' +
       (home ? "" : '<p class="wo-tip">' + (woReorder
         ? (mobile ? "Use the arrows, or drag a row by its handle. On the group screen, the arrows on each card move the whole group."
                   : "Drag circles within a group, or use the arrows. The arrows beside a group's name move the whole group.")
@@ -5928,7 +6438,8 @@ function woRenderToday(){
           (mobile ? " Press and hold an exercise to change sets, reps or weight. Workout settings live in Settings (the gear)."
                   : " Press and hold a circle (or right-click it) to change sets, reps or weight. Workout settings live in Settings (the gear).")) + "</p>")
     : '<div class="empty"><h2>' + (w.setup ? "No exercises yet" : "Set up workout mode") + "</h2>" +
-      "<p>Pick the exercises you do and where you are starting from. Each one becomes a circle you tap after your sets.</p>" +
+      "<p>Pick the exercises you do and where you are starting from. Each one becomes a circle you tap after your sets. " +
+      '<button type="button" class="link-btn" data-wo="help">See how it works</button></p>' +
       '<button class="btn btn-primary" data-wo="' + (w.setup ? "pick" : "guide") + '">' + (w.setup ? "Choose exercises" : "Start setup") + "</button></div>";
   fitToScreen();
 }
@@ -6324,6 +6835,7 @@ document.getElementById("view-workout").addEventListener("click", function(e){
     else if (what === "pick") woOpenGuide(["pick", "base"]);
     else if (what === "plan") woOpenGuide(["plan"]);
     else if (what === "settings") woOpenSettings();
+    else if (what === "help") woOpenHelp();
     else if (what === "focus") { woSetFocus(true); woRenderToday(); window.scrollTo(0, 0); }
     else if (what === "day") woOpenDay(shiftKey(TODAY, -1));
     else if (what === "reorder") { woReorder = !woReorder; woRenderToday(); }
@@ -7056,6 +7568,25 @@ function woMakeDemo(){
   return normalizeWorkout(JSON.parse(JSON.stringify(demo)));
 }
 
+/* ---- How it works: the guide page, built on first open ---- */
+var dlgHelp = document.getElementById("dlg-wo-help"), woHelpFrame = document.getElementById("wo-help-frame");
+// the guide follows the app's light/dark choice, not just the system's
+function woHelpTheme(){
+  var doc = woHelpFrame.contentDocument, t = document.documentElement.getAttribute("data-theme");
+  if (!doc || !doc.documentElement) return;
+  if (t) doc.documentElement.setAttribute("data-theme", t); else doc.documentElement.removeAttribute("data-theme");
+}
+function woOpenHelp(){
+  if (!woHelpFrame.srcdoc) {
+    woHelpFrame.srcdoc = '<!doctype html><html lang="en"><head><meta charset="utf-8">' +
+      '<meta name="viewport" content="width=device-width,initial-scale=1"></head><body>' +
+      document.getElementById("wo-help-src").innerHTML + "</body></html>";
+  } else woHelpTheme();
+  dlgHelp.showModal();
+}
+woHelpFrame.addEventListener("load", woHelpTheme);
+document.getElementById("wh-close").addEventListener("click", function(){ dlgHelp.close(); });
+
 /* ---- how did that feel: Easy / OK / Hard right after a set ---- */
 var woFeelEl = document.getElementById("wo-feel"), woFeelT = null, woFeelTO = null;
 function woAskFeel(ex, was, next){
@@ -7261,6 +7792,7 @@ dlgWoSet.addEventListener("click", function(e){
   else if (t.closest("#ws-demo")) { dlgSet.close(); if (woReal) woExitDemo(); else woStartDemo(); return; }
   else if ((b = t.closest("[data-export]"))) { woExport(b.dataset.export); return; }
   else if (t.closest("#ws-guide")) { dlgSet.close(); woOpenGuide(WO_FULL_GUIDE); return; }
+  else if (t.closest("#ws-help")) { dlgSet.close(); woOpenHelp(); return; }
   else return;
   scheduleSave();
   woRenderSettings();

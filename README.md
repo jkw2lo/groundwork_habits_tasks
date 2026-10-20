@@ -129,7 +129,7 @@ It lives in its own slice of the data, `workout`, and never touches habits or ta
   adds an exercise: the picker opens on just that group, with your own exercise's group
   already set to it.
 - **How it works.** An illustrated guide (`workout-guide.html`) opens full size from the
-  How it works button under the exercises, from Workout settings, and from the empty
+  banner at the top of the Workout tab, the How it works button under the exercises, from Workout settings, and from the empty
   state. The app carries a copy in a `<template id="wo-help-src">` near the end of
   `groundwork.html` and shows it in an iframe, so its styles never mix with the app's.
   After editing `workout-guide.html`, paste its contents (minus the `<title>` and the

@@ -93,6 +93,20 @@ It lives in its own slice of the data, `workout`, and never touches habits or ta
   logged, how many are due), and tapping one opens big rows with a set dot per set and a
   check button. Wider screens keep the circles, which no longer shrink to fit the window;
   the text grows with each circle and names wrap rather than cut off.
+- **Deal me a workout.** A button on Today deals a short deck: the day's template first,
+  then the highlighted picks, then whatever is most overdue (today's groups before
+  others, at most half the deck from one group). On the deck screen you can swap or drop
+  any pick, change how many, or **Deal again** for different picks within today's groups.
+  **Start** plays it one big circle at a time: each tap is one set, the rest timer runs
+  between sets, a finished exercise leaves the deck and the next one comes up. **Skip for
+  now** sends it to the back, the arrows (or a swipe) move between the unfinished ones, and
+  **End** shows a summary with a one-tap effort rating. The deck is kept for the day, so it
+  can be resumed.
+- **Layouts.** Exercises show as circles or a compact list (Auto: circles on a computer,
+  a list on a phone). On a phone, Today can show muscle-group cards, only what's due today,
+  or one group at a time with left/right swipes; switch with the Groups · Due · Swipe tabs.
+  Both are asked in the setup guide and live in Workout settings, as does the number of
+  highlights per muscle group (1–10).
 - **Rearrange** (on Today) orders exercises within a group: drag circles, or rows by their
   handle on a phone, or use the arrows. Arrows beside a group's name (or on its card) move
   the whole group. Workout settings decide whether today's planned groups jump to the top.

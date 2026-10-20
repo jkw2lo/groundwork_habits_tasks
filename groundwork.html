@@ -856,6 +856,93 @@ dialog h2{font-size:20px; font-stretch:112%; margin-bottom:18px}
   .wo-tst{width:70px}
   .wo-bars .ago{display:none}
 }
+/* deal me a workout */
+.wd-cta{display:flex; flex-wrap:wrap; align-items:center; gap:8px 16px; margin:-8px 0 22px}
+.wd-cta span{font-size:13px; color:var(--ink-3); flex:1 1 220px}
+.wd-go{display:inline-flex; align-items:center; gap:8px; padding:11px 20px; border-radius:999px; font-size:15px}
+.wd-go{white-space:nowrap; flex:none}
+/* phones: a shorter top, so the exercises start sooner */
+@media (max-width:640px){
+  #wo-today .today-head{margin-bottom:16px}
+  #wo-today .headline{font-size:26px; letter-spacing:-.02em}
+  #wo-today .meter{margin-top:10px}
+  .wd-cta{margin:-4px 0 14px}
+  .wd-cta span{display:none}
+  .wd-go{width:100%; justify-content:center; padding:12px 16px}
+  .wo-hint{margin:0 0 14px; padding:10px 12px}
+  .wo-hint p{font-size:13px}
+  .wo-hint .btn{padding:7px 12px; font-size:13.5px}
+  .wo-demo{margin-bottom:12px; padding:10px 12px}
+  .wo-demo p{font-size:13px}
+  .wo-mview{margin-bottom:12px}
+}
+.wo-decking .today-head, .wo-decking #wo-hint{display:none}
+#wo-tiles.wo-deckmode{display:block}
+.wd-menu, .wd-sum{max-width:620px}
+.wd-mhead h2, .wd-sum h2{font-size:clamp(26px, 5vw, 36px); font-stretch:116%; letter-spacing:-.025em}
+.wd-mhead p:not(.eyebrow){margin:4px 0 16px; color:var(--ink-2); font-size:14.5px}
+.wd-list{display:flex; flex-direction:column; gap:8px}
+.wd-item{display:flex; align-items:center; gap:12px; padding:10px 10px 10px 14px; border-radius:14px; background:var(--surface);
+  border:1px solid var(--hairline); box-shadow:var(--shadow)}
+.wd-item .emo{font-size:22px}
+.wd-item .t{flex:1; min-width:0}
+.wd-item .t b{display:block; font-size:15.5px}
+.wd-item .t span{display:block; font-size:13px; color:var(--ink-3)}
+.wd-item.done{opacity:.6}
+.wd-item .ok{color:var(--g-moss); font-weight:800; padding:0 8px}
+.wd-mini{padding:6px 11px; border-radius:9px; border:1px solid var(--hairline); font-size:13px; font-weight:600; color:var(--ink-2); background:var(--surface)}
+.wd-mini:hover{color:var(--ink); border-color:var(--hairline-2)}
+.wd-x{padding:6px 10px; font-size:16px; line-height:1}
+.wd-mfoot{display:flex; flex-wrap:wrap; align-items:center; gap:10px; margin-top:18px}
+.wd-size b{min-width:30px}
+.wd-play{display:flex; flex-direction:column; align-items:center; gap:14px; max-width:620px; margin:0 auto; padding-bottom:72px; touch-action:pan-y}
+.wd-top{display:flex; align-items:center; gap:10px; width:100%}
+.wd-top .btn{padding:7px 10px; display:inline-flex; align-items:center; gap:4px}
+.wd-pips{flex:1; display:flex; justify-content:center; flex-wrap:wrap; gap:6px}
+.wd-pips i{width:10px; height:10px; border-radius:50%; background:var(--dot-off)}
+.wd-pips i.done{background:var(--glaze)}
+.wd-pips i.cur{background:var(--surface); box-shadow:0 0 0 2px var(--ink)}
+.wd-stage{display:flex; align-items:center; justify-content:center; gap:10px; width:100%}
+.wd-nav{width:44px; height:44px; border-radius:50%; border:1px solid var(--hairline); background:var(--surface); color:var(--ink-2);
+  display:grid; place-items:center; flex:none}
+.wd-nav:disabled{opacity:.3}
+#wo-tiles .wd-card .tile{width:min(340px, 66vw)}
+.wd-card .tile-menu{display:none}
+.wd-info{text-align:center}
+.wd-info h2{font-size:26px; font-stretch:112%; letter-spacing:-.02em}
+.wd-sets{margin:4px 0 0; font-size:16px; color:var(--ink-2); font-variant-numeric:tabular-nums}
+.wd-info .note{margin-top:6px}
+.wd-actions{display:flex; gap:10px; flex-wrap:wrap; justify-content:center}
+.wd-bests{margin:0 0 16px; color:var(--g-ochre); font-weight:600}
+/* phone views */
+.wo-mview{margin:0 0 16px; width:max-content}
+.wo-swipe{touch-action:pan-y}
+.wo-sw-head{display:flex; align-items:center; gap:10px; margin-bottom:6px}
+.wo-sw-head > div{flex:1; text-align:center}
+.wo-sw-head h2{font-size:24px; font-stretch:112%; letter-spacing:-.02em; display:inline-flex; align-items:center; gap:8px}
+.wo-sw-nav{width:40px; height:40px; border-radius:50%; border:1px solid var(--hairline); background:var(--surface); color:var(--ink-2); display:grid; place-items:center}
+.wo-sw-nav:disabled{opacity:.3}
+.wo-sw-dots{display:flex; justify-content:center; gap:6px; margin-bottom:14px}
+.wo-sw-dots i{width:7px; height:7px; border-radius:50%; background:var(--dot-off)}
+.wo-sw-dots i.on{background:var(--ink)}
+.wo-empty-s{max-width:none}
+#wo-tiles.wo-m .tiles{display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:10px}
+#wo-tiles.wo-m .tiles .tile{width:auto}
+/* compact list on wider screens: groups stack, rows sit in columns */
+#wo-tiles.wo-list > section{flex:1 1 100%}
+.wo-rows.wo-compact{display:grid; grid-template-columns:repeat(auto-fill, minmax(min(100%, 330px), 1fr)); gap:8px}
+.wo-compact .wo-row{padding:8px 10px; gap:10px; border-radius:12px}
+.wo-compact .wo-row .rm-emo{width:36px; height:36px; font-size:18px}
+.wo-compact .wo-row .rm-nm{font-size:15px}
+.wo-compact .wo-row .rm-sub{font-size:13px}
+.wo-compact .wo-row .rm-dots{margin-top:6px; gap:5px}
+.wo-compact .wo-row .rm-dots button{width:20px; height:20px}
+.wo-compact .wo-row .rm-check{width:40px; height:40px}
+.wo-choice3{grid-template-columns:repeat(3, 1fr)}
+.wo-choice3 button{padding:12px 10px}
+.wg-per{margin-bottom:18px}
+.wg-per .wo-num b{min-width:34px}
+@media (max-width:520px){ .wo-choice3{grid-template-columns:1fr} }
 .wo-daynav{display:inline-flex; align-items:center; gap:8px; flex-wrap:wrap}
 .wo-daynav button{width:26px; height:26px; border-radius:8px; border:1px solid var(--hairline); background:var(--surface);
   display:inline-grid; place-items:center; color:var(--ink-2); vertical-align:middle}
@@ -1552,10 +1639,24 @@ dialog.wide.xwide{width:min(940px, calc(100vw - 32px))}
   </div>
   <div class="field">
     <label>Highlights per muscle group</label>
-    <div class="cat-picks">
-      <button type="button" data-per="1">1</button>
-      <button type="button" data-per="2">2</button>
-      <button type="button" data-per="3">3</button>
+    <div class="wo-target"><input type="number" id="ws-per" min="1" max="10" inputmode="numeric" aria-label="Highlights per muscle group">
+      <span>exercises highlighted in each planned group</span></div>
+  </div>
+  <div class="field">
+    <label>Exercises look like</label>
+    <div class="cat-picks" id="ws-shape">
+      <button type="button" data-shape="auto">Auto</button>
+      <button type="button" data-shape="circle">Circles</button>
+      <button type="button" data-shape="list">Compact list</button>
+    </div>
+    <p class="note" style="margin-top:6px">Auto: circles on a computer, a list on a phone.</p>
+  </div>
+  <div class="field">
+    <label>On a phone, Today shows</label>
+    <div class="cat-picks" id="ws-mview">
+      <button type="button" data-mview="groups">Muscle groups</button>
+      <button type="button" data-mview="due">Due today</button>
+      <button type="button" data-mview="swipe">One group, swipe</button>
     </div>
   </div>
   <div class="field">
@@ -4619,7 +4720,7 @@ function woDefaults(){
   return { on: false, setup: false, unit: "lb", tap: "all", size: 1, doneGlaze: "moss", recGlaze: "clay",
            perGroup: 2, groupColors: false, rest: 90, groupOrder: MUSCLES.slice(), planFirst: true,
            exercises: [], log: {}, plan: {}, planT: {}, templates: [], recLog: {}, planHint: "",
-           off: {}, notes: {}, target: [10, 20] };
+           off: {}, notes: {}, target: [10, 20], shape: "auto", mview: "groups", deck: null, deckSize: 6 };
 }
 function woNum(v, lo, hi, step){
   v = +v;
@@ -4710,7 +4811,10 @@ function normalizeWorkout(raw){
       if (g.length) w.plan[d] = g;
     }
   }
-  w.perGroup = woNum(raw.perGroup || 2, 1, 3, 1);
+  w.perGroup = woNum(raw.perGroup || 2, 1, 10, 1);
+  w.shape = raw.shape === "circle" || raw.shape === "list" ? raw.shape : "auto";
+  w.mview = raw.mview === "due" || raw.mview === "swipe" ? raw.mview : "groups";
+  w.deckSize = woNum(raw.deckSize || 6, 2, 15, 1);
   w.planFirst = raw.planFirst !== false;
   w.groupOrder = (Array.isArray(raw.groupOrder) ? raw.groupOrder : []).filter(function(g, i, a){
     return MUSCLES.indexOf(g) >= 0 && a.indexOf(g) === i;
@@ -4747,6 +4851,10 @@ function normalizeWorkout(raw){
       var t = raw.notes[k];
       if (DAY_RE.test(k) && typeof t === "string" && t.trim()) w.notes[k] = t.slice(0, 500);
     });
+  }
+  // today's dealt workout, kept so a reload or a phone call doesn't lose the deck
+  if (raw.deck && DAY_RE.test(raw.deck.k) && Array.isArray(raw.deck.ids)) {
+    w.deck = { k: raw.deck.k, ids: raw.deck.ids.filter(function(id, i, a){ return ids[id] && a.indexOf(id) === i; }).slice(0, 15) };
   }
   if (Array.isArray(raw.target) && raw.target.length === 2) {
     w.target = [woNum(raw.target[0], 0, 60, 1), woNum(raw.target[1], 1, 80, 1)];
@@ -5036,14 +5144,15 @@ function woPlanHint(){
 // Picks are ranked by how overdue each is against its own rhythm, and damped
 // for every time it was highlighted and passed over, so one exercise you keep
 // skipping stops crowding out the rest.
+function woSince(ex){ var k = woLastBefore(ex.id, TODAY); return k ? woGap(k, TODAY) : 9999; }
+function woScore(ex){
+  var s = woSince(ex), r = woRhythm(ex.id) || WO_STALE;
+  return (s >= 9999 ? 50 : s / r) / (1 + 0.6 * woIgnored(ex.id));
+}
 function woRecs(){
   var w = state.workout, out = {}, live = woLive(), groups = woPlanToday(), tpl = woTemplateToday();
   if (woOff(TODAY)) return out;   // a day off: nothing is due
-  function since(ex){ var k = woLastBefore(ex.id, TODAY); return k ? woGap(k, TODAY) : 9999; }
-  function score(ex){
-    var s = since(ex), r = woRhythm(ex.id) || WO_STALE;
-    return (s >= 9999 ? 50 : s / r) / (1 + 0.6 * woIgnored(ex.id));
-  }
+  var since = woSince, score = woScore;
   if (tpl) tpl.ex.forEach(function(id){ var ex = woEx(id); if (ex && !ex.retired) out[id] = since(ex); });
   groups.forEach(function(g){
     live.filter(function(ex){ return ex.groups.indexOf(g) >= 0 && !out.hasOwnProperty(ex.id); })
@@ -5442,10 +5551,22 @@ function woRenderToday(){
   line.innerHTML = html;
 
   var order = woGroupOrder(plan).filter(function(g){ return live.some(function(ex){ return ex.groups[0] === g; }); });
-  var mobile = woMobile();
+  var mobile = woMobile(), shape = woShape(), mview = mobile ? w.mview : "groups";
   if (woGroup && order.indexOf(woGroup) < 0) woGroup = null;
+  if (mview === "swipe" && !woGroup && order.length) woGroup = order[0];
+  if (past && woDeckView) woDeckView = null;
   document.getElementById("wo-today").classList.toggle("wo-pastday", past);
-  var inGroup = mobile && !!woGroup;
+  document.getElementById("wo-today").classList.toggle("wo-decking", !!woDeckView);
+  var inGroup = mobile && !!woGroup && mview === "groups";
+  function items(list, compactOK){
+    return shape === "circle"
+      ? '<div class="tiles">' + list.map(function(ex){ return woTileHTML(ex, recs); }).join("") + "</div>"
+      : '<div class="wo-rows' + (compactOK && !mobile ? " wo-compact" : "") + '">' + list.map(function(ex){ return woLogRowHTML(ex, recs); }).join("") + "</div>";
+  }
+  var mbar = mobile && !woReorder && !inGroup ? '<div class="tabs wo-mview" role="tablist" aria-label="View">' +
+    [["groups", "Groups"], ["due", "Due"], ["swipe", "Swipe"]].map(function(o){
+      return '<button type="button" role="tab" data-mv="' + o[0] + '" aria-selected="' + (mview === o[0]) + '">' + o[1] + "</button>";
+    }).join("") + "</div>" : "";
   document.querySelector("#wo-today .today-head").hidden = inGroup;
   document.getElementById("wo-hint").hidden = inGroup;
   woTilesEl.className = "sections" + (mobile ? " wo-m" : "") + (woReorder ? " wo-reorder" : "");
@@ -5460,14 +5581,28 @@ function woRenderToday(){
       WO_CHEV_R + "</button></span>" : "";
   }
   function inG(g){ return live.filter(function(ex){ return ex.groups[0] === g; }); }
-  if (!live.length) woTilesEl.innerHTML = "";
+  if (woDeckView) { woTilesEl.className = "wo-deckmode"; woTilesEl.innerHTML = woDeckHTML(); }
+  else if (!live.length) woTilesEl.innerHTML = "";
   else if (inGroup) {
     var hs = inG(woGroup), dn = hs.filter(function(ex){ return woFull(ex.id, K); }).length;
     woTilesEl.innerHTML = '<div class="wo-gh"><button type="button" class="wo-back" data-act="back">' + WO_CHEV_L + " All groups</button>" +
-      "<h2>" + woGroup + "</h2>" + badge(woGroup) + '<span class="sec-stat">' + dn + " of " + hs.length + " done</span></div>" +
-      '<div class="wo-rows">' + hs.map(function(ex){ return woLogRowHTML(ex, recs); }).join("") + "</div>";
+      "<h2>" + woGroup + "</h2>" + badge(woGroup) + '<span class="sec-stat">' + dn + " of " + hs.length + " done</span></div>" + items(hs);
+  } else if (mview === "due") {
+    // only what's highlighted today, in group order; done ones stay so the list doesn't jump
+    var due = order.reduce(function(a, g){ return a.concat(inG(g).filter(function(ex){ return recs.hasOwnProperty(ex.id); })); }, []);
+    woTilesEl.innerHTML = mbar + (due.length ? items(due)
+      : '<div class="empty wo-empty-s"><h2>Nothing highlighted</h2><p>' + (offK ? "It's marked as a day off." : past ? "Highlights are for today." :
+          "No plan for today, and nothing is overdue.") + ' Deal a workout, or see every group.</p><button type="button" class="btn btn-primary" data-mv="groups">Show all groups</button></div>');
+  } else if (mview === "swipe") {
+    var gi = Math.max(0, order.indexOf(woGroup)), sg = order[gi], shs = inG(sg), sdn = shs.filter(function(ex){ return woFull(ex.id, K); }).length;
+    woTilesEl.innerHTML = mbar + '<div class="wo-swipe" data-swipe>' +
+      '<div class="wo-sw-head"><button type="button" class="wo-sw-nav" data-sw="-1" aria-label="Previous group"' + (gi === 0 ? " disabled" : "") + ">" + WO_CHEV_L + "</button>" +
+      "<div><h2>" + sg + " " + badge(sg) + '</h2><span class="sec-stat">' + sdn + " of " + shs.length + " done</span></div>" +
+      '<button type="button" class="wo-sw-nav" data-sw="1" aria-label="Next group"' + (gi === order.length - 1 ? " disabled" : "") + ">" + WO_CHEV_R + "</button></div>" +
+      '<div class="wo-sw-dots" aria-hidden="true">' + order.map(function(g, i){ return "<i" + (i === gi ? ' class="on"' : "") + "></i>"; }).join("") + "</div>" +
+      items(shs) + "</div>";
   } else if (mobile) {
-    woTilesEl.innerHTML = '<div class="wo-cats">' + order.map(function(g){
+    woTilesEl.innerHTML = mbar + '<div class="wo-cats">' + order.map(function(g){
       var hs = inG(g), dn = hs.filter(function(ex){ return woFull(ex.id, K); }).length;
       var due = hs.filter(function(ex){ return recs.hasOwnProperty(ex.id) && !woFull(ex.id, K); }).length;
       // the ring counts sets, so a half-done exercise already shows
@@ -5485,14 +5620,21 @@ function woRenderToday(){
       var hs = inG(g), dn = hs.filter(function(ex){ return woFull(ex.id, K); }).length;
       return '<section data-g="' + g + '"><div class="sec-head"><h2>' + g + "</h2>" + badge(g) +
         '<span class="sec-stat">' + dn + " of " + hs.length + "</span>" + gmove(g) + '<span class="sec-rule"></span></div>' +
-        '<div class="tiles">' + hs.map(function(ex){ return woTileHTML(ex, recs); }).join("") + "</div></section>";
+        items(hs, true) + "</section>";
     }).join("");
+    woTilesEl.classList.toggle("wo-list", shape !== "circle");
   }
 
   var hint = live.length && !past ? woPlanHint() : null;
   var pill = offK ? '<button type="button" class="wo-offpill wo-off-' + offK.t + '" data-wo="off">' + WO_OFF[offK.t] +
     (offK.note ? " \u00b7 " + esc(offK.note) : "") + " \u00b7 <u>Edit</u></button>" : "";
-  document.getElementById("wo-hint").innerHTML = pill + (hint
+  var dk = woDeckToday(), left = dk ? dk.ids.filter(function(id){ return !woFull(id, TODAY); }).length : 0;
+  var cta = live.length && !past && !woReorder && !inGroup && !woDeckView
+    ? '<div class="wd-cta"><button type="button" class="btn btn-primary wd-go" data-dk="' + (left ? "resume" : "open") + '">' +
+        '<span aria-hidden="true">\u{1F0CF}</span> ' + (left ? "Resume your deal \u00b7 " + left + " left" : "Deal me a workout") + "</button>" +
+      "<span>" + (left ? "Or deal a fresh one from the deck screen." : "A short list picked from today\u2019s plan and what\u2019s overdue, one exercise at a time.") + "</span></div>"
+    : "";
+  document.getElementById("wo-hint").innerHTML = cta + pill + (hint
     ? '<div class="wo-hint"><p>Your logs don\u2019t match your plan: ' + hint.days.map(function(d){
         return "<b>" + WD[d] + "</b> is usually " + esc(hint.learned[d].join(" + ")) +
           (w.plan[d] ? " (plan: " + esc(w.plan[d].join(" + ")) + ")" : " (plan: rest)");
@@ -5501,13 +5643,14 @@ function woRenderToday(){
     : "");
   // a note for the day: sleep, energy, anything that hurt
   var nb = document.getElementById("wo-notebox"), ta = document.getElementById("wo-note-in");
-  nb.hidden = !live.length || inGroup || woReorder;
+  nb.hidden = !live.length || inGroup || woReorder || !!woDeckView;
   if (!ta || ta.dataset.k !== K) {
     nb.innerHTML = '<div class="wo-note"><label for="wo-note-in">Notes for ' + (past ? WD[now.getDay()] + " " + MSHORT[now.getMonth()] + " " + now.getDate() : "today") +
       '</label><textarea id="wo-note-in" rows="2" maxlength="500" data-k="' + K + '" placeholder="How did it go? Sleep, energy, anything that hurt\u2026"></textarea></div>';
     ta = document.getElementById("wo-note-in");
     ta.value = w.notes[K] || "";
   } else if (ta !== document.activeElement) ta.value = w.notes[K] || "";
+  woFootEl.hidden = !!woDeckView;
   woFootEl.innerHTML = live.length
     ? '<div class="today-actions">' +
         '<button class="add-tile" data-wo="pick"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Exercises</button>' +
@@ -5548,6 +5691,23 @@ woTilesEl.addEventListener("pointermove", function(e){
   if (woPress && Math.abs(e.clientX - woPress.x) + Math.abs(e.clientY - woPress.y) > 12) woCancelPress();
 });
 ["pointerup", "pointercancel"].forEach(function(t){ woTilesEl.addEventListener(t, woCancelPress); });
+// Horizontal swipes: between groups in the swipe view, between exercises in a dealt workout.
+var woSwipe0 = null;
+woTilesEl.addEventListener("pointerdown", function(e){
+  woSwipe0 = (woDeckView === "play" || e.target.closest("[data-swipe]")) ? { x: e.clientX, y: e.clientY } : null;
+});
+woTilesEl.addEventListener("pointerup", function(e){
+  var s0 = woSwipe0;
+  woSwipe0 = null;
+  if (!s0) return;
+  var dx = e.clientX - s0.x, dy = e.clientY - s0.y;
+  if (Math.abs(dx) < 60 || Math.abs(dx) < Math.abs(dy) * 1.5) return;
+  woCancelPress();
+  woNoClick = true;
+  setTimeout(function(){ woNoClick = false; }, 0);
+  if (woDeckView === "play") woDeckAction(dx < 0 ? "next" : "prev");
+  else woSwipeGroup(dx < 0 ? 1 : -1);
+});
 woTilesEl.addEventListener("contextmenu", function(e){
   var tile = e.target.closest(".wo-tile, .wo-row");
   if (woReorder) { if (tile) e.preventDefault(); return; }
@@ -5559,6 +5719,8 @@ woTilesEl.addEventListener("contextmenu", function(e){
 woTilesEl.addEventListener("click", function(e){
   var btn = e.target.closest("button");
   if (!btn || woNoClick) return;
+  if (btn.dataset.mv) { state.workout.mview = btn.dataset.mv; woGroup = null; scheduleSave(); woRenderToday(); return; }
+  if (btn.dataset.sw) { woSwipeGroup(+btn.dataset.sw); return; }
   if (btn.dataset.cat) { woGroup = btn.dataset.cat; woRenderToday(); window.scrollTo(0, 0); return; }
   if (btn.dataset.act === "back") { woGroup = null; woRenderToday(); window.scrollTo(0, 0); return; }
   if (btn.dataset.gmove) { woMoveGroup(btn.closest("[data-g]").dataset.g, +btn.dataset.gmove); return; }
@@ -5569,12 +5731,15 @@ woTilesEl.addEventListener("click", function(e){
   if (act === "right" || act === "down") { woMoveEx(ex.id, 1, act); return; }
   if (woLong) { woLong = false; return; }
   var was = woEntry(ex.id) ? woEntry(ex.id).n : 0, next, i;
+  var playing = woDeckView === "play";
   if (act === "dot") { i = +btn.dataset.i; next = was === i + 1 ? i : i + 1; }
   else if (act === "tap") {
-    next = woNextTap(ex);
+    // in a dealt workout every tap is one set: the deck is about pacing through sets
+    next = playing ? Math.min(woEntry(ex.id) ? woEntry(ex.id).sets : ex.sets, was + 1) : woNextTap(ex);
     if (next === was) { flashNote("All " + ex.sets + " sets are in. Press and hold to change them."); return; }
   } else return;
-  woLog(ex, was, next, act === "dot");
+  woLog(ex, was, next, act === "dot" || playing);
+  if (playing && woFull(ex.id, TODAY)) woDeckFinishOne(ex);
   woRenderToday();
   var fresh = woTilesEl.querySelector('[data-id="' + ex.id + '"]');
   if (!fresh) return;
@@ -5591,6 +5756,198 @@ woTilesEl.addEventListener("click", function(e){
   var again = act === "dot" ? fresh.querySelector('[data-act="dot"][data-i="' + i + '"]') : fresh.querySelector('[data-act="tap"]');
   if (again) again.focus({ preventScroll: true });
 });
+
+/* ---- layouts ---- */
+function woShape(){ var s = state.workout.shape; return s === "auto" ? (woMobile() ? "list" : "circle") : s; }
+function woSwipeGroup(dir){
+  var live = woLive(), order = woGroupOrder(woPlanToday()).filter(function(g){ return live.some(function(ex){ return ex.groups[0] === g; }); });
+  var i = order.indexOf(woGroup) + dir;
+  if (i < 0 || i >= order.length) return;
+  woGroup = order[i];
+  woRenderToday();
+}
+
+/* ---- deal me a workout ----
+   A short deck picked for today: the day's template first, then the
+   highlighted picks, then whatever else is most overdue (in today's groups
+   before others, and no more than half the deck from one group). It plays one
+   exercise at a time; finished ones leave the deck, skipped ones go to the
+   back, and the deck is kept for the day so it can be resumed. */
+var woDeckView = null, woDeckCur = null, woDeckShown = {};
+function woDeckToday(){ var d = state.workout.deck; return d && d.k === TODAY ? d : null; }
+function woDealPriority(ex, recs, plan, tpl){
+  if (tpl && tpl.ex.indexOf(ex.id) >= 0) return 0;
+  if (recs.hasOwnProperty(ex.id)) return 1;
+  if (plan.indexOf(ex.groups[0]) >= 0) return 2;
+  return plan.some(function(g){ return ex.groups.indexOf(g) >= 0; }) ? 3 : 4;
+}
+function woDealPick(size, have, avoid){
+  var recs = woRecs(), plan = woPlanToday(), tpl = woTemplateToday(), out = have.slice(), per = {};
+  out.forEach(function(id){ var ex = woEx(id); if (ex) per[ex.groups[0]] = (per[ex.groups[0]] || 0) + 1; });
+  var cands = woLive().filter(function(ex){ return out.indexOf(ex.id) < 0 && !woFull(ex.id, TODAY); })
+    .sort(function(a, b){
+      // today's groups stay ahead of everything else; "deal again" just prefers ones not shown yet within them
+      var pa = woDealPriority(a, recs, plan, tpl), pb = woDealPriority(b, recs, plan, tpl);
+      return (pa > 3) - (pb > 3) || (avoid[a.id] ? 1 : 0) - (avoid[b.id] ? 1 : 0) || pa - pb || woScore(b) - woScore(a);
+    });
+  var cap = Math.max(2, Math.ceil(size / 2));
+  [true, false].forEach(function(strict){
+    cands.forEach(function(ex){
+      if (out.length >= size || out.indexOf(ex.id) >= 0) return;
+      if (strict && woDealPriority(ex, recs, plan, tpl) >= 2 && (per[ex.groups[0]] || 0) >= cap) return;
+      out.push(ex.id);
+      per[ex.groups[0]] = (per[ex.groups[0]] || 0) + 1;
+    });
+  });
+  // play in the same order as Today: by group, then your order within it
+  var gorder = woGroupOrder(plan), all = state.workout.exercises;
+  return out.sort(function(a, b){
+    var ea = woEx(a), eb = woEx(b);
+    return gorder.indexOf(ea.groups[0]) - gorder.indexOf(eb.groups[0]) || all.indexOf(ea) - all.indexOf(eb);
+  });
+}
+function woDeal(fresh){
+  var w = state.workout, old = woDeckToday();
+  if (fresh && old) old.ids.forEach(function(id){ woDeckShown[id] = true; });
+  w.deck = { k: TODAY, ids: woDealPick(w.deckSize, [], fresh ? woDeckShown : {}) };
+  woDeckCur = null;
+  scheduleSave();
+}
+function woDeckLeft(){ var d = woDeckToday(); return d ? d.ids.filter(function(id){ return woEx(id) && !woFull(id, TODAY); }) : []; }
+function woDeckFinishOne(ex){
+  // let the full circle land before the next one slides in
+  setTimeout(function(){
+    if (woDeckView !== "play") return;
+    var left = woDeckLeft();
+    woDeckCur = left[0] || null;
+    if (!left.length) { woDeckView = "done"; sndWin(); }
+    woRenderToday();
+  }, 700);
+}
+function woDeckAction(a, btn){
+  var w = state.workout, d = woDeckToday(), left = woDeckLeft(), i;
+  if (a === "open") { if (!d || !left.length) woDeal(false); woDeckView = "menu"; }
+  else if (a === "resume") { woDeckView = left.length ? "play" : "menu"; }
+  else if (a === "again") woDeal(true);
+  else if (a === "more" || a === "less") {
+    w.deckSize = woNum(w.deckSize + (a === "more" ? 1 : -1), 2, 15, 1);
+    if (a === "more") d.ids = woDealPick(w.deckSize, d.ids, {});
+    else { var cut = d.ids.filter(function(id){ return !woFull(id, TODAY); }).pop(); if (cut && d.ids.length > 1) d.ids.splice(d.ids.indexOf(cut), 1); }
+  }
+  else if (a === "swap") {
+    var id = btn.dataset.id, ex = woEx(id), recs = woRecs(), plan = woPlanToday(), tpl = woTemplateToday();
+    var pool = woLive().filter(function(x){ return d.ids.indexOf(x.id) < 0 && !woFull(x.id, TODAY); })
+      .sort(function(x, y){
+        return (x.groups[0] === ex.groups[0] ? 0 : 1) - (y.groups[0] === ex.groups[0] ? 0 : 1) ||
+          woDealPriority(x, recs, plan, tpl) - woDealPriority(y, recs, plan, tpl) || woScore(y) - woScore(x);
+      });
+    if (pool.length) { d.ids[d.ids.indexOf(id)] = pool[0].id; woDeckShown[id] = true; }
+    else flashNote("Nothing else to swap in.");
+  }
+  else if (a === "rm") { d.ids.splice(d.ids.indexOf(btn.dataset.id), 1); }
+  else if (a === "play") { woDeckView = left.length ? "play" : "done"; woDeckCur = left[0] || null; window.scrollTo(0, 0); }
+  else if (a === "menu") woDeckView = "menu";
+  else if (a === "end") woDeckView = "done";
+  else if (a === "close") { woDeckView = null; woStopRest(); }
+  else if (a === "next" || a === "prev") {
+    if (!left.length) return;
+    i = left.indexOf(woDeckCur);
+    woDeckCur = left[(i + (a === "next" ? 1 : -1) + left.length) % left.length];
+  }
+  else if (a === "skip") {
+    if (left.length < 2) { flashNote("It's the last one left."); return; }
+    var cur = woDeckCur || left[0];
+    d.ids.splice(d.ids.indexOf(cur), 1);
+    d.ids.push(cur);
+    left = woDeckLeft();
+    woDeckCur = left[0] === cur ? left[1] : left[0];
+  }
+  else if (a === "adjust") { woOpenQuick(woDeckCur || left[0]); return; }
+  else if (a === "ef") {
+    var v = +btn.dataset.v, day = state.workout.log[TODAY] || {};
+    d.ids.forEach(function(x){ if (day[x]) day[x].ef = v; });
+  }
+  else return;
+  scheduleSave();
+  woRenderToday();
+}
+function woDealWhy(ex, recs, plan, tpl){
+  var p = woDealPriority(ex, recs, plan, tpl), s = woSince(ex);
+  var ago = s >= 9999 ? "new" : s === 0 ? "done today" : s + "d since";
+  return (p === 0 ? tpl.name : p === 1 ? "Due" : p <= 3 ? "Today\u2019s group" : "Overdue") + " \u00b7 " + ago;
+}
+function woDeckHTML(){
+  var d = woDeckToday(), w = state.workout, recs = woRecs(), plan = woPlanToday(), tpl = woTemplateToday();
+  if (!d) { woDeckView = null; return ""; }
+  var ids = d.ids.filter(function(id){ return woEx(id); }), left = woDeckLeft();
+  var sets = 0;
+  ids.forEach(function(id){ var ex = woEx(id); sets += ex.sets; });
+  if (woDeckView === "menu") {
+    return '<div class="wd-menu"><div class="wd-mhead"><p class="eyebrow">Your deal</p><h2>' +
+        esc(tpl ? tpl.name : plan.length ? plan.join(" + ") + " day" : "Today\u2019s picks") + "</h2>" +
+        "<p>" + ids.length + " exercise" + (ids.length === 1 ? "" : "s") + " \u00b7 about " + sets + " sets" +
+        (left.length < ids.length ? " \u00b7 " + (ids.length - left.length) + " already done" : "") + "</p></div>" +
+      '<div class="wd-list">' + (ids.length ? ids.map(function(id){
+        var ex = woEx(id), done = woFull(id, TODAY);
+        return '<div class="wd-item' + (done ? " done" : "") + '"><span class="emo">' + ex.emoji + '</span><div class="t"><b>' + esc(ex.name) + "</b>" +
+          "<span>" + esc(woSummary(ex, ex)) + " \u00b7 " + (done ? "done" : woDealWhy(ex, recs, plan, tpl)) + "</span></div>" +
+          (done ? '<span class="ok">\u2713</span>' :
+            '<button type="button" class="wd-mini" data-dk="swap" data-id="' + id + '" aria-label="Swap ' + esc(ex.name) + ' for another">Swap</button>' +
+            '<button type="button" class="wd-mini wd-x" data-dk="rm" data-id="' + id + '" aria-label="Take ' + esc(ex.name) + ' out">\u00d7</button>') + "</div>";
+      }).join("") : '<p class="note">Everything is done for today. Nothing left to deal.</p>') + "</div>" +
+      '<div class="wd-mfoot"><span class="wo-num wd-size"><button type="button" data-dk="less" aria-label="Fewer exercises">' + CHEV_D + "</button><b>" +
+        ids.length + "</b>" + '<button type="button" data-dk="more" aria-label="More exercises">' + CHEV_U + "</button></span>" +
+        '<button type="button" class="btn btn-ghost" data-dk="again">Deal again</button><div style="flex:1"></div>' +
+        '<button type="button" class="btn btn-ghost" data-dk="close">Back to Today</button>' +
+        '<button type="button" class="btn btn-primary" data-dk="play"' + (left.length ? "" : " disabled") + ">" + (left.length < ids.length && left.length ? "Keep going" : "Start") + "</button></div></div>";
+  }
+  if (woDeckView === "play") {
+    if (!woDeckCur || left.indexOf(woDeckCur) < 0) woDeckCur = left[0];
+    var ex = woEx(woDeckCur);
+    if (!ex) { woDeckView = "done"; return woDeckHTML(); }
+    var en = woEntry(ex.id), n = en ? en.n : 0, last = woLastBefore(ex.id, TODAY), le = last ? woEntry(ex.id, last) : null;
+    var pos = left.indexOf(ex.id);
+    return '<div class="wd-play">' +
+      '<div class="wd-top"><button type="button" class="btn btn-ghost" data-dk="menu">' + WO_CHEV_L + " Deck</button>" +
+        '<div class="wd-pips" aria-label="' + (ids.length - left.length) + " of " + ids.length + ' done">' + ids.map(function(id){
+          return '<i class="' + (woFull(id, TODAY) ? "done" : id === ex.id ? "cur" : "") + '"></i>';
+        }).join("") + "</div>" +
+        '<button type="button" class="btn btn-ghost" data-dk="end">End</button></div>' +
+      '<div class="wd-stage"><button type="button" class="wd-nav" data-dk="prev" aria-label="Previous"' + (left.length < 2 ? " disabled" : "") + ">" + WO_CHEV_L + "</button>" +
+        '<div class="wd-card">' + woTileHTML(ex, {}) + "</div>" +
+        '<button type="button" class="wd-nav" data-dk="next" aria-label="Next"' + (left.length < 2 ? " disabled" : "") + ">" + WO_CHEV_R + "</button></div>" +
+      '<div class="wd-info"><p class="eyebrow">' + (pos + 1) + " of " + left.length + " left \u00b7 " + esc(ex.groups[0]) + "</p>" +
+        "<h2>" + esc(ex.name) + "</h2>" +
+        '<p class="wd-sets">' + (n ? "Set " + Math.min(n + 1, ex.sets) + " of " + ex.sets + (n >= ex.sets ? " \u2713" : "") : ex.sets + " sets to go") +
+          " \u00b7 " + esc(woSummary(en && en.sets !== ex.sets ? en : ex, ex)) + "</p>" +
+        (le ? '<p class="note">Last time, ' + fmtRange(last, last) + ": " + esc(woSummary(le, ex)) + "</p>" : "") +
+        '<p class="note">Tap the circle after each set. Press and hold to change the numbers.</p></div>' +
+      '<div class="wd-actions"><button type="button" class="add-tile" data-dk="adjust">Adjust</button>' +
+        '<button type="button" class="add-tile" data-dk="skip">Skip for now</button></div></div>';
+  }
+  // summary
+  var doneIds = ids.filter(function(id){ return woFull(id, TODAY); }), day = state.workout.log[TODAY] || {};
+  var dsets = 0, vol = 0, bests = [], efs = {};
+  ids.forEach(function(id){
+    var e = day[id], ex = woEx(id);
+    if (!e) return;
+    dsets += e.n; vol += woVol(e, ex);
+    if (woPR(ex, TODAY)) bests.push(ex.name);
+    if (e.ef) efs[e.ef] = true;
+  });
+  var allDone = !left.length, efNow = Object.keys(efs).length === 1 ? +Object.keys(efs)[0] : 0;
+  return '<div class="wd-sum"><p class="eyebrow">' + (allDone ? "Deal complete" : "Paused") + "</p>" +
+    "<h2>" + (allDone ? "That\u2019s the deck." : left.length + " left in the deck.") + "</h2>" +
+    '<div class="wo-rev-figs"><div><b>' + doneIds.length + "/" + ids.length + "</b><span>exercises</span></div>" +
+      "<div><b>" + dsets + "</b><span>sets</span></div>" + (vol ? "<div><b>" + woBig(vol) + "</b><span>" + w.unit + " moved</span></div>" : "") +
+      "<div><b>" + bests.length + "</b><span>new best" + (bests.length === 1 ? "" : "s") + "</span></div></div>" +
+    (bests.length ? '<p class="wd-bests">\u2605 ' + bests.map(esc).join(", ") + "</p>" : "") +
+    '<div class="field"><label>How did it feel?</label><div class="cat-picks">' + [1, 2, 3, 4, 5].map(function(v){
+      return '<button type="button" data-dk="ef" data-v="' + v + '" aria-pressed="' + (efNow === v) + '">' + WO_EFFORT[v] + "</button>";
+    }).join("") + "</div></div>" +
+    '<div class="wd-mfoot">' + (allDone ? "" : '<button type="button" class="btn btn-ghost" data-dk="play">Keep going</button>') +
+      '<div style="flex:1"></div><button type="button" class="btn btn-primary" data-dk="close">Back to Today</button></div></div>';
+}
 
 /* ---- rearranging: exercises within a group, and the groups themselves ---- */
 var woReorder = false, woGroup = null, woDrag = null, woNoClick = false;
@@ -5685,6 +6042,9 @@ function woDragEnd(drop){
 document.addEventListener("pointerup", function(){ woDragEnd(true); });
 document.addEventListener("pointercancel", function(){ woDragEnd(false); });
 document.getElementById("view-workout").addEventListener("click", function(e){
+  // the deal's buttons live both above the circles and inside the deck screen
+  var dkb = e.target.closest("button[data-dk]");
+  if (dkb) { if (!woNoClick) woDeckAction(dkb.dataset.dk, dkb); return; }
   var b = e.target.closest("[data-wo]");
   if (b) {
     var what = b.dataset.wo;
@@ -5748,6 +6108,7 @@ document.getElementById("wo-tabs").addEventListener("click", function(e){
   if (!b) return;
   woView = b.dataset.wv;
   woDetail = null;
+  if (woView !== "today") woDeckView = null;
   renderWorkout();
 });
 
@@ -5962,8 +6323,17 @@ var WG_STEPS = {
       '<div class="field"><label>Weights in</label><div class="cat-picks">' +
         '<button type="button" data-gunit="lb" aria-pressed="' + (w.unit === "lb") + '">lb</button>' +
         '<button type="button" data-gunit="kg" aria-pressed="' + (w.unit === "kg") + '">kg</button></div></div>' +
+      '<div class="field"><label>Exercises look like</label><div class="cat-picks">' +
+        [["auto", "Auto"], ["circle", "Circles"], ["list", "Compact list"]].map(function(o){
+          return '<button type="button" data-gshape="' + o[0] + '" aria-pressed="' + (w.shape === o[0]) + '">' + o[1] + "</button>";
+        }).join("") + '</div><p class="note" style="margin-top:6px">Auto: circles on a computer, a list on a phone.</p></div>' +
+      '<div class="field"><label>On a phone, Today shows</label><div class="wo-choice wo-choice3">' +
+        [["groups", "Muscle groups", "A card per group; tap one to log."], ["due", "Due today", "Only what's highlighted for today."],
+         ["swipe", "One group at a time", "Swipe left and right between groups."]].map(function(o){
+          return '<button type="button" data-gmview="' + o[0] + '" aria-pressed="' + (w.mview === o[0]) + '"><b>' + o[1] + "</b><small>" + o[2] + "</small></button>";
+        }).join("") + "</div></div>" +
       '<p class="note">To change sets, reps or weight, press and hold a circle (or right-click it) and use ▲ ▼. ' +
-      "Any exercise can also use its own tap style.</p>";
+      "Any exercise can also use its own tap style. All of this can be changed later in Workout settings.</p>";
   },
   pick: function(){
     var mine = {}, own = [];
@@ -6009,7 +6379,11 @@ var WG_STEPS = {
   plan: function(){
     var w = state.workout, p = w.plan, today = parseKey(TODAY).getDay(), learned = woLearnedPlan(), tpls = w.templates;
     var week = [1, 2, 3, 4, 5, 6, 0], lk = week.filter(function(d){ return learned[d]; });
-    return '<p class="wg-lead">Optional. Pick the muscle groups for each day. On that day, the circles you have gone longest without ' +
+    return '<div class="field wg-per"><label>Highlights per muscle group</label><div class="wo-target">' +
+        '<span class="wo-num" data-perstep><button type="button" data-per-d="-1" aria-label="Fewer">' + CHEV_D + "</button><b>" + w.perGroup + "</b>" +
+        '<button type="button" data-per-d="1" aria-label="More">' + CHEV_U + "</button></span>" +
+        "<span>exercises highlighted in each planned group, longest-waiting first</span></div></div>" +
+      '<p class="wg-lead">Optional. Pick the muscle groups for each day. On that day, the circles you have gone longest without ' +
       "are highlighted so you know what is due. Leave a day empty to rest. With no plan at all, your week is learned from what you log.</p>" +
       (lk.length ? '<div class="wg-tip wg-learn"><span>From your logs: ' + lk.map(function(d){
           return "<b>" + WD[d] + "</b> " + esc(learned[d].join(" + "));
@@ -6179,6 +6553,9 @@ dlgGuide.addEventListener("keydown", function(e){
 dlgGuide.addEventListener("click", function(e){
   var t = e.target, w = state.workout, b;
   if ((b = t.closest("[data-gtap]"))) w.tap = b.dataset.gtap;
+  else if ((b = t.closest("[data-gshape]"))) w.shape = b.dataset.gshape;
+  else if ((b = t.closest("[data-gmview]"))) w.mview = b.dataset.gmview;
+  else if ((b = t.closest("[data-per-d]"))) w.perGroup = woNum(w.perGroup + (+b.dataset.perD), 1, 10, 1);
   else if ((b = t.closest("[data-gunit]"))) woSetUnit(b.dataset.gunit);
   else if ((b = t.closest("[data-key]"))) woSetLib(b.dataset.key, !woLibOn(b.dataset.key));
   else if ((b = t.closest("[data-all]"))) {
@@ -6503,7 +6880,9 @@ function woRenderSettings(){
       return '<button type="button" data-' + s[1] + '="' + gl + '" style="--glaze:var(--g-' + gl + ')" aria-pressed="' + (gl === s[2]) + '" aria-label="' + gl + '"></button>';
     }).join("");
   });
-  dlgWoSet.querySelectorAll("[data-per]").forEach(function(b){ b.setAttribute("aria-pressed", String(+b.dataset.per === w.perGroup)); });
+  document.getElementById("ws-per").value = w.perGroup;
+  dlgWoSet.querySelectorAll("[data-shape]").forEach(function(b){ b.setAttribute("aria-pressed", String(b.dataset.shape === w.shape)); });
+  dlgWoSet.querySelectorAll("[data-mview]").forEach(function(b){ b.setAttribute("aria-pressed", String(b.dataset.mview === w.mview)); });
   dlgWoSet.querySelectorAll("[data-rest]").forEach(function(b){ b.setAttribute("aria-pressed", String(+b.dataset.rest === w.rest)); });
   document.getElementById("ws-groupc").setAttribute("aria-pressed", String(w.groupColors));
   document.getElementById("ws-planfirst").setAttribute("aria-pressed", String(w.planFirst));
@@ -6519,7 +6898,8 @@ dlgWoSet.addEventListener("click", function(e){
   else if ((b = t.closest("[data-unit]"))) woSetUnit(b.dataset.unit);
   else if ((b = t.closest("[data-rec]"))) w.recGlaze = b.dataset.rec;
   else if ((b = t.closest("[data-done]"))) w.doneGlaze = b.dataset.done;
-  else if ((b = t.closest("[data-per]"))) w.perGroup = +b.dataset.per;
+  else if ((b = t.closest("[data-shape]"))) w.shape = b.dataset.shape;
+  else if ((b = t.closest("[data-mview]"))) { w.mview = b.dataset.mview; woGroup = null; }
   else if ((b = t.closest("[data-rest]"))) { w.rest = +b.dataset.rest; if (!w.rest) woStopRest(); }
   else if (t.closest("#ws-groupc")) w.groupColors = !w.groupColors;
   else if (t.closest("#ws-planfirst")) w.planFirst = !w.planFirst;
@@ -6533,6 +6913,13 @@ dlgWoSet.addEventListener("click", function(e){
   renderWorkout();
 });
 dlgWoSet.addEventListener("change", function(e){
+  if (e.target.id === "ws-per") {
+    state.workout.perGroup = woNum(e.target.value, 1, 10, 1);
+    scheduleSave();
+    woRenderSettings();
+    renderWorkout();
+    return;
+  }
   if (e.target.id !== "ws-tmin" && e.target.id !== "ws-tmax") return;
   var w = state.workout, a = woNum(document.getElementById("ws-tmin").value, 0, 60, 1), b = woNum(document.getElementById("ws-tmax").value, 1, 80, 1);
   w.target = [Math.min(a, b), Math.max(a, b)];

@@ -1,8 +1,8 @@
 {
   "version": 3,
   "name": "Groundwork",
-  "tagline": "Habits & focus timer",
-  "pitch": "Tap a ring when you do a habit, then work through today's tasks one at a time on a focus timer.",
+  "tagline": "Habits, focus timer & workouts",
+  "pitch": "Tap a ring when you do a habit, work through today's tasks one at a time on a focus timer, and log your sets in a separate Workout tab that tells you what's due.",
   "accent": "#527f35",
   "status": "Live",
 
@@ -10,7 +10,7 @@
   "stats": [
     { "value": "3", "label": "views of every habit: today, month, year" },
     { "value": "4", "label": "scenes that grow while you focus" },
-    { "value": "8", "label": "layouts, and each device picks its own" }
+    { "value": "47", "label": "exercises to pick from, by muscle group" }
   ],
 
   "features": [
@@ -20,6 +20,9 @@
     { "title": "Tasks on a focus timer", "text": "Give each task a time, then start focus and take them one by one.",
       "details": ["Do later, +5 min, pause or done, without leaving focus", "A seedling, tower or gumball scene grows as you work", "Unfinished tasks wait under Outstanding"],
       "screen": { "src": "tasks.png", "alt": "Groundwork's Tasks view: 1 of 4 cleared, 10 min focused today, three tasks with times and a Start focus button" } },
+    { "title": "Workouts, one circle per lift", "text": "Turn on workout mode and each exercise becomes a circle you tap as your sets go in.",
+      "details": ["Deal me a workout picks a short list from today's plan and what's overdue", "Tells you when to add weight, and offers a step back if sets fall short", "Weekly sets per muscle group, records and a monthly review"],
+      "screen": { "src": "workout.png", "alt": "Groundwork's Workout tab: Pull day, Back and Shoulders, 0 of 6 highlights done, with red recommended circles for Barbell row, Pull-ups, Deadlift, Overhead press and Lateral raise" } },
     { "title": "Streaks survive a trip", "text": "Mark days away and your streak carries straight over them.",
       "details": ["Or log days you did it but forgot to tap", "Away days count neither for nor against you"] },
     { "title": "Yours on every device", "text": "Sign in with Google or GitHub and changes arrive live everywhere.",
